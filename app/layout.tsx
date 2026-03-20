@@ -38,9 +38,9 @@ export default function RootLayout({
       >
         <Providers>
           <MainNavbar />
-          <div className="pb-20 lg:pb-0">
+          <main className="pb-20 lg:pb-0 min-h-screen overflow-x-hidden">
             {children}
-          </div>
+          </main>
           <BottomNav />
           <ChatWidget />
         </Providers>

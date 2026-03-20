@@ -183,12 +183,12 @@ export function MainNavbar() {
             </AnimatePresence>
           </Link>
           
-          <button className="flex items-center gap-3 pl-3 pr-1.5 py-1.5 rounded-full border border-slate-200 hover:shadow-premium transition-all duration-300 bg-white group">
+          <Link href="/dashboard" className="flex items-center gap-3 pl-3 pr-1.5 py-1.5 rounded-full border border-slate-200 hover:shadow-premium transition-all duration-300 bg-white group">
             <Menu className="w-5 h-5 text-slate-500 group-hover:text-slate-900 transition-colors" />
             <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-inner">
               <User className="w-5 h-5" />
             </div>
-          </button>
+          </Link>
         </div>
       </div>
     </header>

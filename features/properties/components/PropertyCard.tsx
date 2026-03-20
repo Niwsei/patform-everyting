@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Property } from "../types";
 import { FavoriteButton } from "./FavoriteButton";
-import { MapPin, Star } from "lucide-react";
+import { MapPin, Star, ShieldCheck, Zap } from "lucide-react";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
 
 interface PropertyCardProps {
@@ -32,7 +32,13 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
         {/* Floating Badges */}
         <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
-           <div className="bg-white/95 text-slate-800 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm border border-slate-100">
+          {property.isFeatured && (
+            <div className="bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xl shadow-indigo-200 border border-indigo-400">
+              <Zap className="w-3 h-3 fill-white" />
+              รายการแนะนำ
+            </div>
+          )}
+          <div className="bg-white/95 text-slate-800 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm border border-slate-100">
             <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
             คะแนนสูงสุด
           </div>
@@ -44,7 +50,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
         </div>
 
         <div className="absolute bottom-5 left-5 right-5">
-          <div className="bg-slate-900/40 backdrop-blur-xl p-4 rounded-[1.5rem] border border-white/10">
+          <div className="bg-slate-900/60 backdrop-blur-xl p-4 rounded-[1.5rem] border border-white/10 shadow-2xl">
             <div className="flex justify-between items-end">
               <div>
                 <p className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">เริ่มต้นที่</p>
@@ -52,26 +58,24 @@ export function PropertyCard({ property }: PropertyCardProps) {
                   {formatPrice(property.pricePerMonth)} <span className="text-xs font-medium opacity-60">/ เดือน</span>
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 bg-emerald-500/20 px-2.5 py-1 rounded-lg border border-emerald-500/30">
-                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                <span className="text-emerald-400 text-[10px] font-black uppercase tracking-widest">ว่าง</span>
-              </div>
+              {property.isAvailable && (
+                <div className="flex items-center gap-1.5 bg-emerald-500/20 px-2.5 py-1.5 rounded-xl border border-emerald-500/30">
+                  <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                  <span className="text-emerald-400 text-[10px] font-black uppercase tracking-widest">ว่าง</span>
+                </div>
+              )}
             </div>
-            
-            {property.isAvailable && (
-              <div className="flex items-center gap-1.5 bg-emerald-500/20 px-2 py-1 rounded-md border border-emerald-500/30">
-                <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
-                <span className="text-emerald-300 text-[10px] font-semibold tracking-wide">ว่าง</span>
-              </div>
-            )}
           </div>
         </div>
       </div>
 
       <div className="p-5">
-        <h3 className="text-lg font-semibold text-slate-900 line-clamp-1 mb-1.5 group-hover:text-slate-700 transition-colors">
-          {property.title}
-        </h3>
+        <div className="flex items-center gap-2 mb-1.5">
+          <h3 className="text-lg font-semibold text-slate-900 line-clamp-1 group-hover:text-slate-700 transition-colors">
+            {property.title}
+          </h3>
+          <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
+        </div>
         <p className="text-slate-500 text-sm flex items-center gap-1.5 mb-4">
           <MapPin className="w-4 h-4 text-slate-400" />
           {property.location}

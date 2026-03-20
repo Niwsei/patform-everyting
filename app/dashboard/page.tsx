@@ -17,7 +17,11 @@ import {
   LayoutDashboard,
   Settings,
   Heart,
-  MessageSquare
+  MessageSquare,
+  Wallet,
+  ArrowUpRight,
+  BarChart2,
+  Package
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -121,22 +125,47 @@ export default function DashboardPage() {
 
           {/* Main Dashboard Content */}
           <div className="lg:col-span-9 space-y-10">
-            {/* Header / Stats */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-              <div>
-                <h1 className="text-4xl font-black text-slate-900 tracking-tight">การจองของฉัน</h1>
-                <p className="text-slate-500 font-bold mt-2">จัดการคำขอจองที่พักปัจจุบันและที่ผ่านมาของคุณ</p>
-              </div>
-              <div className="flex gap-4">
-                 <div className="bg-white px-6 py-4 rounded-[1.5rem] shadow-sm border border-slate-100 text-center">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">คำขอที่ใช้งานอยู่</p>
-                    <p className="text-2xl font-black text-slate-900">01</p>
-                 </div>
-                 <div className="bg-white px-6 py-4 rounded-[1.5rem] shadow-sm border border-slate-100 text-center">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">บันทึกไว้ทั้งหมด</p>
-                    <p className="text-2xl font-black text-indigo-600">08</p>
-                 </div>
-              </div>
+            {/* Stats Overview */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+               <div className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-slate-100">
+                  <div className="flex items-center justify-between mb-4">
+                     <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center">
+                        <Wallet className="w-6 h-6" />
+                     </div>
+                     <span className="flex items-center gap-1 text-emerald-500 font-bold text-xs bg-emerald-50 px-2 py-1 rounded-full">
+                        <ArrowUpRight className="w-3 h-3" />
+                        +12%
+                     </span>
+                  </div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ยอดใช้จ่ายสะสม</p>
+                  <p className="text-2xl font-black text-slate-900">{formatPrice(4100000)}</p>
+               </div>
+
+               <div className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-slate-100">
+                  <div className="flex items-center justify-between mb-4">
+                     <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center">
+                        <Package className="w-6 h-6" />
+                     </div>
+                  </div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">การจองที่รอการตรวจสอบ</p>
+                  <p className="text-2xl font-black text-slate-900">01</p>
+               </div>
+
+               <div className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-slate-100">
+                  <div className="flex items-center justify-between mb-4">
+                     <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center">
+                        <BarChart2 className="w-6 h-6" />
+                     </div>
+                  </div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">คะแนนเครดิต Nest</p>
+                  <p className="text-2xl font-black text-slate-900">740</p>
+               </div>
+            </div>
+
+            {/* Header / Section Title */}
+            <div>
+               <h2 className="text-3xl font-black text-slate-900 tracking-tight">จัดการการจอง</h2>
+               <p className="text-slate-500 font-bold mt-2 text-sm">ตรวจสอบสถานะและรายละเอียดการจองของคุณ</p>
             </div>
 
             {/* Booking List */}
