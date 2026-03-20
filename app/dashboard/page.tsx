@@ -21,9 +21,11 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useCurrencyStore } from "@/stores/useCurrencyStore";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('bookings');
+  const { formatPrice } = useCurrencyStore();
 
   // Simulated data
   const myBookings = [
@@ -185,7 +187,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="col-span-2 md:col-span-1">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ยอดรวม</p>
-                        <p className="font-bold text-indigo-600">₭{booking.amount.toLocaleString()}</p>
+                        <p className="font-bold text-indigo-600">{formatPrice(booking.amount)}</p>
                       </div>
                     </div>
                   </div>

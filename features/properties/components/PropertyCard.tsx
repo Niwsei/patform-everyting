@@ -1,14 +1,18 @@
+'use client'
+
 import Image from "next/image";
 import Link from "next/link";
 import { Property } from "../types";
 import { FavoriteButton } from "./FavoriteButton";
-import { MapPin, Star, ShieldCheck } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
+import { useCurrencyStore } from "@/stores/useCurrencyStore";
 
 interface PropertyCardProps {
   property: Property;
 }
 
 export function PropertyCard({ property }: PropertyCardProps) {
+  const { formatPrice } = useCurrencyStore()
   return (
     <div className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative">
       <div className="absolute top-4 right-4 z-20">
@@ -39,13 +43,18 @@ export function PropertyCard({ property }: PropertyCardProps) {
           )}
         </div>
 
-        {/* Price Tag Overlay */}
-        <div className="absolute bottom-4 left-4 right-4">
-          <div className="bg-slate-900/75 backdrop-blur-md p-3.5 rounded-xl border border-white/10 flex justify-between items-center shadow-lg">
-            <div>
-              <p className="text-white/70 text-[10px] font-medium uppercase tracking-wider mb-0.5">เริ่มต้นที่</p>
-              <div className="text-white text-lg font-bold">
-                ₭{property.pricePerMonth.toLocaleString()} <span className="text-xs font-normal text-white/70">/ เดือน</span>
+        <div className="absolute bottom-5 left-5 right-5">
+          <div className="bg-slate-900/40 backdrop-blur-xl p-4 rounded-[1.5rem] border border-white/10">
+            <div className="flex justify-between items-end">
+              <div>
+                <p className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">เริ่มต้นที่</p>
+                <span className="text-white text-xl font-black">
+                  {formatPrice(property.pricePerMonth)} <span className="text-xs font-medium opacity-60">/ เดือน</span>
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-emerald-500/20 px-2.5 py-1 rounded-lg border border-emerald-500/30">
+                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                <span className="text-emerald-400 text-[10px] font-black uppercase tracking-widest">ว่าง</span>
               </div>
             </div>
             

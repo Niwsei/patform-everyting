@@ -5,8 +5,10 @@ import { MessageSquare, X, Send, ShieldCheck } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
+import { useNotificationStore } from '@/stores/useNotificationStore'
 
 export function ChatWidget() {
+  const { addNotification } = useNotificationStore()
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
     { id: 1, text: "สวัสดีค่ะ! เซร่าจาก Vientiane Nest ยินดีให้บริการค่ะ วันนี้ให้เซร่าช่วยหาที่พักในฝันให้คุณนะคะ?", sender: 'ai', time: '10:00 AM' }
@@ -69,6 +71,15 @@ export function ChatWidget() {
 
     setMessages(prev => [...prev, aiMsg])
     setIsTyping(false)
+
+    if (!isOpen) {
+      addNotification({
+        title: 'ข้อความใหม่จาก Sarah',
+        message: aiResponse.length > 50 ? aiResponse.substring(0, 50) + '...' : aiResponse,
+        time: 'เมื่อสักครู่',
+        type: 'message'
+      })
+    }
   }
 
   return (

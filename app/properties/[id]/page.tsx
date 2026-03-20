@@ -24,6 +24,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { use } from "react";
 import { cn } from "@/lib/utils";
+import { useCurrencyStore } from "@/stores/useCurrencyStore";
 
 interface PropertyPageProps {
   params: Promise<{ id: string }>;
@@ -33,6 +34,7 @@ export default function PropertyPage({ params }: PropertyPageProps) {
   const { id } = use(params);
   const property = mockProperties.find((p) => p.id === id);
   const [activeImage, setActiveImage] = useState(0);
+  const { formatPrice } = useCurrencyStore();
 
   if (!property) {
     notFound();
