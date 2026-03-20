@@ -9,15 +9,24 @@ interface PropertiesPageProps {
   searchParams: Promise<{
     location?: string;
     price?: string;
+    category?: string;
   }>;
 }
 
 export default function PropertiesPage({ searchParams }: PropertiesPageProps) {
-  const { location: locationFilter = '', price: priceFilter = '' } = use(searchParams);
+  const {
+    location: locationFilter = '',
+    price: priceFilter = '',
+    category: categoryFilter = ''
+  } = use(searchParams);
 
   const filteredProperties = mockProperties.filter((property) => {
     const matchLocation = locationFilter 
       ? property.location.toLowerCase().includes(locationFilter.toLowerCase())
+      : true;
+
+    const matchCategory = categoryFilter
+      ? property.category === categoryFilter
       : true;
 
     let matchPrice = true;
@@ -29,7 +38,7 @@ export default function PropertiesPage({ searchParams }: PropertiesPageProps) {
       matchPrice = property.pricePerMonth > 5000000;
     }
 
-    return matchLocation && matchPrice;
+    return matchLocation && matchPrice && matchCategory;
   });
 
   return (
@@ -46,7 +55,7 @@ export default function PropertiesPage({ searchParams }: PropertiesPageProps) {
                 </span>
               </h1>
               <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-0.5">
-                {locationFilter || 'ทั่วเวียงจันทน์'} • {priceFilter || 'ทุกช่วงราคา'}
+                {locationFilter || 'ทั่วเวียงจันทน์'} • {categoryFilter || 'ทุกประเภท'} • {priceFilter || 'ทุกช่วงราคา'}
               </p>
             </div>
 
