@@ -5,6 +5,8 @@ import { Heart, Menu, User, Truck, MapPin, Bell, Search, Calendar, MessageSquare
 import { useFavoriteStore } from "@/stores/useFavoriteStore"
 import { useCurrencyStore, Currency } from "@/stores/useCurrencyStore"
 import { useNotificationStore } from "@/stores/useNotificationStore"
+import { useAuthStore } from "@/stores/useAuthStore"
+import { AuthModal } from "@/components/auth/AuthModal"
 import { cn } from "@/lib/utils"
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -13,8 +15,10 @@ export function MainNavbar() {
     const savedCount = useFavoriteStore((state) => state.savedPropertyIds.length)
     const { currency, setCurrency } = useCurrencyStore()
     const { notifications, unreadCount, markAllAsRead } = useNotificationStore()
+    const { isAuthenticated, user, logout } = useAuthStore()
     const [isScrolled, setIsScrolled] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 20)
@@ -183,14 +187,48 @@ export function MainNavbar() {
             </AnimatePresence>
           </Link>
           
-          <Link href="/dashboard" className="flex items-center gap-3 pl-3 pr-1.5 py-1.5 rounded-full border border-slate-200 hover:shadow-premium transition-all duration-300 bg-white group">
-            <Menu className="w-5 h-5 text-slate-500 group-hover:text-slate-900 transition-colors" />
-            <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-inner">
-              <User className="w-5 h-5" />
-            </div>
-          </Link>
+          <div className="relative group">
+            <button
+              onClick={() => !isAuthenticated ? setIsAuthModalOpen(true) : null}
+              className="flex items-center gap-3 pl-3 pr-1.5 py-1.5 rounded-full border border-slate-200 hover:shadow-premium transition-all duration-300 bg-white"
+            >
+              <Menu className="w-5 h-5 text-slate-500 group-hover:text-slate-900 transition-colors" />
+              <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-inner overflow-hidden">
+                {isAuthenticated && user?.avatar ? (
+                  <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                ) : (
+                  <User className="w-5 h-5" />
+                )}
+              </div>
+            </button>
+
+            {isAuthenticated && (
+              <div className="absolute top-full right-0 mt-4 w-64 bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[110]">
+                <div className="px-6 py-4 border-b border-slate-50 mb-2">
+                  <p className="font-black text-slate-900 text-sm">{user?.name}</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{user?.email}</p>
+                </div>
+                <Link href="/dashboard" className="flex items-center gap-3 px-6 py-3 hover:bg-slate-50 text-sm font-bold text-slate-600 transition-colors">
+                  <User className="w-4 h-4" />
+                  หน้าแดชบอร์ด
+                </Link>
+                <Link href="/favorites" className="flex items-center gap-3 px-6 py-3 hover:bg-slate-50 text-sm font-bold text-slate-600 transition-colors">
+                  <Heart className="w-4 h-4" />
+                  รายการที่บันทึกไว้
+                </Link>
+                <div className="h-px bg-slate-50 my-2" />
+                <button
+                  onClick={() => logout()}
+                  className="w-full flex items-center gap-3 px-6 py-3 hover:bg-red-50 text-sm font-bold text-red-500 transition-colors"
+                >
+                  ออกจากระบบ
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </header>
   );
 }

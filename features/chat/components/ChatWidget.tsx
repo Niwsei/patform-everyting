@@ -14,6 +14,7 @@ export function ChatWidget() {
     { id: 1, text: "สวัสดีค่ะ! เซร่าจาก Vientiane Nest ยินดีให้บริการค่ะ วันนี้ให้เซร่าช่วยหาที่พักในฝันให้คุณนะคะ?", sender: 'ai', time: '10:00 AM' }
   ])
   const [inputValue, setInputValue] = useState('')
+  const [chatHistory, setChatHistory] = useState<string[]>([])
   const [isTyping, setIsTyping] = useState(false)
   const [showQuickReplies, setShowQuickReplies] = useState(true)
 
@@ -43,6 +44,7 @@ export function ChatWidget() {
     }
 
     setMessages(prev => [...prev, newUserMsg])
+    setChatHistory(prev => [...prev, inputValue])
     setInputValue('')
     setIsTyping(true)
 
@@ -50,8 +52,16 @@ export function ChatWidget() {
     await new Promise(resolve => setTimeout(resolve, 1500))
 
     let aiResponse = "";
-    if (inputValue.includes("โรงแรม")) {
+    const lowerInput = inputValue.toLowerCase();
+
+    if (lowerInput.includes("โรงแรม")) {
       aiResponse = "ในย่านจันทะบูลี เรามี 'อพาร์ทเมนท์ทันสมัย ใกล้ประตูชัย' ที่ได้รับความนิยมมากค่ะ หรือหากคุณต้องการแบบฟูลเซอร์วิส โรงแรมริมน้ำก็น่าสนใจนะคะ ให้เซร่าส่งลิสต์ให้ไหมคะ?";
+    } else if (lowerInput.includes("ราคา") || lowerInput.includes("งบ")) {
+      aiResponse = "ราคาที่พักในเวียงจันทน์ช่วงนี้เริ่มต้นที่ 1.5 ล้าน กีบ ต่อเดือนค่ะ คุณมีงบประมาณที่ตั้งไว้เท่าไหร่คะ เซร่าจะได้ช่วยเลือกที่คุ้มที่สุดให้ค่ะ";
+    } else if (lowerInput.includes("จอง")) {
+      aiResponse = "การจองทำได้ง่ายมากค่ะ! เพียงกดปุ่ม 'จองที่พักนี้' ในหน้าข้อมูลที่พัก แล้วทำตามขั้นตอนได้เลยค่ะ ระบบจะส่งคำขอไปยังเจ้าของที่พักทันที";
+    } else if (lowerInput.includes("สวัสดี") || lowerInput.includes("hi")) {
+        aiResponse = "สวัสดีค่ะ! ยินดีที่ได้คุยกับคุณนะคะ วันนี้อยากให้เซร่าช่วยดูที่พักย่านไหนเป็นพิเศษไหมคะ?";
     } else {
       const responses = [
         "เป็นตัวเลือกที่ดีมากเลยค่ะ! สนใจให้เซร่านัดวันเข้าชมที่พักให้ไหมคะ?",
