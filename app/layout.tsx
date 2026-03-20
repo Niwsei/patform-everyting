@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { MainNavbar } from "@/components/layouts/MainNavbar";
@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   title: "Vientiane Nest | หาหอพักในเวียงจันทน์",
   description: 'แพลตฟอร์มหาหอพักและอสังหาฯ ที่ดีที่สุด',
   manifest: '/manifest.json', // เชื่อม PWA ตรงนี้
+};
+
+export const viewport: Viewport = {
   themeColor: '#ffffff',
 };
 
