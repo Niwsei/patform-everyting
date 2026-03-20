@@ -21,6 +21,9 @@ import {
   PartyPopper
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCurrencyStore } from "@/stores/useCurrencyStore";
+import { useNotificationStore } from "@/stores/useNotificationStore";
+import { cn } from "@/lib/utils";
 
 interface BookPageProps {
   params: Promise<{ id: string }>;
@@ -30,8 +33,11 @@ export default function BookPage({ params }: BookPageProps) {
   const { id } = use(params);
   const property = mockProperties.find((p) => p.id === id);
   const router = useRouter();
+  const { formatPrice } = useCurrencyStore();
+  const { addNotification } = useNotificationStore();
 
   const [step, setStep] = useState(1);
+  const [selectedDate, setSelectedDate] = useState<string>('2023-10-01');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -47,6 +53,14 @@ export default function BookPage({ params }: BookPageProps) {
     setIsSubmitting(true);
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
+
+    addNotification({
+      title: 'ส่งคำขอจองแล้ว!',
+      message: `คำขอจอง ${property?.title} ของคุณส่งไปหาเจ้าของที่พักแล้วค่ะ`,
+      time: 'เมื่อสักครู่',
+      type: 'booking'
+    });
+
     setIsSubmitting(false);
     setIsSuccess(true);
   };
@@ -121,10 +135,19 @@ export default function BookPage({ params }: BookPageProps) {
               ไปที่แดชบอร์ด
             </Link>
             <button
-              onClick={() => router.push('/properties')}
-              className="flex-1 bg-white border-2 border-slate-100 text-slate-900 py-5 rounded-2xl font-black text-lg hover:bg-slate-50 transition-all active:scale-95"
+              onClick={() => {
+                const event = {
+                  title: `ย้ายเข้า: ${property.title}`,
+                  details: `นัดหมายย้ายเข้าที่พัก ${property.title} ในเวียงจันทน์ จองผ่าน Vientiane Nest`,
+                  location: property.location,
+                  date: selectedDate
+                };
+                alert(`เพิ่มกิจกรรมลงในปฏิทินแล้ว: ${event.title} วันที่ ${event.date}`);
+              }}
+              className="flex-1 bg-indigo-50 border-2 border-indigo-100 text-indigo-600 py-5 rounded-2xl font-black text-lg hover:bg-indigo-100 transition-all active:scale-95 flex items-center justify-center gap-2"
             >
-              หาที่พักเพิ่ม
+              <Calendar className="w-5 h-5" />
+              ลงปฏิทินไว้
             </button>
           </div>
         </motion.div>
@@ -171,16 +194,35 @@ export default function BookPage({ params }: BookPageProps) {
                   >
                     <div className="space-y-4">
                       <h2 className="text-xl font-black text-slate-900">1. เลือกวันที่เข้าอยู่</h2>
-                      <div className="grid grid-cols-2 gap-4">
-                        <button type="button" className="p-4 bg-white border-2 border-indigo-600 rounded-2xl text-left shadow-lg shadow-indigo-100">
-                          <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-1">เร็วที่สุด</p>
-                          <p className="font-bold text-slate-900">ภายใน 7 วัน</p>
-                        </button>
-                        <button type="button" className="p-4 bg-white border border-slate-200 rounded-2xl text-left hover:border-indigo-600 transition-colors">
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">มาตรฐาน</p>
-                          <p className="font-bold text-slate-900">ภายใน 30 วัน</p>
-                        </button>
+                      <div className="p-6 bg-white border border-slate-100 rounded-[2rem] shadow-sm">
+                         <div className="grid grid-cols-7 gap-2 mb-4 text-center">
+                            {['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'].map(d => (
+                              <span key={d} className="text-[10px] font-black text-slate-400 uppercase">{d}</span>
+                            ))}
+                         </div>
+                         <div className="grid grid-cols-7 gap-2">
+                            {Array.from({ length: 31 }).map((_, i) => {
+                              const day = i + 1;
+                              const isSelected = selectedDate === `2023-10-${day.toString().padStart(2, '0')}`;
+                              const isPast = day < 15; // Simulate past days
+                              return (
+                                <button
+                                  key={i}
+                                  type="button"
+                                  disabled={isPast}
+                                  onClick={() => setSelectedDate(`2023-10-${day.toString().padStart(2, '0')}`)}
+                                  className={cn(
+                                    "h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all",
+                                    isSelected ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200 scale-110" : isPast ? "text-slate-200 cursor-not-allowed" : "text-slate-600 hover:bg-slate-50"
+                                  )}
+                                >
+                                  {day}
+                                </button>
+                              )
+                            })}
+                         </div>
                       </div>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">ตุลาคม 2023</p>
                     </div>
 
                     <div className="space-y-4">
@@ -276,7 +318,7 @@ export default function BookPage({ params }: BookPageProps) {
                           <p className="text-sm font-bold opacity-80">การชำระเงินที่ปลอดภัย</p>
                         </div>
                         <p className="text-xs font-medium opacity-60 leading-relaxed">
-                          เราจะยังไม่ตัดเงินค่าเช่าจากบัตรของคุณ แต่จำเป็นต้องมีเงินมัดจำจำนวน ₭150,000 (ค่าบริการ) เพื่อยืนยันความตั้งใจในการสมัคร ซึ่งจะได้รับคืนเต็มจำนวนหากเจ้าของที่พักปฏิเสธคำขอ
+                          เราจะยังไม่ตัดเงินค่าเช่าจากบัตรของคุณ แต่จำเป็นต้องมีเงินมัดจำจำนวน {formatPrice(150000)} (ค่าบริการ) เพื่อยืนยันความตั้งใจในการสมัคร ซึ่งจะได้รับคืนเต็มจำนวนหากเจ้าของที่พักปฏิเสธคำขอ
                         </p>
                       </div>
 
@@ -355,15 +397,19 @@ export default function BookPage({ params }: BookPageProps) {
                 <div className="space-y-3">
                   <div className="flex justify-between font-bold text-slate-600">
                     <span>ค่าเช่ารายเดือน</span>
-                    <span>₭{property.pricePerMonth.toLocaleString()}</span>
+                    <span>{formatPrice(property.pricePerMonth)}</span>
                   </div>
                   <div className="flex justify-between font-bold text-slate-600">
                     <span>ค่าบริการ</span>
-                    <span>₭150,000</span>
+                    <span>{formatPrice(150000)}</span>
+                  </div>
+                  <div className="flex justify-between font-bold text-slate-600">
+                    <span>วันที่เลือก</span>
+                    <span>{selectedDate}</span>
                   </div>
                   <div className="flex justify-between pt-4 border-t border-slate-100">
                     <span className="text-xl font-black text-slate-900">ยอดรวมมัดจำ</span>
-                    <span className="text-xl font-black text-indigo-600">₭{(property.pricePerMonth + 150000).toLocaleString()}</span>
+                    <span className="text-xl font-black text-indigo-600">{formatPrice(property.pricePerMonth + 150000)}</span>
                   </div>
                 </div>
               </div>

@@ -1,14 +1,18 @@
+'use client'
+
 import Image from "next/image";
 import Link from "next/link";
 import { Property } from "../types";
 import { FavoriteButton } from "./FavoriteButton";
-import { MapPin, Star, ShieldCheck } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
+import { useCurrencyStore } from "@/stores/useCurrencyStore";
 
 interface PropertyCardProps {
   property: Property;
 }
 
 export function PropertyCard({ property }: PropertyCardProps) {
+  const { formatPrice } = useCurrencyStore()
   return (
     <div className="group bg-white rounded-[2.5rem] border border-slate-100 overflow-hidden hover:shadow-[0_20px_50px_rgba(79,70,229,0.15)] transition-all duration-700 hover:-translate-y-2 relative">
       <div className="absolute top-5 right-5 z-20">
@@ -45,7 +49,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
               <div>
                 <p className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">เริ่มต้นที่</p>
                 <span className="text-white text-xl font-black">
-                  ₭{property.pricePerMonth.toLocaleString()} <span className="text-xs font-medium opacity-60">/ เดือน</span>
+                  {formatPrice(property.pricePerMonth)} <span className="text-xs font-medium opacity-60">/ เดือน</span>
                 </span>
               </div>
               <div className="flex items-center gap-1.5 bg-emerald-500/20 px-2.5 py-1 rounded-lg border border-emerald-500/30">

@@ -24,6 +24,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { use } from "react";
 import { cn } from "@/lib/utils";
+import { useCurrencyStore } from "@/stores/useCurrencyStore";
 
 interface PropertyPageProps {
   params: Promise<{ id: string }>;
@@ -33,6 +34,7 @@ export default function PropertyPage({ params }: PropertyPageProps) {
   const { id } = use(params);
   const property = mockProperties.find((p) => p.id === id);
   const [activeImage, setActiveImage] = useState(0);
+  const { formatPrice } = useCurrencyStore();
 
   if (!property) {
     notFound();
@@ -239,7 +241,7 @@ export default function PropertyPage({ params }: PropertyPageProps) {
             <div className="sticky top-28 bg-white rounded-[2.5rem] p-8 shadow-premium border border-slate-100 space-y-6">
               <div className="flex justify-between items-end mb-4">
                 <div>
-                  <span className="text-3xl font-black text-slate-900">₭{property.pricePerMonth.toLocaleString()}</span>
+                  <span className="text-3xl font-black text-slate-900">{formatPrice(property.pricePerMonth)}</span>
                   <span className="text-slate-500 font-bold ml-2">/ เดือน</span>
                 </div>
                 <div className="bg-indigo-50 px-3 py-1 rounded-full text-xs font-bold text-indigo-600 border border-indigo-100">
@@ -273,15 +275,15 @@ export default function PropertyPage({ params }: PropertyPageProps) {
               <div className="space-y-4 pt-4 border-t border-slate-100">
                 <div className="flex justify-between font-bold text-slate-600">
                   <span>ค่าเช่าเดือนแรก</span>
-                  <span>₭{property.pricePerMonth.toLocaleString()}</span>
+                  <span>{formatPrice(property.pricePerMonth)}</span>
                 </div>
                 <div className="flex justify-between font-bold text-slate-600">
-                  <span>ค่าธรรมเนียมบริการ (ครั้งเดียว)</span>
-                  <span>₭150,000</span>
+                  <span>ค่าธรรมเนียมบริการ</span>
+                  <span>{formatPrice(150000)}</span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-slate-100">
                   <span className="text-lg font-black text-slate-900">ยอดรวมมัดจำ</span>
-                  <span className="text-lg font-black text-indigo-600">₭{(property.pricePerMonth + 150000).toLocaleString()}</span>
+                  <span className="text-lg font-black text-indigo-600">{formatPrice(property.pricePerMonth + 150000)}</span>
                 </div>
               </div>
 
