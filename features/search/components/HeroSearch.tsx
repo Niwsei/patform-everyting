@@ -22,62 +22,74 @@ export function HeroSearch() {
     }
 
     return (
-    <div className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+    <div className="relative pt-32 pb-20 lg:pt-56 lg:pb-40 overflow-hidden">
       {/* พื้นหลังภาพ (สมมติว่าเป็นวิวเมืองเวียงจันทน์) */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]">
         <img 
           src="https://images.unsplash.com/photo-1540611025311-01df3cef54b5?q=80&w=2000&auto=format&fit=crop" 
           alt="Vientiane City" 
-          className="w-full h-full object-cover brightness-50"
+          className="w-full h-full object-cover brightness-[0.4]"
         />
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6 drop-shadow-lg">
-          ค้นหาพื้นที่พักพิงของคุณ ในเวียงจันทน์
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 text-white text-sm font-bold mb-8 shadow-xl">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+          </span>
+          Vientiane's #1 Real Estate & Logistics Platform
+        </div>
+
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight mb-8 drop-shadow-2xl">
+          Find Your Next <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300">
+            Adventure in Vientiane
+          </span>
         </h1>
-        <p className="text-lg sm:text-xl text-gray-200 mb-10 drop-shadow-md">
-          หอพัก คอนโด และบ้านเช่ากว่า 1,000 แห่ง รอให้คุณค้นพบ
+
+        <p className="text-xl sm:text-2xl text-gray-300 mb-12 drop-shadow-md max-w-2xl mx-auto font-medium">
+          Whether it's a home, a condo, or moving your life — we've got you covered.
         </p>
 
         {/* กล่องค้นหา (Search Box) แบบลอยตัว */}
         <form 
           onSubmit={handleSearch}
-          className="bg-white p-2 sm:p-4 rounded-full sm:rounded-full shadow-2xl max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-2 sm:gap-4"
+          className="bg-white/95 backdrop-blur-xl p-3 rounded-3xl sm:rounded-full shadow-2xl max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-2 border border-white/20"
         >
           {/* ช่องทำเลที่ตั้ง */}
-          <div className="flex-1 w-full flex items-center px-4 py-2 border-b sm:border-b-0 sm:border-r border-gray-200">
-            <MapPin className="w-5 h-5 text-gray-400 mr-3" />
+          <div className="flex-1 w-full flex items-center px-6 py-3 border-b sm:border-b-0 sm:border-r border-gray-100 group transition-all">
+            <MapPin className="w-6 h-6 text-indigo-500 mr-4 group-hover:scale-110 transition-transform" />
             <div className="flex flex-col text-left w-full">
-              <label className="text-xs font-bold text-gray-900">ทำเลที่ตั้ง</label>
+              <label className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-1">Location</label>
               <select 
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full bg-transparent text-gray-600 outline-none text-sm cursor-pointer appearance-none"
+                className="w-full bg-transparent text-gray-900 font-bold outline-none text-base cursor-pointer appearance-none"
               >
-                <option value="">ทุกโซนในเวียงจันทน์</option>
-                <option value="Chanthabouly">จันทะบูลี (Chanthabouly)</option>
-                <option value="Sikhottabong">สีโคดตะบอง (Sikhottabong)</option>
-                <option value="Xaysetha">ไซเสดถา (Xaysetha)</option>
-                <option value="Sisattanak">สีสัดตะนาก (Sisattanak)</option>
+                <option value="">All Zones</option>
+                <option value="Chanthabouly">Chanthabouly</option>
+                <option value="Sikhottabong">Sikhottabong</option>
+                <option value="Xaysetha">Xaysetha</option>
+                <option value="Sisattanak">Sisattanak</option>
               </select>
             </div>
           </div>
 
           {/* ช่องช่วงราคา */}
-          <div className="flex-1 w-full flex items-center px-4 py-2">
-            <span className="w-5 h-5 text-gray-400 mr-3 font-bold">₭</span>
+          <div className="flex-1 w-full flex items-center px-6 py-3 group transition-all">
+            <span className="w-6 h-6 text-indigo-500 mr-4 font-black flex items-center justify-center text-lg group-hover:scale-110 transition-transform">₭</span>
             <div className="flex flex-col text-left w-full">
-              <label className="text-xs font-bold text-gray-900">ช่วงราคา (ต่อเดือน)</label>
+              <label className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-1">Budget (Monthly)</label>
               <select 
                 value={priceRange}
                 onChange={(e) => setPriceRange(e.target.value)}
-                className="w-full bg-transparent text-gray-600 outline-none text-sm cursor-pointer appearance-none"
+                className="w-full bg-transparent text-gray-900 font-bold outline-none text-base cursor-pointer appearance-none"
               >
-                <option value="">ทุกระดับราคา</option>
-                <option value="under_2m">ต่ำกว่า 2,000,000 กีบ</option>
-                <option value="2m_to_5m">2,000,000 - 5,000,000 กีบ</option>
-                <option value="over_5m">มากกว่า 5,000,000 กีบ</option>
+                <option value="">Any Budget</option>
+                <option value="under_2m">Under 2M LAK</option>
+                <option value="2m_to_5m">2M - 5M LAK</option>
+                <option value="over_5m">Over 5M LAK</option>
               </select>
             </div>
           </div>
@@ -85,10 +97,10 @@ export function HeroSearch() {
           {/* ปุ่มค้นหา */}
           <button 
             type="submit"
-            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full flex items-center justify-center gap-2 transition-colors font-bold"
+            className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-5 rounded-2xl sm:rounded-full flex items-center justify-center gap-3 transition-all font-bold shadow-lg shadow-indigo-200 active:scale-95"
           >
-            <Search className="w-5 h-5" />
-            <span className="sm:hidden">ค้นหาเลย</span>
+            <Search className="w-6 h-6" />
+            <span>Search Now</span>
           </button>
         </form>
       </div>

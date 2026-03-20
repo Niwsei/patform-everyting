@@ -7,4 +7,10 @@ export interface Property {
     images: string[];
     amenities: string[];
     isAvailable: boolean;
+    lat?: number;
+    lng?: number;
+    rating?: number;
+    reviewCount?: number;
+    hostName?: string;
+    hostImage?: string;
 }
