@@ -72,8 +72,8 @@ export const mockProperties: Property[] = [
     location: 'เมืองไซเศรษฐา, เวียงจันทน์',
     category: 'vacation_home',
     images: [
-      'https://images.unsplash.com/photo-1600585154340-be6199f7e009?q=80&w=1200&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1600607687940-47a09b699403?q=80&w=1200&auto=format&fit=crop',
     ],
     amenities: ['แอร์ทั้งหลัง', 'WiFi', 'สวนส่วนตัว', 'ที่จอดรถ 2 คัน', 'สมาร์ทโฮม', 'ครัวฝรั่ง'],

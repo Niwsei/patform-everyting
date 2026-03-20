@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { MessageSquare, X, Send, User, ShieldCheck } from 'lucide-react'
+import { MessageSquare, X, Send, ShieldCheck } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
@@ -72,33 +72,34 @@ export function ChatWidget() {
   }
 
   return (
-    <div className="fixed bottom-8 right-8 z-[100]">
+    <div className="fixed bottom-6 right-6 z-[100]">
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9, transformOrigin: 'bottom right' }}
+            initial={{ opacity: 0, y: 15, scale: 0.95, transformOrigin: 'bottom right' }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="mb-6 w-[380px] h-[550px] bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 flex flex-col overflow-hidden"
+            exit={{ opacity: 0, y: 15, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="mb-6 w-[360px] h-[520px] bg-white rounded-2xl shadow-xl border border-slate-200 flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-indigo-600 p-6 text-white flex items-center justify-between">
+            <div className="bg-slate-900 p-5 text-white flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                    <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md overflow-hidden">
+                    <div className="w-11 h-11 bg-white/10 rounded-full flex items-center justify-center overflow-hidden border border-white/10">
                         <Image src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop" alt="Sarah" fill className="object-cover" />
                     </div>
-                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-indigo-600 rounded-full" />
+                    <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-400 border-2 border-slate-900 rounded-full" />
                 </div>
                 <div>
-                  <h3 className="font-black text-lg leading-none">Sarah</h3>
-                  <p className="text-[10px] font-bold text-indigo-200 mt-1 flex items-center gap-1 uppercase tracking-widest">
-                    <ShieldCheck className="w-3 h-3" />
-                    ผู้ช่วยส่วนตัว (ผ่านการรับรอง)
+                  <h3 className="font-semibold text-base leading-none">Sarah</h3>
+                  <p className="text-xs text-slate-300 mt-1 flex items-center gap-1 font-medium">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    ผู้ช่วยส่วนตัว
                   </p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-white/10 rounded-xl transition-colors">
+              <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors text-slate-300 hover:text-white">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -106,29 +107,30 @@ export function ChatWidget() {
             {/* Messages */}
             <div
                 ref={scrollRef}
-                className="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth bg-slate-50/50"
+                className="flex-1 overflow-y-auto w-full p-5 space-y-5 scroll-smooth bg-slate-50/50"
             >
               {messages.map((msg) => (
                 <div key={msg.id} className={cn("flex", msg.sender === 'user' ? "justify-end" : "justify-start")}>
                   <div className={cn(
-                    "max-w-[80%] p-4 rounded-3xl text-sm font-bold shadow-sm",
+                    "max-w-[85%] p-3.5 rounded-2xl text-[13px] font-medium shadow-sm leading-relaxed",
                     msg.sender === 'user'
-                        ? "bg-indigo-600 text-white rounded-tr-none"
-                        : "bg-white text-slate-900 border border-slate-100 rounded-tl-none"
+                        ? "bg-slate-900 text-white rounded-br-sm"
+                        : "bg-white text-slate-700 border border-slate-200 rounded-bl-sm"
                   )}>
                     {msg.text}
-                    <p className={cn("text-[9px] mt-1 font-black opacity-60 uppercase tracking-widest", msg.sender === 'user' ? "text-indigo-100" : "text-slate-400")}>
+                    <p className={cn("text-[10px] mt-1.5 opacity-60", msg.sender === 'user' ? "text-slate-300 text-right" : "text-slate-500")}>
                       {msg.time}
                     </p>
                   </div>
                 </div>
               ))}
+              
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-white border border-slate-100 p-4 rounded-3xl rounded-tl-none flex gap-1 items-center">
-                    <motion.div animate={{ opacity: [0.4, 1, 0.4] }} transition={{ repeat: Infinity, duration: 1 }} className="w-1.5 h-1.5 bg-slate-300 rounded-full" />
-                    <motion.div animate={{ opacity: [0.4, 1, 0.4] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-1.5 h-1.5 bg-slate-300 rounded-full" />
-                    <motion.div animate={{ opacity: [0.4, 1, 0.4] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-1.5 h-1.5 bg-slate-300 rounded-full" />
+                  <div className="bg-white border border-slate-200 p-3.5 rounded-2xl rounded-bl-sm flex gap-1.5 items-center shadow-sm">
+                    <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 1.2 }} className="w-1.5 h-1.5 bg-slate-400 rounded-full" />
+                    <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0.2 }} className="w-1.5 h-1.5 bg-slate-400 rounded-full" />
+                    <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0.4 }} className="w-1.5 h-1.5 bg-slate-400 rounded-full" />
                   </div>
                 </div>
               )}
@@ -138,14 +140,14 @@ export function ChatWidget() {
                   {quickReplies.map((reply, i) => (
                     <motion.button
                       key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.5 + (i * 0.1) }}
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 + (i * 0.1) }}
                       onClick={() => {
                         setInputValue(reply)
                         setShowQuickReplies(false)
                       }}
-                      className="text-left p-3 bg-white border border-indigo-100 text-indigo-600 rounded-2xl text-xs font-bold hover:bg-indigo-50 transition-all shadow-sm"
+                      className="text-left py-2.5 px-3.5 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-semibold hover:bg-slate-50 hover:text-slate-900 transition-colors shadow-sm"
                     >
                       {reply}
                     </motion.button>
@@ -155,19 +157,20 @@ export function ChatWidget() {
             </div>
 
             {/* Input */}
-            <form onSubmit={handleSend} className="p-6 bg-white border-t border-slate-50 flex gap-3 items-center">
+            <form onSubmit={handleSend} className="p-4 bg-white border-t border-slate-100 flex gap-2 items-center">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="พิมพ์ข้อความคุยกับเซร่า..."
-                className="flex-1 bg-slate-100 border-none rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                placeholder="พิมพ์ข้อความ..."
+                className="flex-1 bg-slate-50 border border-slate-200 rounded-full px-4 py-2.5 text-sm font-medium focus:ring-1 focus:ring-slate-400 focus:border-slate-400 outline-none transition-all placeholder:text-slate-400"
               />
               <button
                 type="submit"
-                className="p-4 bg-indigo-600 text-white rounded-2xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 active:scale-90"
+                disabled={!inputValue.trim()}
+                className="p-2.5 bg-slate-900 text-white rounded-full hover:bg-slate-800 disabled:bg-slate-300 disabled:text-slate-100 transition-all shadow-sm"
               >
-                <Send className="w-5 h-5" />
+                <Send className="w-4 h-4" />
               </button>
             </form>
           </motion.div>
@@ -175,17 +178,17 @@ export function ChatWidget() {
       </AnimatePresence>
 
       <motion.button
-        whileHover={{ scale: 1.05, rotate: 5 }}
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "w-16 h-16 rounded-3xl flex items-center justify-center shadow-2xl transition-all duration-300 relative",
-          isOpen ? "bg-slate-900 text-white rotate-90" : "bg-indigo-600 text-white"
+          "w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-colors duration-300 relative",
+          isOpen ? "bg-white text-slate-900 border border-slate-200" : "bg-slate-900 text-white"
         )}
       >
-        {isOpen ? <X className="w-8 h-8" /> : <MessageSquare className="w-8 h-8" />}
+        {isOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
         {!isOpen && (
-            <span className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center border-4 border-white shadow-lg animate-bounce">1</span>
+            <span className="absolute 0 top-0 right-0 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white" />
         )}
       </motion.button>
     </div>
