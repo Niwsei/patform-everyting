@@ -280,23 +280,26 @@ export default function BookPage({ params }: BookPageProps) {
                         </p>
                       </div>
 
-                      <div className="space-y-3">
-                        <input
-                          type="text"
-                          placeholder="หมายเลขบัตร"
-                          className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl font-bold text-white placeholder:text-white/40 focus:bg-white/20 outline-none transition-all"
-                        />
-                        <div className="grid grid-cols-2 gap-3">
-                          <input
-                            type="text"
-                            placeholder="ดด/ปป"
-                            className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl font-bold text-white placeholder:text-white/40 focus:bg-white/20 outline-none transition-all"
-                          />
-                          <input
-                            type="text"
-                            placeholder="CVC"
-                            className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl font-bold text-white placeholder:text-white/40 focus:bg-white/20 outline-none transition-all"
-                          />
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3 p-4 bg-white/5 border border-white/10 rounded-2xl cursor-pointer hover:bg-white/10 transition-all group">
+                           <div className="w-10 h-10 bg-[#e31837] rounded-lg flex items-center justify-center font-black text-white text-xs shadow-lg group-hover:scale-110 transition-transform">One</div>
+                           <div className="flex-1">
+                              <p className="text-xs font-black uppercase tracking-widest">BCEL One Pay</p>
+                              <p className="text-[10px] opacity-60">ชำระผ่านแอปยอดนิยมในลาว</p>
+                           </div>
+                           <div className="w-5 h-5 rounded-full border-2 border-indigo-400 flex items-center justify-center">
+                              <div className="w-2.5 h-2.5 bg-indigo-400 rounded-full" />
+                           </div>
+                        </div>
+
+                        <div className="p-4 bg-white/5 border border-white/10 rounded-2xl opacity-40 cursor-not-allowed">
+                           <div className="flex items-center gap-3">
+                              <CreditCard className="w-10 h-10" />
+                              <div className="flex-1">
+                                 <p className="text-xs font-black uppercase tracking-widest">Credit / Debit Card</p>
+                                 <p className="text-[10px]">เร็วๆ นี้</p>
+                              </div>
+                           </div>
                         </div>
                       </div>
                     </div>
@@ -373,6 +376,13 @@ export default function BookPage({ params }: BookPageProps) {
                 <p className="text-xs font-medium text-indigo-600 leading-relaxed">
                   ทุกการจองผ่าน Vientiane Nest ได้รับการคุ้มครอง หากที่พักไม่ตรงปก เราจะหาที่ใหม่ให้หรือคืนเงินให้คุณ 100%
                 </p>
+              </div>
+
+              <div className="flex items-center gap-3 p-4 bg-amber-50 rounded-2xl border border-amber-100/50">
+                 <Sparkles className="w-5 h-5 text-amber-600 shrink-0" />
+                 <p className="text-[10px] font-black text-amber-900 leading-tight uppercase tracking-wider">
+                    AI Insight: ยอดการจองที่พักนี้พุ่งสูงขึ้น 20% ในสัปดาห์ที่ผ่านมา รีบจองก่อนคนอื่นนะคะ!
+                 </p>
               </div>
             </div>
           </div>

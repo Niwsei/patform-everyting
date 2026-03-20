@@ -35,7 +35,7 @@ export function PropertyMap({ properties }: PropertyMapProps) {
         className="group relative cursor-pointer"
       >
         <div className="bg-white text-slate-900 px-3 py-1.5 rounded-2xl text-xs font-black shadow-premium border-2 border-indigo-600 transition-all group-hover:bg-indigo-600 group-hover:text-white flex items-center gap-1.5 whitespace-nowrap">
-          <span className="text-[10px] opacity-60 font-bold group-hover:text-white/60 text-slate-400">₭</span>
+          <span className="text-[10px] opacity-60 font-bold group-hover:text-white/60 text-slate-400 font-sans">₭</span>
           {(property.pricePerMonth / 1000000).toFixed(1)}M
         </div>
         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-indigo-600 rotate-45 border-r border-b border-indigo-600" />

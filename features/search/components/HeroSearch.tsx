@@ -10,15 +10,17 @@ export function HeroSearch() {
     const router = useRouter()
     const [location, setLocation] = useState('')
     const [priceRange, setPriceRange] = useState('')
+    const [category, setCategory] = useState('')
 
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()
         const params = new URLSearchParams()
         if(location) params.append('location', location)
-            if(priceRange) params.append('price', priceRange)
+        if(priceRange) params.append('price', priceRange)
+        if(category) params.append('category', category)
 
-                router.push(`/properties?${params.toString()}`)
+        router.push(`/properties?${params.toString()}`)
     }
 
     return (
@@ -61,8 +63,9 @@ export function HeroSearch() {
           <div className="flex-1 w-full flex items-center px-6 py-3 border-b sm:border-b-0 sm:border-r border-gray-100 group transition-all">
             <MapPin className="w-6 h-6 text-indigo-500 mr-4 group-hover:scale-110 transition-transform" />
             <div className="flex flex-col text-left w-full">
-              <label className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-1">ทำเลที่ตั้ง</label>
+              <label htmlFor="location-select" className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-1">ทำเลที่ตั้ง</label>
               <select 
+                id="location-select"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 className="w-full bg-transparent text-gray-900 font-bold outline-none text-base cursor-pointer appearance-none"
@@ -76,12 +79,35 @@ export function HeroSearch() {
             </div>
           </div>
 
+          {/* ช่องประเภทที่พัก */}
+          <div className="flex-1 w-full flex items-center px-6 py-3 border-b sm:border-b-0 sm:border-r border-gray-100 group transition-all">
+            <div className="w-6 h-6 text-indigo-500 mr-4 group-hover:scale-110 transition-transform flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </div>
+            <div className="flex flex-col text-left w-full">
+              <label htmlFor="category-select" className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-1">ประเภทที่พัก</label>
+              <select
+                id="category-select"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full bg-transparent text-gray-900 font-bold outline-none text-base cursor-pointer appearance-none"
+              >
+                <option value="">ทุกประเภท</option>
+                <option value="hotel">โรงแรม</option>
+                <option value="guesthouse">เกสต์เฮ้าส์</option>
+                <option value="vacation_home">บ้านพักตากอากาศ</option>
+                <option value="apartment">อพาร์ทเมนท์</option>
+              </select>
+            </div>
+          </div>
+
           {/* ช่องช่วงราคา */}
           <div className="flex-1 w-full flex items-center px-6 py-3 group transition-all">
             <span className="w-6 h-6 text-indigo-500 mr-4 font-black flex items-center justify-center text-lg group-hover:scale-110 transition-transform">₭</span>
             <div className="flex flex-col text-left w-full">
-              <label className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-1">งบประมาณ (ต่อเดือน)</label>
+              <label htmlFor="price-select" className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-1">งบประมาณ (ต่อเดือน)</label>
               <select 
+                id="price-select"
                 value={priceRange}
                 onChange={(e) => setPriceRange(e.target.value)}
                 className="w-full bg-transparent text-gray-900 font-bold outline-none text-base cursor-pointer appearance-none"

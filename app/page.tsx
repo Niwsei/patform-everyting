@@ -1,7 +1,7 @@
 import { PropertyCard } from '@/features/properties/components/PropertyCard';
 import { mockProperties } from '@/features/properties/services/mockData';
 import { HeroSearch } from '@/features/search/components/HeroSearch';
-import { Truck, Shield, Zap, TrendingUp } from 'lucide-react';
+import { Truck, Shield, Zap, TrendingUp, Sparkles } from 'lucide-react';
 
 export default function HomePage() {
   return (
@@ -73,6 +73,45 @@ export default function HomePage() {
           {mockProperties.map((property) => (
             <PropertyCard key={property.id} property={property} />
           ))}
+        </div>
+
+        {/* AI Powered Section */}
+        <div className="mt-32 p-12 bg-slate-900 rounded-[3rem] text-white relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/20 rounded-full -mr-48 -mt-48 blur-3xl animate-pulse" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-violet-600/20 rounded-full -ml-32 -mb-32 blur-3xl animate-pulse" />
+
+          <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12">
+            <div className="lg:w-1/2 space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-xs font-black uppercase tracking-[0.2em] text-indigo-300">
+                <Sparkles className="w-4 h-4" />
+                Nest AI Engine
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
+                ให้ AI ช่วยหาบ้าน <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300">ที่ใช่สำหรับคุณที่สุด</span>
+              </h2>
+              <p className="text-lg text-slate-400 font-medium max-w-lg">
+                ระบบอัจฉริยะของเราวิเคราะห์ที่พักกว่าพันแห่งในเวียงจันทน์ เพื่อจับคู่คุณกับทำเลและราคาที่ตอบโจทย์ไลฟ์สไตล์ของคุณที่สุด
+              </p>
+              <button className="bg-white text-slate-900 px-10 py-5 rounded-2xl font-black text-lg hover:shadow-2xl hover:shadow-white/10 transition-all active:scale-95">
+                เริ่มการวิเคราะห์ด้วย AI
+              </button>
+            </div>
+            <div className="lg:w-1/2 grid grid-cols-2 gap-4">
+               {[
+                 { label: 'อัตราการจับคู่', value: '98%', desc: 'ความแม่นยำสูง' },
+                 { label: 'เวลาที่ประหยัด', value: '12ชม.', desc: 'ต่อการค้นหา' },
+                 { label: 'พาร์ทเนอร์ที่แนะนำ', value: '500+', desc: 'ทั่วเวียงจันทน์' },
+                 { label: 'การันตีความพอใจ', value: '100%', desc: 'คืนเงินหากไม่ตรงปก' }
+               ].map((stat, i) => (
+                 <div key={i} className="bg-white/5 backdrop-blur-md p-8 rounded-[2rem] border border-white/10 group hover:bg-white/10 transition-all">
+                    <p className="text-3xl font-black mb-1 group-hover:scale-110 transition-transform origin-left">{stat.value}</p>
+                    <p className="text-xs font-black uppercase tracking-widest text-indigo-400 mb-2">{stat.label}</p>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase">{stat.desc}</p>
+                 </div>
+               ))}
+            </div>
+          </div>
         </div>
         
         {/* ปุ่มดูทั้งหมดสำหรับมือถือ */}

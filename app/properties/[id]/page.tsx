@@ -181,6 +181,17 @@ export default function PropertyPage({ params }: PropertyPageProps) {
               </div>
 
               <div className="mt-12 space-y-6">
+                <div className="flex items-center gap-3 p-6 bg-gradient-to-r from-indigo-600 to-violet-700 rounded-[2rem] text-white shadow-xl shadow-indigo-100 mb-10">
+                  <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md shrink-0">
+                    <Sparkles className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-sm uppercase tracking-widest opacity-80">Nest AI Insight</h4>
+                    <p className="font-bold text-lg leading-tight">ทำไมที่นี่ถึงเหมาะกับคุณ?</p>
+                    <p className="text-xs font-medium opacity-70 mt-1">วิเคราะห์จากความชอบของคุณในย่าน {property.location.split(',')[0]}</p>
+                  </div>
+                </div>
+
                 <h2 className="text-2xl font-black text-slate-900">เกี่ยวกับที่พักนี้</h2>
                 <p className="text-slate-600 leading-relaxed text-lg font-medium">
                   {property.description}

@@ -7,6 +7,7 @@ export const mockProperties: Property[] = [
     description: 'สัมผัสการใช้ชีวิตระดับพรีเมียมใจกลางเมืองจันทะบูลี ห้องสตูดิโอตกแต่งสไตล์นอร์ดิก พร้อมเครื่องครัวครบชุดและอินเทอร์เน็ตความเร็วสูง เหมาะสำหรับคนทำงานและคนรุ่นใหม่ที่ต้องการความสะดวกสบาย ใกล้คาเฟ่และพื้นที่ทำงานที่ดีที่สุดในเวียงจันทน์',
     pricePerMonth: 3500000,
     location: 'เมืองจันทะบูลี, เวียงจันทน์',
+    category: 'apartment',
     images: [
       'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1502672260266-1c1e5250base?q=80&w=1200&auto=format&fit=crop',
@@ -27,6 +28,7 @@ export const mockProperties: Property[] = [
     description: 'คอนโด 1 ห้องนอนสุดหรูพร้อมวิวแม่น้ำโขงแบบพาโนรามา ตั้งอยู่ในโครงการคุณภาพที่มีการรักษาความปลอดภัย 24 ชั่วโมง พร้อมสระว่ายน้ำไร้ขอบและฟิตเนสระดับมืออาชีพ เดินทางสะดวกใกล้แหล่งช้อปปิ้งและร้านอาหารชั้นนำ',
     pricePerMonth: 6000000,
     location: 'เมืองสีโคดตะบอง, เวียงจันทน์',
+    category: 'hotel',
     images: [
       'https://images.unsplash.com/photo-1502672260266-1c1e5250base?q=80&w=1200&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop',
@@ -47,6 +49,7 @@ export const mockProperties: Property[] = [
     description: 'ที่พักกว้างขวางและราคาประหยัด เหมาะสำหรับนักศึกษาและบุคลากรในมหาวิทยาลัย การออกแบบเน้นการระบายอากาศและแสงธรรมชาติเพื่อลดผลกระทบต่อสิ่งแวดล้อม พร้อมพื้นที่อ่านหนังสือและที่จอดจักรยานที่ปลอดภัย',
     pricePerMonth: 1500000,
     location: 'เมืองไซทานี, เวียงจันทน์',
+    category: 'guesthouse',
     images: [
       'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=1200&auto=format&fit=crop',
@@ -67,6 +70,7 @@ export const mockProperties: Property[] = [
     description: 'บ้านพักส่วนตัว 3 ห้องนอน ในโครงการพรีเมียมย่านไซเศรษฐา มาพร้อมสวนพักผ่อนส่วนตัวและระบบรักษาความปลอดภัยอัจฉริยะ เหมาะสำหรับครอบครัวหรือผู้ที่ต้องการความเป็นส่วนตัวสูงสุด พร้อมห้องครัวขนาดใหญ่สไตล์ตะวันตก',
     pricePerMonth: 8500000,
     location: 'เมืองไซเศรษฐา, เวียงจันทน์',
+    category: 'vacation_home',
     images: [
       'https://images.unsplash.com/photo-1600585154340-be6199f7e009?q=80&w=1200&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop',
@@ -87,6 +91,7 @@ export const mockProperties: Property[] = [
     description: 'ห้องพักตกแต่งอย่างมีรสนิยมใจกลางย่านสีสัตตนาค เดินทางไปโฮงหมอเสดถาและสถานทูตต่างๆ ได้สะดวกมาก ห้องโปร่งโล่งด้วยเพดานสูงและหน้าต่างบานใหญ่ พร้อมเฟอร์นิเจอร์นำเข้าคุณภาพเยี่ยม',
     pricePerMonth: 4200000,
     location: 'เมืองสีสัตตนาค, เวียงจันทน์',
+    category: 'apartment',
     images: [
       'https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=1200&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=1200&auto=format&fit=crop',

@@ -66,8 +66,16 @@ export function PropertyCard({ property }: PropertyCardProps) {
           {property.location}
         </p>
 
+        <div className="flex flex-wrap gap-2 mb-3">
+          <span className="text-[10px] font-black uppercase tracking-widest bg-indigo-600 text-white px-3 py-1.5 rounded-xl border border-indigo-700">
+            {property.category === 'hotel' ? 'โรงแรม' :
+             property.category === 'guesthouse' ? 'เกสต์เฮ้าส์' :
+             property.category === 'vacation_home' ? 'บ้านพักตากอากาศ' : 'อพาร์ทเมนท์'}
+          </span>
+        </div>
+
         <div className="flex flex-wrap gap-2 mb-8">
-          {property.amenities?.slice(0, 3).map((amenity) => (
+          {property.amenities?.slice(0, 2).map((amenity) => (
             <span key={amenity} className="text-[10px] font-black uppercase tracking-widest bg-slate-50 text-slate-500 px-4 py-2 rounded-xl border border-slate-100">
               {amenity}
             </span>
