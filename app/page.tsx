@@ -1,11 +1,13 @@
 import { PropertyCard } from '@/features/properties/components/PropertyCard';
 import { mockProperties } from '@/features/properties/services/mockData';
 import { HeroSearch } from '@/features/search/components/HeroSearch';
+import { NestAIEngine } from '@/features/search/components/NestAIEngine';
+import { PageTransition } from '@/components/PageTransition';
 import { Truck, Shield, Zap, TrendingUp, Sparkles } from 'lucide-react';
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-white">
+    <PageTransition>
       {/* 1. Hero Search */}
       <HeroSearch />
       
@@ -93,9 +95,7 @@ export default function HomePage() {
               <p className="text-lg text-slate-400 font-medium max-w-lg">
                 ระบบอัจฉริยะของเราวิเคราะห์ที่พักกว่าพันแห่งในเวียงจันทน์ เพื่อจับคู่คุณกับทำเลและราคาที่ตอบโจทย์ไลฟ์สไตล์ของคุณที่สุด
               </p>
-              <button className="bg-white text-slate-900 px-10 py-5 rounded-2xl font-black text-lg hover:shadow-2xl hover:shadow-white/10 transition-all active:scale-95">
-                เริ่มการวิเคราะห์ด้วย AI
-              </button>
+              <NestAIEngine />
             </div>
             <div className="lg:w-1/2 grid grid-cols-2 gap-4">
                {[
@@ -142,6 +142,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-    </main>
+    </PageTransition>
   );
 }

@@ -17,7 +17,9 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
       }
     ]
-  }
-};
+  },
+  // Setting empty turbopack key to silence Next.js 16 build error with PWA plugin
+  turbopack: {}
+} as any;
 
 export default withPWA(nextConfig)

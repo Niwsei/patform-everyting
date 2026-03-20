@@ -24,6 +24,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
 import { useNotificationStore } from "@/stores/useNotificationStore";
 import { cn } from "@/lib/utils";
+import { BcelOnePayModal } from "@/components/payment/BcelOnePayModal";
 
 interface BookPageProps {
   params: Promise<{ id: string }>;
@@ -40,6 +41,7 @@ export default function BookPage({ params }: BookPageProps) {
   const [selectedDate, setSelectedDate] = useState<string>('2023-10-01');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showBcelModal, setShowBcelModal] = useState(false);
 
   if (!property) {
     notFound();
@@ -48,14 +50,19 @@ export default function BookPage({ params }: BookPageProps) {
   const handleNext = () => setStep(prev => prev + 1);
   const handleBack = () => setStep(prev => prev - 1);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setShowBcelModal(true);
+  };
+
+  const handlePaymentSuccess = async () => {
+    setShowBcelModal(false);
     setIsSubmitting(true);
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     addNotification({
-      title: 'ส่งคำขอจองแล้ว!',
+      title: 'ชำระเงินและส่งคำขอจองแล้ว!',
       message: `คำขอจอง ${property?.title} ของคุณส่งไปหาเจ้าของที่พักแล้วค่ะ`,
       time: 'เมื่อสักครู่',
       type: 'booking'
@@ -434,6 +441,13 @@ export default function BookPage({ params }: BookPageProps) {
           </div>
         </div>
       </div>
+
+      <BcelOnePayModal
+        isOpen={showBcelModal}
+        onClose={() => setShowBcelModal(false)}
+        amount={formatPrice(property.pricePerMonth + 150000)}
+        onSuccess={handlePaymentSuccess}
+      />
     </div>
   );
 }

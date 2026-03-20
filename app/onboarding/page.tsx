@@ -151,6 +151,23 @@ export default function OnboardingPage() {
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">อัปโหลดรูปภาพสูงสุด 10 รูป</p>
                       </div>
                     </div>
+
+                    <div className="space-y-4 pt-4">
+                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">เลือกแพ็คเกจ</label>
+                       <div className="grid grid-cols-2 gap-4">
+                          <div className="p-4 border-2 border-indigo-600 bg-indigo-50/30 rounded-2xl relative">
+                             <div className="absolute top-2 right-2 w-4 h-4 bg-indigo-600 rounded-full flex items-center justify-center">
+                                <CheckCircle2 className="w-2.5 h-2.5 text-white" />
+                             </div>
+                             <p className="font-black text-slate-900 text-sm">Standard</p>
+                             <p className="text-[10px] font-bold text-slate-500 uppercase">ค่าธรรมเนียม 5%</p>
+                          </div>
+                          <div className="p-4 border-2 border-slate-100 rounded-2xl opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+                             <p className="font-black text-slate-900 text-sm">Premium</p>
+                             <p className="text-[10px] font-bold text-slate-500 uppercase">ค่าธรรมเนียม 3% + แนะนำพิเศษ</p>
+                          </div>
+                       </div>
+                    </div>
                   </div>
                 </div>
 
