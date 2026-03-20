@@ -242,7 +242,7 @@ export default function PropertyClient({ property }: PropertyClientProps) {
           <div className="lg:col-span-4 relative">
             <div className="sticky top-28 bg-white rounded-2xl p-6 shadow-xl border border-slate-200">
               <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-2xl font-bold text-slate-900">₭{property.pricePerMonth.toLocaleString()}</span>
+                <span className="text-2xl font-bold text-slate-900">{formatPrice(property.pricePerMonth)}</span>
                 <span className="text-slate-500 text-sm">/ เดือน</span>
               </div>
 
@@ -276,17 +276,17 @@ export default function PropertyClient({ property }: PropertyClientProps) {
               <div className="space-y-3 pb-4 border-b border-slate-200">
                 <div className="flex justify-between text-slate-600 text-base">
                   <span className="underline">ค่าเช่าเดือนแรก</span>
-                  <span>₭{property.pricePerMonth.toLocaleString()}</span>
+                  <span>{formatPrice(property.pricePerMonth)}</span>
                 </div>
                 <div className="flex justify-between text-slate-600 text-base">
                   <span className="underline">ค่าธรรมเนียมเข้าพัก (ครั้งเดียว)</span>
-                  <span>₭150,000</span>
+                  <span>{formatPrice(150000)}</span>
                 </div>
               </div>
 
               <div className="flex justify-between font-bold text-slate-900 text-base pt-4">
                 <span>ยอดรวมมัดจำแรกเข้า</span>
-                <span>₭{(property.pricePerMonth + 150000).toLocaleString()}</span>
+                <span>{formatPrice(property.pricePerMonth + 150000)}</span>
               </div>
             </div>
 
