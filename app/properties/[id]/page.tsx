@@ -15,11 +15,15 @@ import {
   Share2,
   ChevronLeft,
   ChevronRight,
-  Info
+  Info,
+  Clock,
+  Sparkles,
+  Award
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { use } from "react";
+import { cn } from "@/lib/utils";
 
 interface PropertyPageProps {
   params: Promise<{ id: string }>;
@@ -46,7 +50,7 @@ export default function PropertyPage({ params }: PropertyPageProps) {
             <div className="p-2 bg-white rounded-xl shadow-sm border border-slate-100 group-hover:bg-indigo-50 transition-colors">
               <ChevronLeft className="w-5 h-5" />
             </div>
-            Back to Explore
+            กลับไปหน้าค้นหา
           </Link>
           <div className="flex items-center gap-3">
             <button className="p-3 bg-white rounded-2xl shadow-sm border border-slate-100 hover:bg-slate-50 transition-colors">
@@ -60,55 +64,66 @@ export default function PropertyPage({ params }: PropertyPageProps) {
           {/* Main Content (Images + Details) */}
           <div className="lg:col-span-8 space-y-8">
             {/* Gallery Section */}
-            <div className="relative h-[400px] md:h-[550px] w-full rounded-[2.5rem] overflow-hidden shadow-premium group">
-              <motion.div
-                key={activeImage}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="relative w-full h-full"
-              >
-                <Image
-                  src={property.images[activeImage] || '/placeholder-home.jpg'}
-                  alt={property.title}
-                  fill
-                  priority
-                  className="object-cover"
-                />
-              </motion.div>
+            <div className="relative h-[450px] md:h-[600px] w-full rounded-[3rem] overflow-hidden shadow-2xl group border-4 border-white">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeImage}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative w-full h-full"
+                >
+                  <Image
+                    src={property.images[activeImage] || '/placeholder-home.jpg'}
+                    alt={property.title}
+                    fill
+                    priority
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
+                </motion.div>
+              </AnimatePresence>
 
               {/* Overlay Badges */}
-              <div className="absolute top-6 left-6 flex flex-wrap gap-2">
-                <span className="px-4 py-2 bg-indigo-600 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-lg">
-                  Top Rated
-                </span>
-                <span className="px-4 py-2 bg-white/90 backdrop-blur-md text-slate-900 rounded-full text-xs font-black uppercase tracking-widest shadow-lg border border-white/20">
-                  Verified
-                </span>
+              <div className="absolute top-8 left-8 flex flex-wrap gap-3">
+                <div className="px-5 py-2.5 bg-indigo-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl flex items-center gap-2 border border-indigo-400/30 backdrop-blur-md">
+                  <Award className="w-4 h-4" />
+                  Premium Nest
+                </div>
+                <div className="px-5 py-2.5 bg-white/10 backdrop-blur-xl text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl flex items-center gap-2 border border-white/20">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  Verified Host
+                </div>
               </div>
 
               {/* Navigation Arrows */}
-              <div className="absolute inset-0 flex items-center justify-between px-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button onClick={prevImage} className="p-3 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl hover:bg-white transition-all active:scale-90">
-                  <ChevronLeft className="w-6 h-6 text-slate-900" />
+              <div className="absolute inset-0 flex items-center justify-between px-8 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                <button onClick={prevImage} className="p-4 bg-white/10 backdrop-blur-2xl text-white rounded-[1.5rem] shadow-2xl border border-white/20 hover:bg-white hover:text-slate-900 transition-all active:scale-90">
+                  <ChevronLeft className="w-7 h-7" />
                 </button>
-                <button onClick={nextImage} className="p-3 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl hover:bg-white transition-all active:scale-90">
-                  <ChevronRight className="w-6 h-6 text-slate-900" />
+                <button onClick={nextImage} className="p-4 bg-white/10 backdrop-blur-2xl text-white rounded-[1.5rem] shadow-2xl border border-white/20 hover:bg-white hover:text-slate-900 transition-all active:scale-90">
+                  <ChevronRight className="w-7 h-7" />
                 </button>
               </div>
 
-              {/* Indicator Pips */}
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
-                {property.images.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveImage(idx)}
-                    className={cn(
-                      "h-1.5 transition-all duration-300 rounded-full",
-                      idx === activeImage ? "w-8 bg-white" : "w-2 bg-white/40 hover:bg-white/60"
-                    )}
-                  />
-                ))}
+              {/* Image Info & Counter */}
+              <div className="absolute bottom-8 left-8 right-8 flex items-end justify-between">
+                <div className="flex gap-2 p-2 bg-black/20 backdrop-blur-xl rounded-2xl border border-white/10">
+                  {property.images.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImage(idx)}
+                      className={cn(
+                        "h-1.5 transition-all duration-500 rounded-full",
+                        idx === activeImage ? "w-10 bg-white" : "w-3 bg-white/30 hover:bg-white/60"
+                      )}
+                    />
+                  ))}
+                </div>
+                <div className="bg-black/20 backdrop-blur-xl px-4 py-2 rounded-xl border border-white/10 text-white text-xs font-black tracking-widest uppercase">
+                  {activeImage + 1} / {property.images.length} Photos
+                </div>
               </div>
             </div>
 
@@ -122,7 +137,7 @@ export default function PropertyPage({ params }: PropertyPageProps) {
                       {property.rating}
                     </div>
                     <span className="text-slate-400 font-bold">•</span>
-                    <span className="text-slate-500 font-bold underline cursor-pointer">{property.reviewCount} reviews</span>
+                    <span className="text-slate-500 font-bold underline cursor-pointer">{property.reviewCount} รีวิว</span>
                   </div>
                   <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
                     {property.title}
@@ -135,29 +150,38 @@ export default function PropertyPage({ params }: PropertyPageProps) {
               </div>
 
               <div className="mt-12 pt-10 border-t border-slate-100 grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="p-5 bg-slate-50 rounded-3xl border border-slate-100">
-                  <span className="block text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Status</span>
-                  <span className="text-emerald-600 font-black flex items-center gap-1">
-                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                    Available Now
-                  </span>
+                <div className="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 flex flex-col items-center text-center group/card transition-all hover:bg-white hover:shadow-premium hover:border-indigo-100">
+                  <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-3 group-hover/card:scale-110 transition-transform">
+                    <Clock className="w-5 h-5" />
+                  </div>
+                  <span className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">สถานะ</span>
+                  <span className="text-emerald-600 font-black text-xs uppercase tracking-wider">ว่างพร้อมเข้าอยู่</span>
                 </div>
-                <div className="p-5 bg-slate-50 rounded-3xl border border-slate-100">
-                  <span className="block text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Contract</span>
-                  <span className="text-slate-900 font-black">Flexible</span>
+                <div className="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 flex flex-col items-center text-center group/card transition-all hover:bg-white hover:shadow-premium hover:border-indigo-100">
+                  <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-3 group-hover/card:scale-110 transition-transform">
+                    <Calendar className="w-5 h-5" />
+                  </div>
+                  <span className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">ระยะสัญญา</span>
+                  <span className="text-slate-900 font-black text-xs uppercase tracking-wider">ขั้นต่ำ 6 เดือน</span>
                 </div>
-                <div className="p-5 bg-slate-50 rounded-3xl border border-slate-100">
-                  <span className="block text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Type</span>
-                  <span className="text-slate-900 font-black">Apartment</span>
+                <div className="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 flex flex-col items-center text-center group/card transition-all hover:bg-white hover:shadow-premium hover:border-indigo-100">
+                  <div className="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-3 group-hover/card:scale-110 transition-transform">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <span className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">เฟอร์นิเจอร์</span>
+                  <span className="text-slate-900 font-black text-xs uppercase tracking-wider">Luxury Set</span>
                 </div>
-                <div className="p-5 bg-slate-50 rounded-3xl border border-slate-100">
-                  <span className="block text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Furnished</span>
-                  <span className="text-slate-900 font-black">Fully</span>
+                <div className="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 flex flex-col items-center text-center group/card transition-all hover:bg-white hover:shadow-premium hover:border-indigo-100">
+                  <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-3 group-hover/card:scale-110 transition-transform">
+                    <Info className="w-5 h-5" />
+                  </div>
+                  <span className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">ค่าน้ำ/ไฟ</span>
+                  <span className="text-slate-900 font-black text-xs uppercase tracking-wider">ตามมิเตอร์</span>
                 </div>
               </div>
 
               <div className="mt-12 space-y-6">
-                <h2 className="text-2xl font-black text-slate-900">About this property</h2>
+                <h2 className="text-2xl font-black text-slate-900">เกี่ยวกับที่พักนี้</h2>
                 <p className="text-slate-600 leading-relaxed text-lg font-medium">
                   {property.description}
                 </p>
@@ -172,21 +196,28 @@ export default function PropertyPage({ params }: PropertyPageProps) {
               </div>
 
               {/* Host Section */}
-              <div className="mt-12 pt-10 border-t border-slate-100 flex items-center justify-between">
+              <div className="mt-12 pt-10 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div className="flex items-center gap-5">
-                  <div className="relative w-16 h-16 rounded-3xl overflow-hidden shadow-lg">
-                    <Image src={property.hostImage || ''} alt="Host" fill className="object-cover" />
+                  <div className="relative w-20 h-20">
+                    <div className="w-full h-full rounded-[2rem] overflow-hidden shadow-xl border-4 border-white">
+                      <Image src={property.hostImage || ''} alt="Host" fill className="object-cover" />
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1.5 rounded-2xl border-4 border-white shadow-lg">
+                      <ShieldCheck className="w-4 h-4" />
+                    </div>
                   </div>
                   <div>
-                    <h4 className="text-xl font-black text-slate-900">Hosted by {property.hostName}</h4>
-                    <p className="text-slate-500 font-bold flex items-center gap-1.5">
-                      <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                      Verified Nest Host
+                    <div className="flex items-center gap-2 mb-1">
+                       <h4 className="text-xl font-black text-slate-900">ดูแลโดย {property.hostName}</h4>
+                       <span className="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-emerald-100">Superhost</span>
+                    </div>
+                    <p className="text-slate-500 font-bold text-sm">
+                      สถิติตอบกลับเร็วภายใน 15 นาที • พาร์ทเนอร์ 2 ปี
                     </p>
                   </div>
                 </div>
-                <button className="px-6 py-3 bg-white border-2 border-slate-200 text-slate-900 rounded-2xl font-bold hover:bg-slate-50 transition-all">
-                  Contact Host
+                <button className="w-full sm:w-auto px-10 py-5 bg-white border-2 border-slate-100 text-slate-900 rounded-2xl font-black text-sm hover:bg-slate-50 hover:border-slate-200 transition-all shadow-premium">
+                  ส่งข้อความถึง {property.hostName}
                 </button>
               </div>
             </div>
@@ -198,10 +229,10 @@ export default function PropertyPage({ params }: PropertyPageProps) {
               <div className="flex justify-between items-end mb-4">
                 <div>
                   <span className="text-3xl font-black text-slate-900">₭{property.pricePerMonth.toLocaleString()}</span>
-                  <span className="text-slate-500 font-bold ml-2">/ month</span>
+                  <span className="text-slate-500 font-bold ml-2">/ เดือน</span>
                 </div>
                 <div className="bg-indigo-50 px-3 py-1 rounded-full text-xs font-bold text-indigo-600 border border-indigo-100">
-                  Best Value
+                  คุ้มค่าที่สุด
                 </div>
               </div>
 
@@ -210,8 +241,8 @@ export default function PropertyPage({ params }: PropertyPageProps) {
                   <div className="flex items-center gap-3">
                     <Calendar className="w-5 h-5 text-indigo-500" />
                     <div>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Move-in Date</p>
-                      <p className="text-sm font-bold text-slate-900">Oct 1, 2023</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">วันที่เข้าอยู่</p>
+                      <p className="text-sm font-bold text-slate-900">1 ต.ค. 2023</p>
                     </div>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-300" />
@@ -220,8 +251,8 @@ export default function PropertyPage({ params }: PropertyPageProps) {
                   <div className="flex items-center gap-3">
                     <Users className="w-5 h-5 text-indigo-500" />
                     <div>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Residents</p>
-                      <p className="text-sm font-bold text-slate-900">1 Person</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">ผู้เข้าพัก</p>
+                      <p className="text-sm font-bold text-slate-900">1 ท่าน</p>
                     </div>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-300" />
@@ -230,15 +261,15 @@ export default function PropertyPage({ params }: PropertyPageProps) {
 
               <div className="space-y-4 pt-4 border-t border-slate-100">
                 <div className="flex justify-between font-bold text-slate-600">
-                  <span>First Month Rent</span>
+                  <span>ค่าเช่าเดือนแรก</span>
                   <span>₭{property.pricePerMonth.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between font-bold text-slate-600">
-                  <span>Service Fee (One-time)</span>
+                  <span>ค่าธรรมเนียมบริการ (ครั้งเดียว)</span>
                   <span>₭150,000</span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-slate-100">
-                  <span className="text-lg font-black text-slate-900">Total Deposit</span>
+                  <span className="text-lg font-black text-slate-900">ยอดรวมมัดจำ</span>
                   <span className="text-lg font-black text-indigo-600">₭{(property.pricePerMonth + 150000).toLocaleString()}</span>
                 </div>
               </div>
@@ -247,13 +278,13 @@ export default function PropertyPage({ params }: PropertyPageProps) {
                 href={`/properties/${property.id}/book`}
                 className="block w-full text-center bg-indigo-600 text-white py-5 rounded-[1.5rem] font-black text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 active:scale-[0.98]"
               >
-                Reserve This Nest
+                จองที่พักนี้
               </Link>
 
               <div className="flex items-center gap-3 p-4 bg-amber-50 rounded-2xl border border-amber-100/50">
                 <Info className="w-5 h-5 text-amber-600 shrink-0" />
                 <p className="text-xs font-bold text-amber-800 leading-tight">
-                  No credit card required until the landlord approves your application.
+                  ยังไม่ต้องใช้บัตรเครดิต จนกว่าเจ้าของที่พักจะอนุมัติใบสมัครของคุณ
                 </p>
               </div>
             </div>
@@ -262,9 +293,4 @@ export default function PropertyPage({ params }: PropertyPageProps) {
       </div>
     </div>
   );
-}
-
-// Helper for class names
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
 }

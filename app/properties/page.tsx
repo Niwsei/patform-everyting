@@ -40,30 +40,30 @@ export default function PropertiesPage({ searchParams }: PropertiesPageProps) {
           <div className="flex items-center gap-6">
             <div>
               <h1 className="text-xl font-black text-gray-900 flex items-center gap-2">
-                Properties in Vientiane
+                อสังหาริมทรัพย์ในเวียงจันทน์
                 <span className="text-sm font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">
                   {filteredProperties.length}
                 </span>
               </h1>
               <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-0.5">
-                {locationFilter || 'All over Vientiane'} • {priceFilter || 'Any price'}
+                {locationFilter || 'ทั่วเวียงจันทน์'} • {priceFilter || 'ทุกช่วงราคา'}
               </p>
             </div>
 
             <button className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors shadow-sm">
               <SlidersHorizontal className="w-4 h-4" />
-              Advanced Filters
+              ตัวกรองขั้นสูง
             </button>
           </div>
 
           <div className="hidden sm:flex items-center bg-gray-100 p-1 rounded-xl">
             <button className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-white text-indigo-600 shadow-sm text-sm font-bold">
               <LayoutGrid className="w-4 h-4" />
-              Grid View
+              ตาราง
             </button>
             <button className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-gray-500 text-sm font-bold hover:bg-gray-200 transition-colors">
               <MapIcon className="w-4 h-4" />
-              Map View
+              แผนที่
             </button>
           </div>
         </div>
@@ -81,15 +81,15 @@ export default function PropertiesPage({ searchParams }: PropertiesPageProps) {
                 <div className="bg-white p-6 rounded-full shadow-sm mb-6">
                   <SearchX className="w-12 h-12 text-indigo-400" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">No properties found</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">ไม่พบอสังหาริมทรัพย์ที่ค้นหา</h2>
                 <p className="text-gray-500 max-w-sm mb-8">
-                  Try adjusting your search filters or explore other vibrant neighborhoods in Vientiane.
+                  ลองปรับตัวกรองการค้นหาของคุณ หรือสำรวจย่านที่น่าสนใจอื่นๆ ในเวียงจันทน์
                 </p>
                 <Link
                   href="/properties"
                   className="bg-indigo-600 text-white px-8 py-3 rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100"
                 >
-                  Reset All Filters
+                  รีเซ็ตตัวกรองทั้งหมด
                 </Link>
               </div>
             )}

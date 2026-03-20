@@ -20,7 +20,7 @@ export function ServiceCard({ provider }: ServiceCardProps) {
           {provider.isVerified && (
             <div className="bg-emerald-50 text-emerald-600 text-[10px] font-black px-3 py-1.5 rounded-full flex items-center gap-1 mb-2 uppercase tracking-widest">
               <ShieldCheck className="w-3 h-3" />
-              Verified Partner
+              พาร์ทเนอร์ที่ผ่านการรับรอง
             </div>
           )}
           <div className="flex items-center gap-1 text-amber-500 font-black">
@@ -34,7 +34,7 @@ export function ServiceCard({ provider }: ServiceCardProps) {
       <div className="mb-8">
         <div className="inline-flex items-center gap-2 text-indigo-600 text-[10px] font-black uppercase tracking-[0.2em] mb-3">
           <Icon className="w-3 h-3" />
-          {provider.category} Service
+          บริการ {provider.category === 'moving' ? 'ขนย้าย' : provider.category === 'delivery' ? 'จัดส่ง' : 'คลังสินค้า'}
         </div>
         <h3 className="text-2xl font-black text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors">
           {provider.name}
@@ -54,9 +54,9 @@ export function ServiceCard({ provider }: ServiceCardProps) {
 
       <div className="flex items-center justify-between pt-8 border-t border-gray-50">
         <div>
-          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1">Starting from</span>
+          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1">เริ่มต้นที่</span>
           <span className="text-xl font-black text-indigo-600">
-            {provider.basePrice.toLocaleString()} <span className="text-xs font-normal">₭</span>
+            {provider.basePrice.toLocaleString()} <span className="text-xs font-normal">กีบ</span>
           </span>
         </div>
         <button className="bg-gray-900 text-white p-4 rounded-2xl font-bold hover:bg-indigo-600 transition-all hover:translate-x-1 shadow-lg shadow-gray-100">
