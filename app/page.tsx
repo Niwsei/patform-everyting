@@ -13,9 +13,9 @@ export default function HomePage() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-sm font-bold text-indigo-600 tracking-widest uppercase mb-3">Why Vientiane Nest?</h2>
+            <h2 className="text-sm font-bold text-indigo-600 tracking-widest uppercase mb-3">ทำไมต้อง Vientiane Nest?</h2>
             <p className="text-4xl font-extrabold text-gray-900 sm:text-5xl">
-              The ecosystem for modern living.
+              ระบบนิเวศเพื่อการอยู่อาศัยที่ทันสมัย
             </p>
           </div>
 
@@ -24,9 +24,9 @@ export default function HomePage() {
               <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6">
                 <Zap className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Instant Matching</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">ค้นหาที่พักรวดเร็ว</h3>
               <p className="text-gray-600 leading-relaxed">
-                Find the perfect stay or service in minutes. Our spatial search algorithms do the heavy lifting for you.
+                ค้นหาที่พักหรือบริการที่เหมาะสมที่สุดในเวลาเพียงไม่กี่นาที ด้วยระบบการค้นหาพื้นที่ที่ชาญฉลาด
               </p>
             </div>
 
@@ -34,9 +34,9 @@ export default function HomePage() {
               <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
                 <Truck className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Moving & Logistics</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">บริการขนย้ายและโลจิสติกส์</h3>
               <p className="text-gray-600 leading-relaxed">
-                More than just a room. We connect you with verified transportation and delivery services across Vientiane.
+                เรามีมากกว่าแค่ห้องพัก เราเชื่อมต่อคุณกับบริการขนย้ายและจัดส่งที่ผ่านการตรวจสอบทั่วเวียงจันทน์
               </p>
             </div>
 
@@ -44,9 +44,9 @@ export default function HomePage() {
               <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
                 <Shield className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Verified Listings</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">รายการที่ผ่านการตรวจสอบ</h3>
               <p className="text-gray-600 leading-relaxed">
-                Every landlord and service provider on our platform goes through a strict verification process.
+                ผู้ให้เช่าและผู้ให้บริการทุกรายบนแพลตฟอร์มของเราต้องผ่านกระบวนการตรวจสอบที่เข้มงวด
               </p>
             </div>
           </div>
@@ -59,13 +59,13 @@ export default function HomePage() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp className="w-5 h-5 text-indigo-600" />
-              <span className="text-sm font-bold text-indigo-600 uppercase tracking-wider">Trending Now</span>
+              <span className="text-sm font-bold text-indigo-600 uppercase tracking-wider">กำลังเป็นที่นิยม</span>
             </div>
-            <h2 className="text-4xl font-extrabold text-gray-900">Featured Properties</h2>
-            <p className="mt-4 text-lg text-gray-600">Handpicked stays across the most vibrant zones of Vientiane.</p>
+            <h2 className="text-4xl font-extrabold text-gray-900">อสังหาริมทรัพย์แนะนำ</h2>
+            <p className="mt-4 text-lg text-gray-600">ที่พักที่คัดสรรมาเพื่อคุณในโซนที่น่าสนใจที่สุดของเวียงจันทน์</p>
           </div>
           <a href="/properties" className="hidden sm:flex items-center gap-2 text-indigo-600 font-bold hover:gap-3 transition-all">
-            Explore All <span className="text-2xl leading-none">&rarr;</span>
+            ดูทั้งหมด <span className="text-2xl leading-none">&rarr;</span>
           </a>
         </div>
 
@@ -78,27 +78,27 @@ export default function HomePage() {
         {/* ปุ่มดูทั้งหมดสำหรับมือถือ */}
         <div className="mt-12 sm:hidden text-center">
           <a href="/properties" className="inline-block px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold w-full shadow-lg shadow-indigo-200">
-            View All Properties
+            ดูอสังหาริมทรัพย์ทั้งหมด
           </a>
         </div>
       </div>
 
       {/* 4. CTA for Landlords/Services */}
       <section className="bg-indigo-900 py-24">
-        <div className="max-w-5xl mx-auto px-4 text-center">
+        <div className="max-w-5_l mx-auto px-4 text-center">
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white mb-8">
-            Own a property or delivery service?
+            คุณมีห้องว่างหรือบริการขนส่งหรือไม่?
           </h2>
           <p className="text-xl text-indigo-100 mb-12 opacity-80">
-            Join Vientiane's fastest growing rental and logistics network.
-            Get seen by thousands of potential customers daily.
+            เข้าร่วมเครือข่ายการเช่าและโลจิสติกส์ที่เติบโตเร็วที่สุดในเวียงจันทน์
+            ให้ลูกค้าหลายพันคนเห็นบริการของคุณทุกวัน
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="bg-white text-indigo-900 px-10 py-4 rounded-2xl font-bold text-lg hover:bg-indigo-50 transition-colors">
-              List Your Property
+              ลงประกาศที่พักของคุณ
             </button>
             <button className="bg-indigo-700 text-white px-10 py-4 rounded-2xl font-bold text-lg hover:bg-indigo-600 transition-colors border border-indigo-500/30">
-              Become a Partner
+              เข้าร่วมเป็นพาร์ทเนอร์
             </button>
           </div>
         </div>

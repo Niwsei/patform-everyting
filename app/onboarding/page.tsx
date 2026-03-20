@@ -19,8 +19,8 @@ export default function OnboardingPage() {
         <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-premium border border-slate-100">
 
           <div className="mb-12 text-center">
-            <h1 className="text-4xl font-black text-slate-900 tracking-tight">Become a Partner</h1>
-            <p className="text-slate-500 font-bold mt-2">Start earning with Vientiane Nest today.</p>
+            <h1 className="text-4xl font-black text-slate-900 tracking-tight">เข้าร่วมเป็นพาร์ทเนอร์</h1>
+            <p className="text-slate-500 font-bold mt-2">เริ่มสร้างรายได้กับ Vientiane Nest วันนี้</p>
 
             <div className="flex justify-center gap-2 mt-8">
               {[1, 2, 3].map((s) => (
@@ -44,7 +44,7 @@ export default function OnboardingPage() {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h2 className="text-xl font-black text-slate-900 text-center">What would you like to list?</h2>
+                <h2 className="text-xl font-black text-slate-900 text-center">คุณต้องการลงประกาศอะไร?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <button
                     onClick={() => setPartnerType('property')}
@@ -62,8 +62,8 @@ export default function OnboardingPage() {
                       <Building2 className="w-8 h-8" />
                     </div>
                     <div>
-                      <h3 className="font-black text-slate-900">Property</h3>
-                      <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Apartments, Houses, Rooms</p>
+                      <h3 className="font-black text-slate-900">อสังหาริมทรัพย์</h3>
+                      <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">อพาร์ทเมนท์, บ้าน, ห้องเช่า</p>
                     </div>
                   </button>
 
@@ -83,8 +83,8 @@ export default function OnboardingPage() {
                       <Truck className="w-8 h-8" />
                     </div>
                     <div>
-                      <h3 className="font-black text-slate-900">Service</h3>
-                      <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Moving, Cleaning, Maintenance</p>
+                      <h3 className="font-black text-slate-900">บริการ</h3>
+                      <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">บริการขนย้าย, ทำความสะอาด, ซ่อมบำรุง</p>
                     </div>
                   </button>
                 </div>
@@ -94,7 +94,7 @@ export default function OnboardingPage() {
                   onClick={handleNext}
                   className="w-full mt-8 py-5 bg-slate-900 text-white rounded-2xl font-black text-lg hover:bg-black transition-all shadow-xl shadow-slate-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Continue
+                  ดำเนินการต่อ
                 </button>
               </motion.div>
             )}
@@ -108,47 +108,47 @@ export default function OnboardingPage() {
                 className="space-y-6"
               >
                 <div className="space-y-4">
-                  <h2 className="text-xl font-black text-slate-900">Tell us about your {partnerType === 'property' ? 'Property' : 'Service'}</h2>
+                  <h2 className="text-xl font-black text-slate-900">บอกเราเกี่ยวกับ {partnerType === 'property' ? 'อสังหาริมทรัพย์' : 'บริการ'} ของคุณ</h2>
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Title</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">ชื่อรายการ</label>
                       <input
                         type="text"
-                        placeholder={partnerType === 'property' ? "Modern Studio in Xaysetha" : "Professional Home Cleaning"}
+                        placeholder={partnerType === 'property' ? "สตูดิโอทันสมัยในย่านไซเศรษฐา" : "บริการทำความสะอาดบ้านมืออาชีพ"}
                         className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                        <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Price (LAK)</label>
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">ราคา (กีบ)</label>
                         <div className="relative">
                           <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                           <input
                             type="number"
-                            placeholder="Price"
+                            placeholder="ระบุราคา"
                             className="w-full p-4 pl-10 bg-slate-50 border border-slate-100 rounded-2xl font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
                           />
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Location</label>
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">ทำเลที่ตั้ง</label>
                         <div className="relative">
                           <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                           <input
                             type="text"
-                            placeholder="District"
+                            placeholder="ระบุเขตพื้นที่"
                             className="w-full p-4 pl-10 bg-slate-50 border border-slate-100 rounded-2xl font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
                           />
                         </div>
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Photos</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">รูปภาพ</label>
                       <div className="w-full h-40 border-2 border-dashed border-slate-200 rounded-[2rem] flex flex-col items-center justify-center gap-2 hover:bg-slate-50 hover:border-indigo-300 transition-all cursor-pointer group">
                         <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center group-hover:bg-indigo-100 group-hover:text-indigo-600 transition-all">
                           <Camera className="w-5 h-5" />
                         </div>
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Upload up to 10 photos</p>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">อัปโหลดรูปภาพสูงสุด 10 รูป</p>
                       </div>
                     </div>
                   </div>
@@ -159,13 +159,13 @@ export default function OnboardingPage() {
                     onClick={handleBack}
                     className="w-1/3 py-5 border-2 border-slate-100 rounded-2xl font-black text-lg text-slate-400 hover:text-slate-600 hover:border-slate-200 transition-all"
                   >
-                    Back
+                    กลับ
                   </button>
                   <button
                     onClick={handleNext}
                     className="flex-1 py-5 bg-slate-900 text-white rounded-2xl font-black text-lg hover:bg-black transition-all shadow-xl shadow-slate-200"
                   >
-                    Next Step
+                    ขั้นตอนถัดไป
                   </button>
                 </div>
               </motion.div>
@@ -182,14 +182,14 @@ export default function OnboardingPage() {
                   <CheckCircle2 className="w-12 h-12" />
                 </div>
                 <div className="space-y-4">
-                  <h2 className="text-3xl font-black text-slate-900">Application Submitted!</h2>
-                  <p className="text-slate-500 font-medium">Our team will review your {partnerType} listing and get back to you within 24 hours.</p>
+                  <h2 className="text-3xl font-black text-slate-900">ส่งใบสมัครเรียบร้อยแล้ว!</h2>
+                  <p className="text-slate-500 font-medium">ทีมงานของเราจะตรวจสอบข้อมูล {partnerType === 'property' ? 'อสังหาริมทรัพย์' : 'บริการ'} ของคุณและติดต่อกลับภายใน 24 ชั่วโมงค่ะ</p>
                 </div>
 
                 <div className="bg-indigo-50 p-6 rounded-3xl text-left border border-indigo-100">
-                   <h4 className="font-bold text-indigo-900 mb-2">Verified Partner Status</h4>
+                   <h4 className="font-bold text-indigo-900 mb-2">สถานะพาร์ทเนอร์ที่ผ่านการรับรอง</h4>
                    <p className="text-sm font-medium text-indigo-700 opacity-80 leading-relaxed">
-                     Your application includes a request for the "Verified Host" badge. This increases booking chances by up to 80%!
+                     ใบสมัครของคุณรวมถึงการขอตราสัญลักษณ์ "Verified Host" ซึ่งจะช่วยเพิ่มโอกาสในการถูกจองได้สูงสุดถึง 80%!
                    </p>
                 </div>
 
@@ -197,7 +197,7 @@ export default function OnboardingPage() {
                   href="/dashboard"
                   className="block w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-lg hover:bg-black transition-all shadow-xl shadow-slate-200"
                 >
-                  Go to Dashboard
+                  ไปที่แดชบอร์ด
                 </Link>
               </motion.div>
             )}

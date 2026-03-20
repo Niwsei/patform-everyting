@@ -31,43 +31,46 @@ export function MainNavbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <motion.div
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, rotate: -5 }}
             whileTap={{ scale: 0.95 }}
-            className="w-10 h-10 bg-indigo-600 text-white flex items-center justify-center rounded-2xl font-bold text-2xl shadow-xl shadow-indigo-200 group-hover:shadow-indigo-300 transition-all duration-300"
+            className="w-11 h-11 bg-gradient-to-br from-indigo-600 to-violet-700 text-white flex items-center justify-center rounded-2xl font-black text-2xl shadow-xl shadow-indigo-200 group-hover:shadow-indigo-300 transition-all duration-300"
           >
-            V
+            VN
           </motion.div>
           <div className="flex flex-col leading-none">
-            <span className="text-xl font-extrabold text-slate-900 tracking-tight hidden sm:block">
-              Vientiane Nest
+            <span className="text-xl font-black text-slate-900 tracking-tighter hidden sm:block">
+              VIENTIANE NEST
             </span>
-            <span className="text-[10px] font-bold text-indigo-600 tracking-widest hidden sm:block">
-              STARTUP EDITION
-            </span>
+            <div className="flex items-center gap-1.5 hidden sm:flex">
+              <span className="h-1 w-1 bg-indigo-500 rounded-full animate-pulse" />
+              <span className="text-[10px] font-black text-indigo-600 tracking-[0.2em] uppercase">
+                Startup Edition
+              </span>
+            </div>
           </div>
         </Link>
 
         {/* Center Navigation - Pill style */}
-        <nav className="hidden md:flex items-center bg-slate-100/50 p-1 rounded-full border border-slate-200/50 backdrop-blur-sm">
+        <nav className="hidden md:flex items-center bg-slate-100/50 p-1 rounded-3xl border border-slate-200/50 backdrop-blur-md">
           <Link
             href="/properties"
-            className="px-5 py-2 text-sm font-bold text-slate-600 hover:text-indigo-600 transition-all rounded-full hover:bg-white hover:shadow-sm flex items-center gap-2"
+            className="px-6 py-2.5 text-xs font-black uppercase tracking-widest text-slate-600 hover:text-indigo-600 transition-all rounded-2xl hover:bg-white hover:shadow-premium flex items-center gap-2"
           >
-            <Search className="w-4 h-4" />
-            Explore Homes
+            <Search className="w-3.5 h-3.5" />
+            ค้นหาที่พัก
           </Link>
           <Link
             href="/services"
-            className="px-5 py-2 text-sm font-bold text-slate-600 hover:text-indigo-600 transition-all rounded-full hover:bg-white hover:shadow-sm flex items-center gap-2"
+            className="px-6 py-2.5 text-xs font-black uppercase tracking-widest text-slate-600 hover:text-indigo-600 transition-all rounded-2xl hover:bg-white hover:shadow-premium flex items-center gap-2"
           >
-            <Truck className="w-4 h-4" />
-            Moving Services
+            <Truck className="w-3.5 h-3.5" />
+            บริการขนย้าย
           </Link>
           <Link
-            href="/provider-hub"
-            className="px-5 py-2 text-sm font-bold text-slate-600 hover:text-indigo-600 transition-all rounded-full hover:bg-white hover:shadow-sm flex items-center gap-2"
+            href="/onboarding"
+            className="px-6 py-2.5 text-xs font-black uppercase tracking-widest text-slate-600 hover:text-indigo-600 transition-all rounded-2xl hover:bg-white hover:shadow-premium flex items-center gap-2"
           >
-            Provider Hub
+            เป็นพาร์ทเนอร์
           </Link>
         </nav>
 

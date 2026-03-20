@@ -4,14 +4,22 @@ import { useState, useEffect, useRef } from 'react'
 import { MessageSquare, X, Send, User, ShieldCheck } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
+import { cn } from '@/lib/utils'
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
-    { id: 1, text: "Hi there! I'm Sarah from Vientiane Nest. How can I help you find your dream nest today?", sender: 'ai', time: '10:00 AM' }
+    { id: 1, text: "สวัสดีค่ะ! เซร่าจาก Vientiane Nest ยินดีให้บริการค่ะ วันนี้ให้เซร่าช่วยหาที่พักในฝันให้คุณนะคะ?", sender: 'ai', time: '10:00 AM' }
   ])
   const [inputValue, setInputValue] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const [showQuickReplies, setShowQuickReplies] = useState(true)
+
+  const quickReplies = [
+    "ขอดูที่พักแนะนำหน่อยค่ะ",
+    "ช่วยเช็คสถานะว่างของห้องล่าสุด",
+    "สนใจลงประกาศที่พักค่ะ"
+  ]
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -39,10 +47,10 @@ export function ChatWidget() {
     await new Promise(resolve => setTimeout(resolve, 1500))
 
     const responses = [
-      "That's a great choice! Would you like me to schedule a viewing for you?",
-      "I can definitely help with that. Are you looking for a specific neighborhood?",
-      "Our verified hosts usually respond within 2 hours. I can notify them for you!",
-      "I'll check the availability for you right now. One moment please."
+      "เป็นตัวเลือกที่ดีมากเลยค่ะ! สนใจให้เซร่านัดวันเข้าชมที่พักให้ไหมคะ?",
+      "ยินดีช่วยเหลือเรื่องนี้เป็นอย่างยิ่งค่ะ คุณกำลังมองหาย่านไหนเป็นพิเศษไหมคะ?",
+      "ปกติเจ้าของที่พักที่ผ่านการรับรองของเราจะตอบกลับภายใน 2 ชม. ค่ะ เดี๋ยวเซร่าแจ้งพวกเขาให้ทันทีเลยค่ะ!",
+      "เดี๋ยวเซร่าเช็คสถานะว่างให้เดี๋ยวนี้เลยค่ะ รอสักครู่นะคะ"
     ]
 
     const aiMsg = {
@@ -79,7 +87,7 @@ export function ChatWidget() {
                   <h3 className="font-black text-lg leading-none">Sarah</h3>
                   <p className="text-[10px] font-bold text-indigo-200 mt-1 flex items-center gap-1 uppercase tracking-widest">
                     <ShieldCheck className="w-3 h-3" />
-                    Verified Nest Concierge
+                    ผู้ช่วยส่วนตัว (ผ่านการรับรอง)
                   </p>
                 </div>
               </div>
@@ -117,6 +125,26 @@ export function ChatWidget() {
                   </div>
                 </div>
               )}
+
+              {showQuickReplies && !isTyping && (
+                <div className="flex flex-col gap-2 pt-2">
+                  {quickReplies.map((reply, i) => (
+                    <motion.button
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.5 + (i * 0.1) }}
+                      onClick={() => {
+                        setInputValue(reply)
+                        setShowQuickReplies(false)
+                      }}
+                      className="text-left p-3 bg-white border border-indigo-100 text-indigo-600 rounded-2xl text-xs font-bold hover:bg-indigo-50 transition-all shadow-sm"
+                    >
+                      {reply}
+                    </motion.button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Input */}
@@ -125,7 +153,7 @@ export function ChatWidget() {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ask Sarah anything..."
+                placeholder="พิมพ์ข้อความคุยกับเซร่า..."
                 className="flex-1 bg-slate-100 border-none rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
               />
               <button
@@ -155,8 +183,4 @@ export function ChatWidget() {
       </motion.button>
     </div>
   )
-}
-
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
 }

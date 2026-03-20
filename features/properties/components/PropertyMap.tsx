@@ -13,7 +13,7 @@ interface PropertyMapProps {
   properties: Property[]
 }
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoiamFrcmFwaGFuMTIzNCIsImEiOiJjbTdtcjltYTMwYmE2MmtzZDZ1b2V6dmI0In0.XvR-9Q6V3Q-p8v3-Xf-XQ'
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
 
 export function PropertyMap({ properties }: PropertyMapProps) {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)

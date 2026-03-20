@@ -10,14 +10,14 @@ interface PropertyCardProps {
 
 export function PropertyCard({ property }: PropertyCardProps) {
   return (
-    <div className="group bg-white rounded-[2rem] border border-gray-100 overflow-hidden hover:shadow-2xl hover:shadow-indigo-100 transition-all duration-500 hover:-translate-y-1 relative">
-      <div className="absolute top-4 right-4 z-10">
-        <div className="p-1 bg-white/90 backdrop-blur-md rounded-2xl shadow-sm">
+    <div className="group bg-white rounded-[2.5rem] border border-slate-100 overflow-hidden hover:shadow-[0_20px_50px_rgba(79,70,229,0.15)] transition-all duration-700 hover:-translate-y-2 relative">
+      <div className="absolute top-5 right-5 z-20">
+        <div className="p-1 bg-white/80 backdrop-blur-xl rounded-2xl shadow-premium border border-white/20">
            <FavoriteButton propertyId={property.id} />
         </div>
       </div>
 
-      <div className="relative h-64 w-full overflow-hidden bg-gray-100">
+      <div className="relative h-72 w-full overflow-hidden bg-slate-100">
         <Image
           src={property.images[0] || '/placeholder-home.jpg'}
           alt={property.title}
@@ -27,56 +27,61 @@ export function PropertyCard({ property }: PropertyCardProps) {
         />
 
         {/* Floating Badges */}
-        <div className="absolute top-4 left-4 flex flex-col gap-2">
-           <div className="bg-white/90 backdrop-blur-md text-indigo-600 text-[10px] font-black px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm uppercase tracking-wider">
-            <Star className="w-3 h-3 fill-indigo-600" />
-            Top Rated
+        <div className="absolute top-5 left-5 flex flex-col gap-2 z-10">
+           <div className="bg-white/90 backdrop-blur-xl text-indigo-600 text-[10px] font-black px-4 py-2 rounded-full flex items-center gap-1.5 shadow-premium uppercase tracking-[0.1em] border border-white/20">
+            <Star className="w-3.5 h-3.5 fill-indigo-600" />
+            คะแนนสูงสุด
           </div>
-          <div className="bg-emerald-500/90 backdrop-blur-md text-white text-[10px] font-black px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm uppercase tracking-wider">
-            <ShieldCheck className="w-3 h-3" />
-            Verified
-          </div>
+          {property.pricePerMonth < 2000000 && (
+            <div className="bg-amber-400 text-amber-950 text-[10px] font-black px-4 py-2 rounded-full flex items-center gap-1.5 shadow-premium uppercase tracking-[0.1em]">
+              คุ้มค่าที่สุด
+            </div>
+          )}
         </div>
 
-        <div className="absolute bottom-4 left-4 right-4">
-          <div className="bg-gray-900/80 backdrop-blur-md p-3 rounded-2xl border border-white/10">
-            <div className="flex justify-between items-center">
-              <span className="text-white text-lg font-black">
-                {property.pricePerMonth.toLocaleString()} <span className="text-xs font-normal opacity-70">₭/mo</span>
-              </span>
-              <span className="text-white/60 text-[10px] font-bold uppercase tracking-widest">Available Now</span>
+        <div className="absolute bottom-5 left-5 right-5">
+          <div className="bg-slate-900/40 backdrop-blur-xl p-4 rounded-[1.5rem] border border-white/10">
+            <div className="flex justify-between items-end">
+              <div>
+                <p className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">เริ่มต้นที่</p>
+                <span className="text-white text-xl font-black">
+                  ₭{property.pricePerMonth.toLocaleString()} <span className="text-xs font-medium opacity-60">/ เดือน</span>
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-emerald-500/20 px-2.5 py-1 rounded-lg border border-emerald-500/30">
+                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                <span className="text-emerald-400 text-[10px] font-black uppercase tracking-widest">ว่าง</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="p-7">
         <h3 className="text-xl font-bold text-gray-900 line-clamp-1 mb-2 group-hover:text-indigo-600 transition-colors">
           {property.title}
         </h3>
-        <p className="text-gray-500 text-sm font-medium flex items-center gap-2 mb-4">
-          <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center">
-            <MapPin className="w-3 h-3 text-gray-400" />
-          </div>
+        <p className="text-slate-400 text-sm font-bold flex items-center gap-2 mb-5">
+          <MapPin className="w-4 h-4 text-indigo-500" />
           {property.location}
         </p>
 
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-8">
           {property.amenities?.slice(0, 3).map((amenity) => (
-            <span key={amenity} className="text-[10px] font-black uppercase tracking-wider bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-xl">
+            <span key={amenity} className="text-[10px] font-black uppercase tracking-widest bg-slate-50 text-slate-500 px-4 py-2 rounded-xl border border-slate-100">
               {amenity}
             </span>
           ))}
           {(property.amenities?.length ?? 0) > 3 && (
-            <span className="text-[10px] font-bold text-gray-400 py-1.5">+{(property.amenities?.length ?? 0) - 3} More</span>
+            <span className="text-[10px] font-black text-slate-300 py-2 ml-1">+{ (property.amenities?.length ?? 0) - 3}</span>
           )}
         </div>
 
         <Link
           href={`/properties/${property.id}`}
-          className="flex items-center justify-center w-full py-4 bg-gray-900 text-white rounded-2xl font-bold text-sm hover:bg-indigo-600 transition-all group-hover:shadow-lg group-hover:shadow-indigo-100"
+          className="flex items-center justify-center w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-sm hover:bg-indigo-600 transition-all duration-300 shadow-xl shadow-slate-200 group-hover:shadow-indigo-200 active:scale-[0.98]"
         >
-          View Listing
+          สำรวจที่พักนี้
         </Link>
       </div>
     </div>

@@ -33,15 +33,15 @@ export default function MyServicesPage() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tight">My Services</h1>
-            <p className="text-slate-500 font-bold mt-2">Manage your specialized moving and home maintenance offerings.</p>
+            <h1 className="text-4xl font-black text-slate-900 tracking-tight">บริการของฉัน</h1>
+            <p className="text-slate-500 font-bold mt-2">จัดการบริการขนย้ายและดูแลบ้านของคุณ</p>
           </div>
           <Link
             href="/onboarding"
             className="flex items-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-2xl font-black shadow-xl shadow-slate-200 hover:bg-black transition-all"
           >
             <Plus className="w-5 h-5" />
-            Add New Service
+            เพิ่มบริการใหม่
           </Link>
         </div>
 
@@ -62,7 +62,7 @@ export default function MyServicesPage() {
                   "absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl font-black text-[10px] uppercase tracking-widest border border-white/20",
                   service.status === 'active' ? "text-emerald-600" : "text-amber-600"
                 )}>
-                  {service.status === 'active' ? 'Active' : 'Under Review'}
+                  {service.status === 'active' ? 'เปิดใช้งาน' : 'รอดำเนินการ'}
                 </div>
               </div>
 
@@ -77,23 +77,23 @@ export default function MyServicesPage() {
 
                 <div className="flex items-center justify-between pt-4 border-t border-slate-50">
                   <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Starting From</p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">เริ่มต้นที่</p>
                     <p className="font-black text-slate-900">₭{service.price.toLocaleString()}</p>
                   </div>
                   <div className="flex items-center gap-1 bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-100">
                     <CheckCircle2 className="w-3 h-3 text-indigo-600" />
-                    <span className="font-black text-[10px] text-indigo-700 uppercase tracking-widest">Verified</span>
+                    <span className="font-black text-[10px] text-indigo-700 uppercase tracking-widest">ผ่านการตรวจสอบ</span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <button className="flex items-center justify-center gap-2 py-3 bg-slate-50 text-slate-600 rounded-xl font-bold text-xs hover:bg-slate-100 transition-all">
                     <Edit className="w-3.5 h-3.5" />
-                    Edit
+                    แก้ไข
                   </button>
                   <button className="flex items-center justify-center gap-2 py-3 bg-white border border-slate-100 text-slate-400 rounded-xl font-bold text-xs hover:text-red-500 hover:border-red-100 transition-all">
                     <Trash className="w-3.5 h-3.5" />
-                    Archive
+                    เก็บถาวร
                   </button>
                 </div>
               </div>
@@ -108,8 +108,8 @@ export default function MyServicesPage() {
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all">
               <Plus className="w-8 h-8 text-slate-400 group-hover:text-white" />
             </div>
-            <h3 className="font-black text-slate-900">Add a new service</h3>
-            <p className="text-slate-500 text-xs font-bold mt-2 uppercase tracking-widest">Reach more customers</p>
+            <h3 className="font-black text-slate-900">เพิ่มบริการใหม่</h3>
+            <p className="text-slate-500 text-xs font-bold mt-2 uppercase tracking-widest">เข้าถึงกลุ่มลูกค้าใหม่ๆ</p>
           </Link>
         </div>
       </div>
