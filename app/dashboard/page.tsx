@@ -29,6 +29,7 @@ import { useCurrencyStore } from "@/stores/useCurrencyStore";
 import { PartnerAnalytics } from "@/features/dashboard/components/PartnerAnalytics";
 import { TenantKYC } from "@/components/kyc/TenantKYC";
 import { DigitalLease } from "@/components/kyc/DigitalLease";
+import { HostBookingManager } from "@/components/booking/HostBookingManager";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('bookings');
@@ -93,6 +94,13 @@ export default function DashboardPage() {
                   <BarChart2 className="w-5 h-5" />
                   สถิติพาร์ทเนอร์
                 </button>
+                <button
+                  onClick={() => setActiveTab('manage_bookings')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'manage_bookings' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                >
+                  <Package className="w-5 h-5" />
+                  จัดการคำขอจอง
+                </button>
                 <Link
                   href="/favorites"
                   className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-slate-500 hover:bg-slate-50 transition-all"
@@ -140,6 +148,8 @@ export default function DashboardPage() {
           <div className="lg:col-span-9 space-y-10">
             {activeTab === 'analytics' ? (
                <PartnerAnalytics />
+            ) : activeTab === 'manage_bookings' ? (
+               <HostBookingManager />
             ) : (
                <>
             {/* Stats Overview */}

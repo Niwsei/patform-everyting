@@ -15,6 +15,7 @@ export default function AdminDashboard() {
     { label: 'เจ้าของที่พักทั้งหมด', value: '124', icon: Users, color: 'text-indigo-600', bg: 'bg-indigo-50' },
     { label: 'ที่พักที่รอยืนยัน', value: '08', icon: Building2, color: 'text-amber-600', bg: 'bg-amber-50' },
     { label: 'รายได้ค่าธรรมเนียม (เดือนนี้)', value: 12500000, icon: BarChart3, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { label: 'ธุรกรรมที่เสร็จสมบูรณ์', value: '452', icon: Zap, color: 'text-pink-600', bg: 'bg-pink-50' },
   ]
 
   return (
@@ -30,24 +31,36 @@ export default function AdminDashboard() {
             <p className="text-slate-500 font-bold mt-2">ดูแลและควบคุมคุณภาพพาร์ทเนอร์ในระบบ Vientiane Nest</p>
           </div>
 
-          <div className="flex bg-white p-1 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex bg-white p-1 rounded-2xl shadow-sm border border-slate-100 overflow-x-auto scrollbar-hide">
              <button
                onClick={() => setActiveTab('verification')}
-               className={cn("px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all", activeTab === 'verification' ? "bg-slate-900 text-white" : "text-slate-400 hover:text-slate-600")}
+               className={cn("px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap", activeTab === 'verification' ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-600")}
              >
                 การยืนยันตัวตน
              </button>
              <button
                onClick={() => setActiveTab('featured')}
-               className={cn("px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all", activeTab === 'featured' ? "bg-slate-900 text-white" : "text-slate-400 hover:text-slate-600")}
+               className={cn("px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap", activeTab === 'featured' ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-600")}
              >
-                จัดการรายการแนะนำ
+                รายการแนะนำ
+             </button>
+             <button
+               onClick={() => setActiveTab('finance')}
+               className={cn("px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap", activeTab === 'finance' ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-600")}
+             >
+                การเงินและ Payout
+             </button>
+             <button
+               onClick={() => setActiveTab('complaints')}
+               className={cn("px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap", activeTab === 'complaints' ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-600")}
+             >
+                ข้อร้องเรียน
              </button>
           </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {stats.map((stat, i) => (
             <div key={i} className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 flex items-center gap-6">
               <div className={cn("w-16 h-16 rounded-3xl flex items-center justify-center shrink-0", stat.bg)}>
@@ -124,6 +137,80 @@ export default function AdminDashboard() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'finance' && (
+            <div className="p-8">
+               <div className="flex items-center justify-between mb-8">
+                <h3 className="text-xl font-black text-slate-900">ธุรกรรมและการเงิน</h3>
+                <button className="px-6 py-3 bg-emerald-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100">
+                  ทำรายการเบิกจ่ายทั้งหมด
+                </button>
+              </div>
+              <div className="overflow-x-auto">
+                 <table className="w-full text-left">
+                   <thead>
+                      <tr className="bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                         <th className="px-6 py-4">พาร์ทเนอร์</th>
+                         <th className="px-6 py-4">ยอดค้างชำระ</th>
+                         <th className="px-6 py-4">ค่าธรรมเนียม (Net)</th>
+                         <th className="px-6 py-4">วันถอนล่าสุด</th>
+                         <th className="px-6 py-4 text-right">Action</th>
+                      </tr>
+                   </thead>
+                   <tbody className="divide-y divide-slate-50">
+                      {[
+                        { name: 'Vientiane Logistics', pending: 8500000, fee: 425000, date: '20 ต.ค. 2023' },
+                        { name: 'คุณแสงเดือน', pending: 12400000, fee: 620000, date: '18 ต.ค. 2023' },
+                        { name: 'Clean Nest Laos', pending: 2200000, fee: 110000, date: '15 ต.ค. 2023' },
+                      ].map((row, i) => (
+                        <tr key={i} className="hover:bg-slate-50/80 transition-colors">
+                           <td className="px-6 py-5 font-bold text-slate-900">{row.name}</td>
+                           <td className="px-6 py-5 font-black text-slate-600">{formatPrice(row.pending)}</td>
+                           <td className="px-6 py-5 font-black text-emerald-600">{formatPrice(row.fee)}</td>
+                           <td className="px-6 py-5 text-sm font-medium text-slate-400">{row.date}</td>
+                           <td className="px-6 py-5 text-right">
+                              <button className="px-4 py-2 bg-slate-900 text-white rounded-lg text-[9px] font-black uppercase tracking-widest">อนุมัติ Payout</button>
+                           </td>
+                        </tr>
+                      ))}
+                   </tbody>
+                 </table>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'complaints' && (
+            <div className="p-8">
+               <div className="flex items-center justify-between mb-8">
+                <h3 className="text-xl font-black text-slate-900">จัดการข้อร้องเรียน (Support Tickets)</h3>
+                <span className="bg-rose-50 text-rose-600 px-3 py-1 rounded-full text-[10px] font-black">Active: 03</span>
+              </div>
+              <div className="space-y-4">
+                 {[
+                   { user: 'Maria G.', subject: 'ที่พักไม่ตรงปก (แอร์ไม่เย็น)', date: '1 ชม. ที่แล้ว', priority: 'high' },
+                   { user: 'Somsak K.', subject: 'ชำระเงิน BCEL สำเร็จแต่ไม่ขึ้นในระบบ', date: '4 ชม. ที่แล้ว', priority: 'medium' },
+                 ].map((ticket, i) => (
+                   <div key={i} className="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between group">
+                      <div className="flex items-center gap-4">
+                         <div className={cn(
+                           "w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg",
+                           ticket.priority === 'high' ? "bg-rose-500" : "bg-amber-500"
+                         )}>
+                            <ShieldAlert className="w-5 h-5" />
+                         </div>
+                         <div>
+                            <p className="text-sm font-black text-slate-900">{ticket.subject}</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">แจ้งโดย {ticket.user} • {ticket.date}</p>
+                         </div>
+                      </div>
+                      <button className="px-6 py-3 bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all hover:border-indigo-600 hover:text-indigo-600">
+                        เข้าช่วยเหลือ
+                      </button>
+                   </div>
+                 ))}
               </div>
             </div>
           )}

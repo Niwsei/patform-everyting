@@ -23,6 +23,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
+import { ReviewSection } from "@/features/reviews/components/ReviewSection";
 
 interface PropertyClientProps {
   property: Property;
@@ -204,51 +205,22 @@ export default function PropertyClient({ property }: PropertyClientProps) {
 
             {/* Amenities */}
             <div className="pb-8 border-b border-slate-200">
-              <h2 className="text-xl font-semibold text-slate-900 mb-6">สิ่งอำนวยความสะดวก</h2>
-              <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+              <h2 className="text-2xl font-black text-slate-900 mb-8 tracking-tight">สิ่งอำนวยความสะดวก</h2>
+              <div className="grid grid-cols-2 gap-y-6 gap-x-12">
                 {property.amenities.map((amenity) => (
-                  <div key={amenity} className="flex items-center gap-3 text-slate-700">
-                    <CheckCircle2 className="w-5 h-5 text-slate-400 shrink-0" />
+                  <div key={amenity} className="flex items-center gap-4 text-slate-700 font-bold group">
+                    <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+                       <CheckCircle2 className="w-5 h-5 text-slate-400 group-hover:text-indigo-500 shrink-0" />
+                    </div>
                     <span className="text-base">{amenity}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Reviews Section */}
+            {/* Enhanced Reviews Section */}
             <div className="pb-8">
-              <div className="flex items-center gap-2 mb-8">
-                <Star className="w-5 h-5 fill-slate-900 text-slate-900" />
-                <h2 className="text-xl font-semibold text-slate-900">{property.rating} · {property.reviewCount} รีวิว</h2>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                 {[
-                   { name: 'Somsak', date: 'August 2023', comment: 'ห้องพักสะอาดมาก และอยู่ใกล้แหล่งของกิน พนักงานดูแลดีมากครับ แนะนำเลย' },
-                   { name: 'Keo', date: 'July 2023', comment: 'วิวสวยมากครับ เดินทางสะดวก ใกล้ประตูชัยจริงๆ คุ้มค่าเงินมาก' },
-                   { name: 'Maria', date: 'June 2023', comment: 'Perfect location for digital nomads. The WiFi was super fast and reliable.' },
-                   { name: 'Anoulack', date: 'May 2023', comment: 'เจ้าของที่พักตอบไวมาก ช่วยเหลือทุกอย่าง ประทับใจมากครับ' }
-                 ].map((review, i) => (
-                   <div key={i} className="space-y-3">
-                      <div className="flex items-center gap-3">
-                         <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center font-bold text-slate-400">
-                            {review.name[0]}
-                         </div>
-                         <div>
-                            <h4 className="text-sm font-semibold text-slate-900">{review.name}</h4>
-                            <p className="text-xs text-slate-500">{review.date}</p>
-                         </div>
-                      </div>
-                      <p className="text-slate-600 text-sm leading-relaxed">
-                         {review.comment}
-                      </p>
-                   </div>
-                 ))}
-              </div>
-
-              <button className="mt-8 px-6 py-3 border border-slate-900 rounded-xl font-semibold text-sm hover:bg-slate-50 transition-colors">
-                แสดงรีวิวทั้งหมด
-              </button>
+               <ReviewSection />
             </div>
 
           </div>
