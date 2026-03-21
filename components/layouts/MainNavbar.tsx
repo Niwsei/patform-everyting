@@ -7,16 +7,19 @@ import { useCurrencyStore, Currency } from "@/stores/useCurrencyStore"
 import { useLanguageStore, Language } from "@/stores/useLanguageStore"
 import { useNotificationStore } from "@/stores/useNotificationStore"
 import { useAuthStore } from "@/stores/useAuthStore"
+import { useThemeStore } from "@/stores/useThemeStore"
 import { AuthModal } from "@/components/auth/AuthModal"
 import { translations } from "@/lib/translations"
 import { cn } from "@/lib/utils"
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { Sun, Moon } from "lucide-react"
 
 export function MainNavbar() {
     const savedCount = useFavoriteStore((state) => state.savedPropertyIds.length)
     const { currency, setCurrency } = useCurrencyStore()
     const { language, setLanguage } = useLanguageStore()
+    const { theme, toggleTheme } = useThemeStore()
     const { notifications, unreadCount, markAllAsRead } = useNotificationStore()
     const { isAuthenticated, user, logout } = useAuthStore()
     const t = translations[language]
@@ -95,6 +98,14 @@ export function MainNavbar() {
 
         {/* Right side actions */}
         <div className="flex items-center gap-2 sm:gap-4">
+          {/* Theme Switcher */}
+          <button
+            onClick={toggleTheme}
+            className="p-2.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-full transition-all duration-300"
+          >
+            {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5 text-amber-400" />}
+          </button>
+
           {/* Language Switcher */}
           <div className="hidden lg:flex items-center bg-slate-100 rounded-2xl p-1 border border-slate-200">
             {(['TH', 'EN', 'LO'] as Language[]).map((lang) => (

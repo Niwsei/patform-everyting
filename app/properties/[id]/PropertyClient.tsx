@@ -24,6 +24,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
 import { ReviewSection } from "@/features/reviews/components/ReviewSection";
+import { UnitMap } from "@/components/booking/UnitMap";
 
 interface PropertyClientProps {
   property: Property;
@@ -195,10 +196,17 @@ export default function PropertyClient({ property }: PropertyClientProps) {
               </div>
             </div>
 
+            {/* Unit Layout Selection (New!) */}
+            {property.units && property.units.length > 0 && (
+               <div className="pb-12 border-b border-slate-200">
+                  <UnitMap units={property.units} basePrice={property.pricePerMonth} />
+               </div>
+            )}
+
             {/* Description */}
             <div className="pb-8 border-b border-slate-200">
-              <h2 className="text-xl font-semibold text-slate-900 mb-4">เกี่ยวกับที่พักนี้</h2>
-              <p className="text-slate-600 text-base leading-relaxed whitespace-pre-line">
+              <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tight">เกี่ยวกับที่พักนี้</h2>
+              <p className="text-slate-600 text-base leading-relaxed whitespace-pre-line font-medium">
                 {property.description}
               </p>
             </div>

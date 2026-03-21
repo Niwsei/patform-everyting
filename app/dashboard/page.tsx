@@ -21,7 +21,8 @@ import {
   Wallet,
   ArrowUpRight,
   BarChart2,
-  Package
+  Package,
+  LayoutGrid
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -30,6 +31,7 @@ import { PartnerAnalytics } from "@/features/dashboard/components/PartnerAnalyti
 import { TenantKYC } from "@/components/kyc/TenantKYC";
 import { DigitalLease } from "@/components/kyc/DigitalLease";
 import { HostBookingManager } from "@/components/booking/HostBookingManager";
+import { UnitManagement } from "@/components/dashboard/UnitManagement";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('bookings');
@@ -101,6 +103,13 @@ export default function DashboardPage() {
                   <Package className="w-5 h-5" />
                   จัดการคำขอจอง
                 </button>
+                <button
+                  onClick={() => setActiveTab('manage_units')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'manage_units' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                >
+                  <LayoutGrid className="w-5 h-5" />
+                  จัดการยูนิตที่พัก
+                </button>
                 <Link
                   href="/favorites"
                   className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-slate-500 hover:bg-slate-50 transition-all"
@@ -150,6 +159,8 @@ export default function DashboardPage() {
                <PartnerAnalytics />
             ) : activeTab === 'manage_bookings' ? (
                <HostBookingManager />
+            ) : activeTab === 'manage_units' ? (
+               <UnitManagement />
             ) : (
                <>
             {/* Stats Overview */}

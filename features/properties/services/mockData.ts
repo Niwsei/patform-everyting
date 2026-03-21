@@ -22,6 +22,18 @@ export const mockProperties: Property[] = [
     isFeatured: true,
     hostName: 'คุณแสงเดือน',
     hostImage: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop',
+    units: [
+      { id: 'u-1', unitNumber: '101', floor: 1, sizeSqM: 32, status: 'occupied' },
+      { id: 'u-2', unitNumber: '102', floor: 1, sizeSqM: 32, status: 'occupied' },
+      { id: 'u-3', unitNumber: '103', floor: 1, sizeSqM: 32, status: 'occupied' },
+      { id: 'u-4', unitNumber: '104', floor: 1, sizeSqM: 35, status: 'available', features: ['วิวสวน', 'ระเบียงกว้าง'] },
+      { id: 'u-5', unitNumber: '105', floor: 1, sizeSqM: 32, status: 'occupied' },
+      { id: 'u-6', unitNumber: '106', floor: 1, sizeSqM: 32, status: 'occupied' },
+      { id: 'u-7', unitNumber: '201', floor: 2, sizeSqM: 32, status: 'occupied' },
+      { id: 'u-8', unitNumber: '202', floor: 2, sizeSqM: 32, status: 'available', features: ['ชั้นสูง', 'เงียบสงบ'] },
+      { id: 'u-9', unitNumber: '203', floor: 2, sizeSqM: 45, status: 'reserved' },
+      { id: 'u-10', unitNumber: '204', floor: 2, sizeSqM: 32, status: 'occupied' },
+    ]
   },
   {
     id: 'prop-002',
