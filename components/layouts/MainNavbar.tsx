@@ -8,6 +8,7 @@ import { useLanguageStore, Language } from "@/stores/useLanguageStore"
 import { useNotificationStore } from "@/stores/useNotificationStore"
 import { useAuthStore } from "@/stores/useAuthStore"
 import { useThemeStore } from "@/stores/useThemeStore"
+import { useRewardStore } from "@/stores/useRewardStore"
 import { AuthModal } from "@/components/auth/AuthModal"
 import { translations } from "@/lib/translations"
 import { cn } from "@/lib/utils"
@@ -20,6 +21,7 @@ export function MainNavbar() {
     const { currency, setCurrency } = useCurrencyStore()
     const { language, setLanguage } = useLanguageStore()
     const { theme, toggleTheme } = useThemeStore()
+    const { points } = useRewardStore()
     const { notifications, unreadCount, markAllAsRead } = useNotificationStore()
     const { isAuthenticated, user, logout } = useAuthStore()
     const t = translations[language]
@@ -98,6 +100,14 @@ export function MainNavbar() {
 
         {/* Right side actions */}
         <div className="flex items-center gap-2 sm:gap-4">
+          {/* Points Display */}
+          {isAuthenticated && (
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-900/50 rounded-xl">
+               <div className="w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center text-[10px] font-black text-white shadow-sm shadow-amber-200">₭</div>
+               <span className="text-[11px] font-black text-amber-700 dark:text-amber-400">{points.toLocaleString()}</span>
+            </div>
+          )}
+
           {/* Theme Switcher */}
           <button
             onClick={toggleTheme}

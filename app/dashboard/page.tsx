@@ -22,7 +22,8 @@ import {
   ArrowUpRight,
   BarChart2,
   Package,
-  LayoutGrid
+  LayoutGrid,
+  Gift
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -32,6 +33,8 @@ import { TenantKYC } from "@/components/kyc/TenantKYC";
 import { DigitalLease } from "@/components/kyc/DigitalLease";
 import { HostBookingManager } from "@/components/booking/HostBookingManager";
 import { UnitManagement } from "@/components/dashboard/UnitManagement";
+import { ReferralRewards } from "@/components/dashboard/ReferralRewards";
+import { MarketReport } from "@/components/dashboard/MarketReport";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('bookings');
@@ -110,6 +113,20 @@ export default function DashboardPage() {
                   <LayoutGrid className="w-5 h-5" />
                   จัดการยูนิตที่พัก
                 </button>
+                <button
+                  onClick={() => setActiveTab('rewards')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'rewards' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                >
+                  <Gift className="w-5 h-5" />
+                  รางวัลและการแนะนำ
+                </button>
+                <button
+                  onClick={() => setActiveTab('market_report')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'market_report' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                >
+                  <TrendingUp className="w-5 h-5" />
+                  รายงานตลาด AI
+                </button>
                 <Link
                   href="/favorites"
                   className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-slate-500 hover:bg-slate-50 transition-all"
@@ -161,6 +178,10 @@ export default function DashboardPage() {
                <HostBookingManager />
             ) : activeTab === 'manage_units' ? (
                <UnitManagement />
+            ) : activeTab === 'rewards' ? (
+               <ReferralRewards />
+            ) : activeTab === 'market_report' ? (
+               <MarketReport />
             ) : (
                <>
             {/* Stats Overview */}

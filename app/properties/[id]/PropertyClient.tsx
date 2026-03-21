@@ -25,6 +25,7 @@ import { useState } from "react";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
 import { ReviewSection } from "@/features/reviews/components/ReviewSection";
 import { UnitMap } from "@/components/booking/UnitMap";
+import { DirectChat } from "@/components/chat/DirectChat";
 
 interface PropertyClientProps {
   property: Property;
@@ -286,10 +287,12 @@ export default function PropertyClient({ property }: PropertyClientProps) {
             </div>
 
             {/* Host Contact Trigger */}
-            <div className="mt-6 text-center">
-              <button className="text-slate-900 font-semibold underline hover:text-slate-600 transition-colors">
-                ส่งข้อความถึงเจ้าของที่พัก
-              </button>
+            <div className="mt-6">
+              <DirectChat
+                hostName={property.hostName || 'Host'}
+                hostAvatar={property.hostImage || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100'}
+                propertyTitle={property.title}
+              />
             </div>
           </div>
 
