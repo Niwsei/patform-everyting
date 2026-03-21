@@ -137,7 +137,7 @@ export default function PropertyClient({ property }: PropertyClientProps) {
             </div>
 
             {/* Feature Highlights */}
-            <div className="grid grid-cols-2 gap-6 pb-8 border-b border-slate-200">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pb-8 border-b border-slate-200">
               <div className="flex items-start gap-4">
                 <Clock className="w-6 h-6 text-slate-700 shrink-0 mt-0.5" />
                 <div>
@@ -169,14 +169,29 @@ export default function PropertyClient({ property }: PropertyClientProps) {
             </div>
 
             {/* Nest AI Insight (Redesigned) */}
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-              <div className="flex items-center gap-2 mb-3">
-                <Award className="w-5 h-5 text-indigo-600" />
-                <h3 className="font-semibold text-slate-900">Nest Insight</h3>
+            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200 relative overflow-hidden group">
+              <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-indigo-100/30 rounded-full group-hover:scale-150 transition-transform duration-700" />
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-indigo-100">
+                   <Sparkles className="w-5 h-5" />
+                </div>
+                <h3 className="font-black text-slate-900 uppercase tracking-tight">Nest AI Analysis</h3>
               </div>
-              <p className="text-slate-600 text-sm leading-relaxed mb-1">
-                ที่พักนี้เหมาะสำหรับคุณ เนื่องจากตรงกับสถิติความนิยมในโซน {property.location.split(',')[0]} ทั้งในด้านราคาและความปลอดภัย
-              </p>
+              <div className="space-y-4 relative z-10">
+                 <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                    ที่พักนี้เหมาะสำหรับคุณ เนื่องจากตรงกับสถิติความนิยมในโซน {property.location.split(',')[0]} ทั้งในด้านราคาและความปลอดภัย
+                 </p>
+                 <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                       <p className="text-[9px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-1">Connectivity</p>
+                       <p className="text-xs font-bold text-slate-700">ใกล้ตลาดเช้า (1.2 กม.)</p>
+                    </div>
+                    <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                       <p className="text-[9px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-1">Lifestyle</p>
+                       <p className="text-xs font-bold text-slate-700">เดินไปริมโขงได้ใน 10 นาที</p>
+                    </div>
+                 </div>
+              </div>
             </div>
 
             {/* Description */}
