@@ -5,6 +5,7 @@ import { MainNavbar } from "@/components/layouts/MainNavbar";
 import { BottomNav } from "@/components/layouts/BottomNav";
 import { Providers } from "@/components/Providers";
 import { ChatWidget } from "@/features/chat/components/ChatWidget";
+import { ToastContainer } from "@/components/ui/Toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({
           </main>
           <BottomNav />
           <ChatWidget />
+          <ToastContainer />
         </Providers>
       </body>
     </html>

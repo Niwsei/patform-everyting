@@ -92,7 +92,7 @@ export function MainNavbar() {
         {/* Right side actions */}
         <div className="flex items-center gap-2 sm:gap-4">
           {/* Currency Switcher */}
-          <div className="hidden lg:flex items-center bg-slate-100 rounded-2xl p-1 border border-slate-200">
+          <div className="hidden sm:flex items-center bg-slate-100 rounded-2xl p-1 border border-slate-200">
             {(['LAK', 'USD', 'THB'] as Currency[]).map((curr) => (
               <button
                 key={curr}
