@@ -4,8 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Property } from "../types";
 import { FavoriteButton } from "./FavoriteButton";
-import { MapPin, Star, ShieldCheck, Zap } from "lucide-react";
+import { MapPin, Star, ShieldCheck, Zap, ArrowRightLeft } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
+import { useLanguageStore } from "@/stores/useLanguageStore";
+import { translations } from "@/lib/translations";
+import { useComparisonStore } from "@/stores/useComparisonStore";
 
 interface PropertyCardProps {
   property: Property;
@@ -13,12 +17,32 @@ interface PropertyCardProps {
 
 export function PropertyCard({ property }: PropertyCardProps) {
   const { formatPrice } = useCurrencyStore()
+  const { language } = useLanguageStore()
+  const { propertyIds, addToCompare, removeFromCompare } = useComparisonStore()
+  const t = translations[language]
+
+  const isComparing = propertyIds.includes(property.id)
+
   return (
     <div className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative">
-      <div className="absolute top-4 right-4 z-20">
+      <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
         <div className="p-1.5 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-100 transition-transform active:scale-95">
            <FavoriteButton propertyId={property.id} />
         </div>
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            isComparing ? removeFromCompare(property.id) : addToCompare(property.id)
+          }}
+          className={cn(
+            "p-1.5 rounded-full shadow-sm border transition-all active:scale-95",
+            isComparing
+              ? "bg-indigo-600 text-white border-indigo-600"
+              : "bg-white/90 backdrop-blur-sm text-slate-400 border-slate-100 hover:text-indigo-600"
+          )}
+        >
+           <ArrowRightLeft className="w-5 h-5" />
+        </button>
       </div>
 
       <div className="relative h-64 w-full overflow-hidden bg-slate-100">
@@ -35,12 +59,12 @@ export function PropertyCard({ property }: PropertyCardProps) {
           {property.isFeatured && (
             <div className="bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xl shadow-indigo-200 border border-indigo-400">
               <Zap className="w-3 h-3 fill-white" />
-              รายการแนะนำ
+              {t.featured}
             </div>
           )}
           <div className="bg-white/95 text-slate-800 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm border border-slate-100">
             <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-            คะแนนสูงสุด
+            {t.topRated}
           </div>
           {property.pricePerMonth < 2000000 && (
             <div className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm border border-emerald-100">
@@ -104,7 +128,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
           href={`/properties/${property.id}`}
           className="flex items-center justify-center w-full py-3.5 bg-slate-900 text-white rounded-xl font-semibold text-sm hover:bg-slate-800 transition-colors active:scale-[0.98]"
         >
-          สำรวจที่พักนี้
+          {language === 'EN' ? 'Explore Property' : language === 'LO' ? 'ສຳຫຼວດທີ່ພັກ' : 'สำรวจที่พักนี้'}
         </Link>
       </div>
     </div>
