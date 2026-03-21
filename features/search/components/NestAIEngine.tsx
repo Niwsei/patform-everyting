@@ -59,12 +59,27 @@ export function NestAIEngine() {
     }
   }
 
+  const [analysisLogs, setAnalysisLogs] = useState<string[]>([])
+
   const startAnalysis = async () => {
     setIsAnalyzing(true)
     setStep(steps.length)
+    setAnalysisLogs([])
 
-    // Simulate AI analysis
-    await new Promise(resolve => setTimeout(resolve, 3000))
+    // Simulate detailed logs
+    const logs = [
+      "กำลังเชื่อมต่อกับ Vientiane Data Hub...",
+      `วิเคราะห์แนวโน้มราคาในย่าน ${preferences.vibe === 'urban' ? 'จันทะบูลี' : 'สีสัตตนาค'}...`,
+      "ตรวจสอบสถานะห้องว่างแบบ Real-time...",
+      "เปรียบเทียบสิ่งอำนวยความสะดวกที่ต้องการ...",
+      "คำนวณคะแนนความคุ้มค่า (Nest Score)...",
+      "สร้างรายการที่แนะนำสำหรับคุณ..."
+    ]
+
+    for (const log of logs) {
+      setAnalysisLogs(prev => [...prev, log])
+      await new Promise(resolve => setTimeout(resolve, 800))
+    }
 
     // Simple filter logic for recommendations
     let filtered = [...mockProperties]
@@ -180,22 +195,38 @@ export function NestAIEngine() {
                       key="analyzing"
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="flex-1 flex flex-col items-center justify-center text-center space-y-8"
+                      className="flex-1 flex flex-col items-center justify-center text-center space-y-10"
                     >
                       <div className="relative">
-                        <div className="w-24 h-24 border-4 border-slate-100 border-t-indigo-600 rounded-full animate-spin" />
-                        <BrainCircuit className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 text-indigo-600 animate-pulse" />
+                        <motion.div
+                           animate={{ rotate: 360 }}
+                           transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                           className="w-28 h-28 border-4 border-slate-100 border-t-indigo-600 rounded-full"
+                        />
+                        <BrainCircuit className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 text-indigo-600 animate-pulse" />
                       </div>
-                      <div className="space-y-2">
-                        <h3 className="text-2xl font-black text-slate-900">กำลังวิเคราะห์ข้อมูล...</h3>
-                        <p className="text-slate-500 font-medium">ค้นหาที่พักที่ตรงกับไลฟ์สไตล์ของคุณจากฐานข้อมูลทั่วเวียงจันทน์</p>
+
+                      <div className="space-y-4 w-full max-w-xs">
+                         <div className="flex flex-col gap-2">
+                            {analysisLogs.map((log, i) => (
+                               <motion.div
+                                  key={i}
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400"
+                               >
+                                  <div className="w-1 h-1 bg-emerald-500 rounded-full shrink-0" />
+                                  <span className="text-left">{log}</span>
+                               </motion.div>
+                            ))}
+                         </div>
                       </div>
 
                       <div className="flex gap-2">
                         {[0, 1, 2].map(i => (
                           <motion.div
                             key={i}
-                            animate={{ y: [0, -10, 0] }}
+                            animate={{ scale: [1, 1.5, 1], opacity: [0.3, 1, 0.3] }}
                             transition={{ repeat: Infinity, duration: 1, delay: i * 0.2 }}
                             className="w-2 h-2 bg-indigo-600 rounded-full"
                           />

@@ -15,15 +15,36 @@ interface BcelOnePayModalProps {
 export function BcelOnePayModal({ isOpen, onClose, amount, onSuccess }: BcelOnePayModalProps) {
   const [step, setStep] = useState<'qr' | 'verifying' | 'success'>('qr')
 
+  const [pollingStatus, setPollingStatus] = useState<'connecting' | 'polling' | 'finalizing'>('connecting')
+  const [qrDots, setQrDots] = useState<boolean[]>([])
+
+  useEffect(() => {
+    // Generate QR dots only on client to avoid hydration mismatch
+    const dots = Array.from({ length: 144 }).map(() => Math.random() > 0.5)
+    setQrDots(dots)
+  }, [])
+
   useEffect(() => {
     if (step === 'verifying') {
-      const timer = setTimeout(() => {
+      // Step 1: Connecting
+      const t1 = setTimeout(() => setPollingStatus('polling'), 1000)
+
+      // Step 2: Polling (longer wait)
+      const t2 = setTimeout(() => setPollingStatus('finalizing'), 3500)
+
+      // Step 3: Success
+      const t3 = setTimeout(() => {
         setStep('success')
         setTimeout(() => {
           onSuccess()
         }, 1500)
-      }, 3000)
-      return () => clearTimeout(timer)
+      }, 5000)
+
+      return () => {
+        clearTimeout(t1)
+        clearTimeout(t2)
+        clearTimeout(t3)
+      }
     }
   }, [step, onSuccess])
 
@@ -85,10 +106,10 @@ export function BcelOnePayModal({ isOpen, onClose, amount, onSuccess }: BcelOneP
                        </div>
                        {/* Simulated QR Code Blocks */}
                        <div className="relative z-10 w-full h-full bg-slate-900 rounded-2xl flex flex-wrap p-2 gap-1 overflow-hidden">
-                          {Array.from({ length: 144 }).map((_, i) => (
+                          {qrDots.map((isWhite, i) => (
                              <div key={i} className={cn(
                                 "w-2.5 h-2.5 rounded-[1px]",
-                                Math.random() > 0.5 ? "bg-white" : "bg-transparent"
+                                isWhite ? "bg-white" : "bg-transparent"
                              )} />
                           ))}
                           <div className="absolute inset-0 flex items-center justify-center">
@@ -137,8 +158,16 @@ export function BcelOnePayModal({ isOpen, onClose, amount, onSuccess }: BcelOneP
                        </div>
                     </div>
                     <div className="space-y-2">
-                       <h4 className="text-xl font-black text-slate-900 tracking-tight">กำลังตรวจสอบยอดเงิน...</h4>
-                       <p className="text-sm font-bold text-slate-400">กรุณารอสักครู่ ระบบกำลังสื่อสารกับ BCEL</p>
+                       <h4 className="text-xl font-black text-slate-900 tracking-tight">
+                          {pollingStatus === 'connecting' ? 'กำลังเชื่อมต่อ...' :
+                           pollingStatus === 'polling' ? 'กำลังค้นหารายการชำระ...' :
+                           'ยืนยันยอดเงินสำเร็จ!'}
+                       </h4>
+                       <p className="text-sm font-bold text-slate-400">
+                          {pollingStatus === 'connecting' ? 'รอกำลังสร้างการเชื่อมต่อที่ปลอดภัย' :
+                           pollingStatus === 'polling' ? 'ระบบกำลังรอการยืนยันจากแอป BCEL One' :
+                           'กำลังส่งข้อมูลกลับไปยัง Vientiane Nest'}
+                       </p>
                     </div>
                   </motion.div>
                 )}
