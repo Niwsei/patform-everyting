@@ -68,7 +68,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </div>
           {property.pricePerMonth < 2000000 && (
             <div className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm border border-emerald-100">
-              คุ้มค่าที่สุด
+              {t.bestValue}
             </div>
           )}
         </div>
@@ -77,15 +77,15 @@ export function PropertyCard({ property }: PropertyCardProps) {
           <div className="bg-slate-900/60 backdrop-blur-xl p-4 rounded-[1.5rem] border border-white/10 shadow-2xl">
             <div className="flex justify-between items-end">
               <div>
-                <p className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">เริ่มต้นที่</p>
+                <p className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">{language === 'EN' ? 'START FROM' : language === 'LO' ? 'ເລີ່ມຕົ້ນທີ່' : 'เริ่มต้นที่'}</p>
                 <span className="text-white text-xl font-black">
-                  {formatPrice(property.pricePerMonth)} <span className="text-xs font-medium opacity-60">/ เดือน</span>
+                  {formatPrice(property.pricePerMonth)} <span className="text-xs font-medium opacity-60">/ {language === 'EN' ? 'month' : language === 'LO' ? 'ເດືອນ' : 'เดือน'}</span>
                 </span>
               </div>
               {property.isAvailable && (
                 <div className="flex items-center gap-1.5 bg-emerald-500/20 px-2.5 py-1.5 rounded-xl border border-emerald-500/30">
                   <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                  <span className="text-emerald-400 text-[10px] font-black uppercase tracking-widest">ว่าง</span>
+                  <span className="text-emerald-400 text-[10px] font-black uppercase tracking-widest">{t.available}</span>
                 </div>
               )}
             </div>

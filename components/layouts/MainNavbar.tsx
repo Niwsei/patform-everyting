@@ -1,7 +1,7 @@
 'use client'
 
 import Link from "next/link"
-import { Heart, Menu, User, Truck, MapPin, Bell, Search, Calendar, MessageSquare } from "lucide-react"
+import { Heart, Menu, User, Truck, MapPin, Bell, Search, Calendar, MessageSquare, LayoutDashboard } from "lucide-react"
 import { useFavoriteStore } from "@/stores/useFavoriteStore"
 import { useCurrencyStore, Currency } from "@/stores/useCurrencyStore"
 import { useLanguageStore, Language } from "@/stores/useLanguageStore"
@@ -250,8 +250,12 @@ export function MainNavbar() {
                   <p className="font-black text-slate-900 text-sm">{user?.name}</p>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{user?.email}</p>
                 </div>
-                <Link href="/dashboard" className="flex items-center gap-3 px-6 py-3 hover:bg-slate-50 text-sm font-bold text-slate-600 transition-colors">
+                <Link href="/profile" className="flex items-center gap-3 px-6 py-3 hover:bg-slate-50 text-sm font-bold text-slate-600 transition-colors">
                   <User className="w-4 h-4" />
+                  โปรไฟล์ของฉัน
+                </Link>
+                <Link href="/dashboard" className="flex items-center gap-3 px-6 py-3 hover:bg-slate-50 text-sm font-bold text-slate-600 transition-colors">
+                  <LayoutDashboard className="w-4 h-4" />
                   หน้าแดชบอร์ด
                 </Link>
                 <Link href="/favorites" className="flex items-center gap-3 px-6 py-3 hover:bg-slate-50 text-sm font-bold text-slate-600 transition-colors">

@@ -41,7 +41,7 @@ export function HeroSearch() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          แพลตฟอร์มอสังหาฯ และโลจิสติกส์ที่ดีที่สุดในเวียงจันทน์
+          {language === 'EN' ? 'The best real estate and logistics platform in Vientiane' : language === 'LO' ? 'ແພລດຟອມອະສັງຫາຯ ແລະ ໂລຈິສຕິກທີ່ດີທີ່ສຸດໃນວຽງຈັນ' : 'แพลตฟอร์มอสังหาฯ และโลจิสติกส์ที่ดีที่สุดในเวียงจันทน์'}
         </div>
 
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 drop-shadow-sm">
@@ -63,18 +63,18 @@ export function HeroSearch() {
           {/* Location */}
           <div className="flex-1 w-full flex items-center px-6 py-3 border-b sm:border-b-0 sm:border-r border-slate-100 transition-colors hover:bg-slate-50 rounded-t-2xl sm:rounded-l-full sm:rounded-tr-none cursor-pointer">
             <div className="flex flex-col text-left w-full">
-              <label htmlFor="location-select" className="text-xs font-semibold text-slate-800 mb-0.5 cursor-pointer">ทำเลที่ตั้ง</label>
+              <label htmlFor="location-select" className="text-xs font-semibold text-slate-800 mb-0.5 cursor-pointer">{t.location}</label>
               <select 
                 id="location-select"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 className="w-full bg-transparent text-slate-500 outline-none text-sm cursor-pointer appearance-none"
               >
-                <option value="">ค้นหาทุกพื้นที่</option>
-                <option value="Chanthabouly">จันทะบูลี</option>
-                <option value="Sikhottabong">สีโคดตะบอง</option>
-                <option value="Xaysetha">ไซเศรษฐา</option>
-                <option value="Sisattanak">สีสัตตนาค</option>
+                <option value="">{t.searchPlaceholder}</option>
+                <option value="Chanthabouly">{language === 'EN' ? 'Chanthabouly' : language === 'LO' ? 'ຈັນທະບູລີ' : 'จันทะบูลี'}</option>
+                <option value="Sikhottabong">{language === 'EN' ? 'Sikhottabong' : language === 'LO' ? 'ສີໂຄດຕະບອງ' : 'สีโคดตะบอง'}</option>
+                <option value="Xaysetha">{language === 'EN' ? 'Xaysetha' : language === 'LO' ? 'ໄຊເສດຖາ' : 'ไซเศรษฐา'}</option>
+                <option value="Sisattanak">{language === 'EN' ? 'Sisattanak' : language === 'LO' ? 'ສີສັດຕະນາກ' : 'สีสัตตนาค'}</option>
               </select>
             </div>
           </div>
@@ -82,18 +82,18 @@ export function HeroSearch() {
           {/* Category */}
           <div className="flex-1 w-full flex items-center px-6 py-3 border-b sm:border-b-0 sm:border-r border-slate-100 transition-colors hover:bg-slate-50 cursor-pointer">
             <div className="flex flex-col text-left w-full">
-              <label htmlFor="category-select" className="text-xs font-semibold text-slate-800 mb-0.5 cursor-pointer">ประเภทที่พัก</label>
+              <label htmlFor="category-select" className="text-xs font-semibold text-slate-800 mb-0.5 cursor-pointer">{language === 'EN' ? 'CATEGORY' : language === 'LO' ? 'ປະເພດທີ່ພັກ' : 'ประเภทที่พัก'}</label>
               <select
                 id="category-select"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-full bg-transparent text-slate-500 outline-none text-sm cursor-pointer appearance-none"
               >
-                <option value="">ทุกประเภท</option>
-                <option value="hotel">โรงแรม</option>
-                <option value="guesthouse">เกสต์เฮ้าส์</option>
-                <option value="vacation_home">บ้านพักตากอากาศ</option>
-                <option value="apartment">อพาร์ทเมนท์</option>
+                <option value="">{t.allCategories}</option>
+                <option value="hotel">{language === 'EN' ? 'Hotel' : language === 'LO' ? 'ໂຮງແຮມ' : 'โรงแรม'}</option>
+                <option value="guesthouse">{language === 'EN' ? 'Guesthouse' : language === 'LO' ? 'ເກສເຮົ້າສ໌' : 'เกสต์เฮ้าส์'}</option>
+                <option value="vacation_home">{language === 'EN' ? 'Vacation Home' : language === 'LO' ? 'ເຮືອນພັກ' : 'บ้านพักตากอากาศ'}</option>
+                <option value="apartment">{language === 'EN' ? 'Apartment' : language === 'LO' ? 'ອາພາດເມັນ' : 'อพาร์ทเมนท์'}</option>
               </select>
             </div>
           </div>
@@ -101,17 +101,17 @@ export function HeroSearch() {
           {/* Price */}
           <div className="flex-1 w-full flex items-center px-6 py-3 hover:bg-slate-50 transition-colors sm:rounded-r-full cursor-pointer">
             <div className="flex flex-col text-left w-full">
-              <label htmlFor="price-select" className="text-xs font-semibold text-slate-800 mb-0.5 cursor-pointer">งบประมาณ</label>
+              <label htmlFor="price-select" className="text-xs font-semibold text-slate-800 mb-0.5 cursor-pointer">{language === 'EN' ? 'BUDGET' : language === 'LO' ? 'ງົບປະມານ' : 'งบประมาณ'}</label>
               <select 
                 id="price-select"
                 value={priceRange}
                 onChange={(e) => setPriceRange(e.target.value)}
                 className="w-full bg-transparent text-slate-500 outline-none text-sm cursor-pointer appearance-none"
               >
-                <option value="">ไม่จำกัด</option>
-                <option value="under_2m">ต่ำกว่า 2 ล้าน กีบ</option>
-                <option value="2m_to_5m">2 - 5 ล้าน กีบ</option>
-                <option value="over_5m">มากกว่า 5 ล้าน กีบ</option>
+                <option value="">{t.unlimitedPrice}</option>
+                <option value="under_2m">{language === 'EN' ? 'Under 2M LAK' : language === 'LO' ? 'ຕ່ຳກວ່າ 2 ລ້ານ ກີບ' : 'ต่ำกว่า 2 ล้าน กีบ'}</option>
+                <option value="2m_to_5m">{language === 'EN' ? '2M - 5M LAK' : language === 'LO' ? '2 - 5 ລ້ານ ກີບ' : '2 - 5 ล้าน กีบ'}</option>
+                <option value="over_5m">{language === 'EN' ? 'Over 5M LAK' : language === 'LO' ? 'ຫຼາຍກວ່າ 5 ລ້ານ ກີບ' : 'มากกว่า 5 ล้าน กีบ'}</option>
               </select>
             </div>
           </div>

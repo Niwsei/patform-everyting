@@ -19,17 +19,19 @@ import {
 import { cn } from '@/lib/utils'
 import { useCurrencyStore } from '@/stores/useCurrencyStore'
 import { useLanguageStore } from '@/stores/useLanguageStore'
+import { translations } from '@/lib/translations'
 
 export function RelocationConcierge() {
   const { formatPrice } = useCurrencyStore()
   const { language } = useLanguageStore()
+  const t = translations[language]
   const [selectedServices, setSelectedServices] = useState<string[]>(['rent'])
 
   const bundles = [
-    { id: 'rent', label: 'ที่พักพรีเมียม (Rent)', icon: Home, price: 3500000 },
-    { id: 'move', label: 'ขนย้าย Full-Service', icon: Truck, price: 800000 },
-    { id: 'clean', label: 'ทำความสะอาด Deep Clean', icon: Sparkles, price: 350000 },
-    { id: 'wifi', label: 'ติดตั้งอินเทอร์เน็ตความเร็วสูง', icon: Globe, price: 150000 },
+    { id: 'rent', label: t.rentLabel, icon: Home, price: 3500000 },
+    { id: 'move', label: t.movingLabel, icon: Truck, price: 800000 },
+    { id: 'clean', label: t.cleaningLabel, icon: Sparkles, price: 350000 },
+    { id: 'wifi', label: t.wifiLabel, icon: Globe, price: 150000 },
   ]
 
   const total = selectedServices.reduce((acc, id) => {
@@ -55,10 +57,10 @@ export function RelocationConcierge() {
               Expat Relocation Concierge
            </div>
            <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
-              ย้ายเข้าเวียงจันทน์ <br/> <span className="text-indigo-600">แบบไร้กังวล</span>
+              {t.relocationTitle} <br/> <span className="text-indigo-600">{t.relocationSubtitle}</span>
            </h2>
            <p className="text-slate-500 dark:text-slate-400 font-bold text-lg leading-relaxed">
-              จัดแพ็คเกจเริ่มต้นชีวิตใหม่ใน สปป. ลาว ให้เป็นเรื่องง่าย เลือกที่พักพร้อมบริการที่จำเป็นในคลิกเดียว พร้อมส่วนลดพิเศษสำหรับการ Bundle บริการ
+              {t.relocationDesc}
            </p>
         </div>
 
@@ -66,7 +68,7 @@ export function RelocationConcierge() {
         <div className="bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl border border-slate-100 dark:border-slate-800 w-full md:w-80 shrink-0 space-y-6">
            <div className="flex items-center gap-2 text-indigo-600">
               <Calculator className="w-5 h-5" />
-              <h4 className="font-black text-xs uppercase tracking-widest">Living Cost Estimator</h4>
+              <h4 className="font-black text-xs uppercase tracking-widest">{t.livingEstimator}</h4>
            </div>
            <div className="space-y-4">
               {[
@@ -130,10 +132,10 @@ export function RelocationConcierge() {
                   <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
                      <Zap className="w-6 h-6 text-amber-400 fill-amber-400" />
                   </div>
-                  <h3 className="text-3xl font-black tracking-tight">สรุปแพ็คเกจย้ายเข้า</h3>
+                  <h3 className="text-3xl font-black tracking-tight">{t.bundleSummary}</h3>
                </div>
                <div className="space-y-3">
-                  <p className="text-indigo-100 opacity-70 uppercase tracking-widest text-[10px] font-black">รายการที่เลือก:</p>
+                  <p className="text-indigo-100 opacity-70 uppercase tracking-widest text-[10px] font-black">{t.selectedItems}</p>
                   <div className="flex flex-wrap gap-2">
                      {selectedServices.map(id => (
                         <span key={id} className="px-3 py-1 bg-white/10 rounded-lg text-xs font-bold border border-white/10">
@@ -147,7 +149,7 @@ export function RelocationConcierge() {
             <div className="w-full md:w-96 space-y-6">
                <div className="space-y-4">
                   <div className="flex justify-between font-bold text-indigo-200">
-                     <span>รวมทั้งหมด</span>
+                     <span>{t.totalAmount}</span>
                      <span>{formatPrice(total)}</span>
                   </div>
                   {discount > 0 && (
@@ -161,13 +163,13 @@ export function RelocationConcierge() {
                   )}
                   <div className="h-px bg-white/10" />
                   <div className="flex justify-between items-end">
-                     <span className="text-sm font-black uppercase tracking-widest">ยอดชำระมัดจำ</span>
+                     <span className="text-sm font-black uppercase tracking-widest">{t.depositAmount}</span>
                      <span className="text-4xl font-black text-white">{formatPrice(total - discount)}</span>
                   </div>
                </div>
 
                <button className="w-full py-5 bg-white text-indigo-900 rounded-2xl font-black text-xl hover:shadow-2xl transition-all active:scale-95 flex items-center justify-center gap-3">
-                  ยืนยันการจอง Bundle
+                  {t.confirmBundle}
                   <ArrowRight className="w-6 h-6" />
                </button>
 

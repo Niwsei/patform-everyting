@@ -8,8 +8,13 @@ import { PageTransition } from '@/components/PageTransition';
 import { RelocationConcierge } from '@/features/relocation/components/RelocationConcierge';
 import { Truck, Shield, Zap, TrendingUp, Sparkles, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLanguageStore } from '@/stores/useLanguageStore';
+import { translations } from '@/lib/translations';
 
 export default function HomePage() {
+  const { language } = useLanguageStore()
+  const t = translations[language]
+
   return (
     <PageTransition>
       {/* 1. Hero Search */}
@@ -47,14 +52,14 @@ export default function HomePage() {
                   <div className="w-16 h-16 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-100 dark:shadow-none">
                      <Zap className="w-8 h-8" />
                   </div>
-                  <h3 className="text-3xl font-black text-slate-900 dark:text-white leading-tight">ค้นหาที่พักรวดเร็ว <br/>ด้วยระบบ AI อัจฉริยะ</h3>
+                  <h3 className="text-3xl font-black text-slate-900 dark:text-white leading-tight">{language === 'EN' ? 'Fast Property Search' : language === 'LO' ? 'ຄົ້ນຫາທີ່ພັກວ່ອງໄວ' : 'ค้นหาที่พักรวดเร็ว'} <br/>{language === 'EN' ? 'with Smart AI' : language === 'LO' ? 'ດ້ວຍລະບົບ AI' : 'ด้วยระบบ AI อัจฉริยะ'}</h3>
                   <p className="text-slate-500 dark:text-slate-400 font-bold leading-relaxed max-w-sm">
-                    ไม่ต้องเสียเวลาขับรถวนหา เราจับคู่คุณกับที่พักที่ตรงไลฟ์สไตล์ที่สุดในไม่กี่วินาที
+                    {language === 'EN' ? 'No more driving around. We match you with the perfect home in seconds.' : language === 'LO' ? 'ບໍ່ຕ້ອງເສຍເວລາຂັບລົດຫາ ໃຫ້ລະບົບຂອງພວກເຮົາຊ່ວຍທ່ານຄົ້ນຫາທີ່ພັກທີ່ເໝາະສົມທີ່ສຸດ.' : 'ไม่ต้องเสียเวลาขับรถวนหา เราจับคู่คุณกับที่พักที่ตรงไลฟ์สไตล์ที่สุดในไม่กี่วินาที'}
                   </p>
                </div>
                <div className="pt-8 relative z-10">
                   <button className="flex items-center gap-2 text-indigo-600 font-black uppercase tracking-widest text-xs group-hover:gap-4 transition-all">
-                     Start Searching <ArrowRight className="w-4 h-4" />
+                     {t.startSearching} <ArrowRight className="w-4 h-4" />
                   </button>
                </div>
             </motion.div>
@@ -67,8 +72,8 @@ export default function HomePage() {
                <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.2),transparent)] opacity-50" />
                <div className="flex justify-between items-start relative z-10">
                   <div className="space-y-4">
-                     <h3 className="text-2xl font-black leading-tight">บริการขนย้าย <br/> & โลจิสติกส์</h3>
-                     <p className="text-emerald-50 font-bold text-sm max-w-[200px] opacity-80">ย้ายเข้าบ้านใหม่แบบสบายๆ ด้วยทีมงานมืออาชีพ</p>
+                     <h3 className="text-2xl font-black leading-tight">{t.services} <br/> & Logistics</h3>
+                     <p className="text-emerald-50 font-bold text-sm max-w-[200px] opacity-80">{language === 'EN' ? 'Move to your new home stress-free with our professional team.' : language === 'LO' ? 'ຍ້າຍເຂົ້າບ້ານໃໝ່ແບບສະບາຍໆ ດ້ວຍທີມງານມືອາຊີບ.' : 'ย้ายเข้าบ้านใหม่แบบสบายๆ ด้วยทีมงานมืออาชีพ'}</p>
                   </div>
                   <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md">
                      <Truck className="w-6 h-6" />
@@ -85,8 +90,8 @@ export default function HomePage() {
                className="md:col-span-3 bg-slate-900 dark:bg-white p-10 rounded-[3rem] text-white dark:text-slate-900 flex items-center justify-between group overflow-hidden relative"
             >
                <div className="space-y-4 relative z-10">
-                  <h3 className="text-2xl font-black leading-tight">รายการที่ <br/> ผ่านการตรวจสอบ</h3>
-                  <p className="text-slate-400 dark:text-slate-500 font-bold text-sm max-w-[240px]">ปลอดภัย 100% ด้วยระบบ KYC ของพาร์ทเนอร์ทุกคน</p>
+                  <h3 className="text-2xl font-black leading-tight">{language === 'EN' ? 'Verified' : language === 'LO' ? 'ລາຍການທີ່' : 'รายการที่'} <br/> {language === 'EN' ? 'Listings' : language === 'LO' ? 'ຜ່ານການກວດສອບ' : 'ผ่านการตรวจสอบ'}</h3>
+                  <p className="text-slate-400 dark:text-slate-500 font-bold text-sm max-w-[240px]">{language === 'EN' ? '100% Safe with our partner KYC verification system.' : language === 'LO' ? 'ປອດໄພ 100% ດ້ວຍລະບົບ KYC ຂອງພາກສ່ວນທຸກຄົນ.' : 'ปลอดภัย 100% ด้วยระบบ KYC ของพาร์ทเนอร์ทุกคน'}</p>
                </div>
                <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center shrink-0 shadow-2xl relative z-10">
                   <Shield className="w-10 h-10 text-white" />
@@ -103,13 +108,13 @@ export default function HomePage() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp className="w-5 h-5 text-indigo-600" />
-              <span className="text-sm font-bold text-indigo-600 uppercase tracking-wider">กำลังเป็นที่นิยม</span>
+              <span className="text-sm font-bold text-indigo-600 uppercase tracking-wider">{t.popular}</span>
             </div>
-            <h2 className="text-4xl font-extrabold text-gray-900">อสังหาริมทรัพย์แนะนำ</h2>
-            <p className="mt-4 text-lg text-gray-600">ที่พักที่คัดสรรมาเพื่อคุณในโซนที่น่าสนใจที่สุดของเวียงจันทน์</p>
+            <h2 className="text-4xl font-extrabold text-gray-900">{t.recommended}</h2>
+            <p className="mt-4 text-lg text-gray-600">{language === 'EN' ? 'Handpicked properties in Vientiane most desirable neighborhoods.' : language === 'LO' ? 'ທີ່ພັກທີ່ຄັດສັນມາເພື່ອທ່ານໃນໂຊນທີ່ໜ້າສົນໃຈທີ່ສຸດຂອງວຽງຈັນ.' : 'ที่พักที่คัดสรรมาเพื่อคุณในโซนที่น่าสนใจที่สุดของเวียงจันทน์'}</p>
           </div>
           <a href="/properties" className="hidden sm:flex items-center gap-2 text-indigo-600 font-bold hover:gap-3 transition-all">
-            ดูทั้งหมด <span className="text-2xl leading-none">&rarr;</span>
+            {t.viewAll} <span className="text-2xl leading-none">&rarr;</span>
           </a>
         </div>
 
@@ -136,11 +141,11 @@ export default function HomePage() {
                 Nest AI Engine
               </div>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
-                ให้ AI ช่วยหาบ้าน <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300">ที่ใช่สำหรับคุณที่สุด</span>
+                {language === 'EN' ? 'Let AI Find Your' : language === 'LO' ? 'ໃຫ້ AI ຊ່ວຍຫາບ້ານ' : 'ให้ AI ช่วยหาบ้าน'} <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300">{language === 'EN' ? 'Perfect Home' : language === 'LO' ? 'ທີ່ແມ່ນສຳລັບທ່ານທີ່ສຸດ' : 'ที่ใช่สำหรับคุณที่สุด'}</span>
               </h2>
               <p className="text-lg text-slate-400 font-medium max-w-lg">
-                ระบบอัจฉริยะของเราวิเคราะห์ที่พักกว่าพันแห่งในเวียงจันทน์ เพื่อจับคู่คุณกับทำเลและราคาที่ตอบโจทย์ไลฟ์สไตล์ของคุณที่สุด
+                {language === 'EN' ? 'Our smart engine analyzes thousands of listings to match you with the perfect location and price.' : language === 'LO' ? 'ລະບົບອັດສະລິຍະຂອງພວກເຮົາວິເຄາະທີ່ພັກກວ່າພັນແຫ່ງເພື່ອຈັບຄູ່ທ່ານກັບທຳເລທີ່ຕອບໂຈດທີ່ສຸດ.' : 'ระบบอัจฉริยะของเราวิเคราะห์ที่พักกว่าพันแห่งในเวียงจันทน์ เพื่อจับคู่คุณกับทำเลและราคาที่ตอบโจทย์ไลฟ์สไตล์ของคุณที่สุด'}
               </p>
               <NestAIEngine />
             </div>
@@ -171,20 +176,19 @@ export default function HomePage() {
 
       {/* 4. CTA for Landlords/Services */}
       <section className="bg-indigo-900 py-24">
-        <div className="max-w-5_l mx-auto px-4 text-center">
+        <div className="max-w-5xl mx-auto px-4 text-center">
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white mb-8">
-            คุณมีห้องว่างหรือบริการขนส่งหรือไม่?
+            {language === 'EN' ? 'Have a Property or Service?' : language === 'LO' ? 'ທ່ານມີຫ້ອງວ່າງ ຫຼື ບໍລິການຂົນສົ່ງຫຼືບໍ່?' : 'คุณมีห้องว่างหรือบริการขนส่งหรือไม่?'}
           </h2>
           <p className="text-xl text-indigo-100 mb-12 opacity-80">
-            เข้าร่วมเครือข่ายการเช่าและโลจิสติกส์ที่เติบโตเร็วที่สุดในเวียงจันทน์
-            ให้ลูกค้าหลายพันคนเห็นบริการของคุณทุกวัน
+            {language === 'EN' ? 'Join the fastest growing rental and logistics network in Vientiane.' : language === 'LO' ? 'ເຂົ້າຮ່ວມເຄືອຂ່າຍການເຊົ່າ ແລະ ໂລຈິສຕິກທີ່ເຕີບໂຕໄວທີ່ສຸດໃນວຽງຈັນ.' : 'เข้าร่วมเครือข่ายการเช่าและโลจิสติกส์ที่เติบโตเร็วที่สุดในเวียงจันทน์'}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="bg-white text-indigo-900 px-10 py-4 rounded-2xl font-bold text-lg hover:bg-indigo-50 transition-colors">
-              ลงประกาศที่พักของคุณ
+              {language === 'EN' ? 'List Your Property' : language === 'LO' ? 'ລົງປະກາດທີ່ພັກ' : 'ลงประกาศที่พักของคุณ'}
             </button>
             <button className="bg-indigo-700 text-white px-10 py-4 rounded-2xl font-bold text-lg hover:bg-indigo-600 transition-colors border border-indigo-500/30">
-              เข้าร่วมเป็นพาร์ทเนอร์
+              {t.partner}
             </button>
           </div>
         </div>

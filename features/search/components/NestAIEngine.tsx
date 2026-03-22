@@ -6,9 +6,13 @@ import { Sparkles, Search, CheckCircle2, Home, MapPin, DollarSign, BrainCircuit,
 import { mockProperties } from '@/features/properties/services/mockData'
 import { PropertyCard } from '@/features/properties/components/PropertyCard'
 import { cn } from '@/lib/utils'
+import { useLanguageStore } from '@/stores/useLanguageStore'
+import { translations } from '@/lib/translations'
 
 export function NestAIEngine() {
   const [isOpen, setIsOpen] = useState(false)
+  const { language } = useLanguageStore()
+  const t = translations[language]
   const [step, setStep] = useState(0)
   const [preferences, setPreferences] = useState({
     budget: '',
@@ -21,29 +25,29 @@ export function NestAIEngine() {
   const steps = [
     {
       id: 'budget',
-      question: 'งบประมาณรายเดือนที่คุณตั้งไว้คือเท่าไหร่?',
+      question: language === 'EN' ? 'What is your monthly budget?' : language === 'LO' ? 'ງົບປະມານລາຍເດືອນຂອງທ່ານແມ່ນເທົ່າໃດ?' : 'งบประมาณรายเดือนที่คุณตั้งไว้คือเท่าไหร่?',
       options: [
-        { label: 'ไม่เกิน 2 ล้าน กีบ', value: 'under_2m' },
-        { label: '2 - 5 ล้าน กีบ', value: '2m_to_5m' },
-        { label: '5 ล้าน กีบ ขึ้นไป', value: 'over_5m' }
+        { label: language === 'EN' ? 'Under 2M LAK' : language === 'LO' ? 'ຕ່ຳກວ່າ 2 ລ້ານ ກີບ' : 'ไม่เกิน 2 ล้าน กีบ', value: 'under_2m' },
+        { label: language === 'EN' ? '2M - 5M LAK' : language === 'LO' ? '2 - 5 ລ້ານ ກີບ' : '2 - 5 ล้าน กีบ', value: '2m_to_5m' },
+        { label: language === 'EN' ? 'Over 5M LAK' : language === 'LO' ? 'ຫຼາຍກວ່າ 5 ລ້ານ ກີບ' : '5 ล้าน กีบ ขึ้นไป', value: 'over_5m' }
       ]
     },
     {
       id: 'vibe',
-      question: 'คุณชอบบรรยากาศแบบไหนมากที่สุด?',
+      question: language === 'EN' ? 'What vibe do you prefer?' : language === 'LO' ? 'ທ່ານມັກບັນຍາກາດແບບໃດ?' : 'คุณชอบบรรยากาศแบบไหนมากที่สุด?',
       options: [
-        { label: 'ใจกลางเมือง เดินทางสะดวก', value: 'urban' },
-        { label: 'เงียบสงบ ใกล้ธรรมชาติ', value: 'quiet' },
-        { label: 'หรูหรา พร้อมสิ่งอำนวยความสะดวก', value: 'luxury' }
+        { label: language === 'EN' ? 'City Center, Convenient' : language === 'LO' ? 'ໃຈກາງເມືອງ, ເດີນທາງສະດວກ' : 'ใจกลางเมือง เดินทางสะดวก', value: 'urban' },
+        { label: language === 'EN' ? 'Quiet, Near Nature' : language === 'LO' ? 'ງຽບສະຫງົບ, ໃກ້ທຳມະຊາດ' : 'เงียบสงบ ใกล้ธรรมชาติ', value: 'quiet' },
+        { label: language === 'EN' ? 'Luxury with Amenities' : language === 'LO' ? 'ຫູຫຼາ ພ້ອມສິ່ງອຳນວຍຄວາມສະດວກ' : 'หรูหรา พร้อมสิ่งอำนวยความสะดวก', value: 'luxury' }
       ]
     },
     {
       id: 'amenity',
-      question: 'สิ่งอำนวยความสะดวกที่ขาดไม่ได้คือ?',
+      question: language === 'EN' ? 'Essential amenities?' : language === 'LO' ? 'ສິ່ງອຳນວຍຄວາມສະດວກທີ່ຂາດບໍ່ໄດ້?' : 'สิ่งอำนวยความสะดวกที่ขาดไม่ได้คือ?',
       options: [
-        { label: 'อินเทอร์เน็ตความเร็วสูง', value: 'WiFi' },
-        { label: 'สระว่ายน้ำและยิม', value: 'pool_gym' },
-        { label: 'ที่จอดรถกว้างขวาง', value: 'parking' }
+        { label: language === 'EN' ? 'High Speed WiFi' : language === 'LO' ? 'ອິນເຕີເນັດຄວາມໄວສູງ' : 'อินเทอร์เน็ตความเร็วสูง', value: 'WiFi' },
+        { label: language === 'EN' ? 'Pool & Gym' : language === 'LO' ? 'ສະລອຍນ້ຳ ແລະ ຢິມ' : 'สระว่ายน้ำและยิม', value: 'pool_gym' },
+        { label: language === 'EN' ? 'Spacious Parking' : language === 'LO' ? 'ບ່ອນຈອດລົດກວ້າງຂວາງ' : 'ที่จอดรถกว้างขวาง', value: 'parking' }
       ]
     }
   ]
@@ -67,7 +71,21 @@ export function NestAIEngine() {
     setAnalysisLogs([])
 
     // Simulate detailed logs
-    const logs = [
+    const logs = language === 'EN' ? [
+      "Connecting to Vientiane Data Hub...",
+      `Analyzing price trends in ${preferences.vibe === 'urban' ? 'Chanthabouly' : 'Sisattanak'}...`,
+      "Checking real-time availability...",
+      "Comparing desired amenities...",
+      "Calculating Nest Score (Value-for-money)...",
+      "Generating personalized recommendations..."
+    ] : language === 'LO' ? [
+      "ກຳລັງເຊື່ອມຕໍ່ກັບ Vientiane Data Hub...",
+      `ວິເຄາະແນວໂນ້ມລາຄາໃນຢ່ານ ${preferences.vibe === 'urban' ? 'ຈັນທະບູລີ' : 'ສີສັດຕະນາກ'}...`,
+      "ກວດສອບສະຖານະຫ້ອງວ່າງແບບ Real-time...",
+      "ປຽບທຽບສິ່ງອຳນວຍຄວາມສະດວກທີ່ຕ້ອງການ...",
+      "ຄຳນວນຄະແນນຄວາມຄຸ້ມຄ່າ (Nest Score)...",
+      "ສ້າງລາຍການທີ່ແນະນຳສຳລັບທ່ານ..."
+    ] : [
       "กำลังเชื่อมต่อกับ Vientiane Data Hub...",
       `วิเคราะห์แนวโน้มราคาในย่าน ${preferences.vibe === 'urban' ? 'จันทะบูลี' : 'สีสัตตนาค'}...`,
       "ตรวจสอบสถานะห้องว่างแบบ Real-time...",
@@ -110,7 +128,7 @@ export function NestAIEngine() {
         onClick={() => setIsOpen(true)}
         className="bg-white text-slate-900 px-10 py-5 rounded-2xl font-black text-lg hover:shadow-2xl hover:shadow-white/10 transition-all active:scale-95"
       >
-        เริ่มการวิเคราะห์ด้วย AI
+        {t.aiBtn}
       </button>
 
       <AnimatePresence>
@@ -244,14 +262,14 @@ export function NestAIEngine() {
                     >
                       <div className="flex items-center justify-between">
                         <div className="space-y-1">
-                          <h3 className="text-2xl font-black text-slate-900">ผลการวิเคราะห์</h3>
-                          <p className="text-slate-500 font-bold text-xs uppercase tracking-widest">เราพบ {recommendations.length} ที่พักที่เหมาะกับคุณที่สุด</p>
+                  <h3 className="text-2xl font-black text-slate-900">{language === 'EN' ? 'Analysis Results' : language === 'LO' ? 'ຜົນການວິເຄາະ' : 'ผลการวิเคราะห์'}</h3>
+                  <p className="text-slate-500 font-bold text-xs uppercase tracking-widest">{language === 'EN' ? `We found ${recommendations.length} perfect matches.` : language === 'LO' ? `ພວກເຮົາພົບ ${recommendations.length} ທີ່ພັກທີ່ເໝາະສົມ.` : `เราพบ ${recommendations.length} ที่พักที่เหมาะกับคุณที่สุด`}</p>
                         </div>
                         <button
                           onClick={reset}
                           className="text-xs font-black text-indigo-600 uppercase tracking-widest hover:underline"
                         >
-                          เริ่มวิเคราะห์ใหม่
+                  {language === 'EN' ? 'Start Over' : language === 'LO' ? 'ເລີ່ມໃຫມ່' : 'เริ่มวิเคราะห์ใหม่'}
                         </button>
                       </div>
 

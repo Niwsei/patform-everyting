@@ -3,8 +3,9 @@
 import { PropertyCard } from '@/features/properties/components/PropertyCard';
 import { PropertyMap } from '@/features/properties/components/PropertyMap';
 import { mockProperties } from '@/features/properties/services/mockData';
-import { SearchX, SlidersHorizontal, LayoutGrid, Map as MapIcon } from 'lucide-react';
+import { SearchX, SlidersHorizontal, LayoutGrid, Map as MapIcon, ChevronDown } from 'lucide-react';
 import { PropertyCardSkeleton } from '@/components/ui/Skeleton';
+import { AdvancedFilters } from '@/features/properties/components/filters/AdvancedFilters';
 import Link from 'next/link';
 import { use, useState, useEffect } from 'react';
 
@@ -24,11 +25,13 @@ export default function PropertiesPage({ searchParams }: PropertiesPageProps) {
   } = use(searchParams);
 
   const [isLoading, setIsLoading] = useState(true);
+  const [activeFilters, setActiveFilters] = useState<any>({});
+  const [sortBy, setSortBy] = useState('newest');
 
   useEffect(() => {
-     const timer = setTimeout(() => setIsLoading(false), 1500);
+     const timer = setTimeout(() => setIsLoading(false), 1200);
      return () => clearTimeout(timer);
-  }, [locationFilter, priceFilter, categoryFilter]);
+  }, [locationFilter, priceFilter, categoryFilter, activeFilters, sortBy]);
 
   const filteredProperties = mockProperties.filter((property) => {
     const matchLocation = locationFilter 
@@ -48,7 +51,26 @@ export default function PropertiesPage({ searchParams }: PropertiesPageProps) {
       matchPrice = property.pricePerMonth > 5000000;
     }
 
-    return matchLocation && matchPrice && matchCategory;
+    const matchVerified = activeFilters.verifiedOnly ? property.isFeatured : true;
+    const matchAmenities = activeFilters.amenities?.length
+      ? activeFilters.amenities.every((a: string) => property.amenities.includes(a))
+      : true;
+
+    const matchRating = activeFilters.minRating ? (property.rating || 0) >= activeFilters.minRating : true;
+
+    const matchLandmark = activeFilters.landmark ? (
+      activeFilters.landmark === 'patuxay' ? property.location.includes('จันทะบูลี') :
+      activeFilters.landmark === 'mekong' ? property.location.includes('สีโคดตะบอง') :
+      activeFilters.landmark === 'morning_market' ? property.location.includes('ไซเศรษฐา') :
+      activeFilters.landmark === 'dongdok' ? property.location.includes('ไซทานี') : true
+    ) : true;
+
+    return matchLocation && matchPrice && matchCategory && matchVerified && matchAmenities && matchRating && matchLandmark;
+  }).sort((a, b) => {
+     if (sortBy === 'price_low') return a.pricePerMonth - b.pricePerMonth;
+     if (sortBy === 'price_high') return b.pricePerMonth - a.pricePerMonth;
+     if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0);
+     return 0;
   });
 
   return (
@@ -69,10 +91,36 @@ export default function PropertiesPage({ searchParams }: PropertiesPageProps) {
               </p>
             </div>
 
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors shadow-sm">
-              <SlidersHorizontal className="w-4 h-4" />
-              ตัวกรองขั้นสูง
-            </button>
+            <AdvancedFilters
+               activeFilters={activeFilters}
+               onFilterChange={(f) => {
+                  setIsLoading(true);
+                  setActiveFilters(f);
+               }}
+            />
+
+            <div className="relative group">
+               <button className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-800 text-sm font-black text-slate-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800 transition-all shadow-sm">
+                 เรียงตาม: {sortBy === 'newest' ? 'ใหม่ล่าสุด' : sortBy === 'price_low' ? 'ราคาถูกที่สุด' : sortBy === 'price_high' ? 'ราคาสูงที่สุด' : 'คะแนนสูงสุด'}
+                 <ChevronDown className="w-4 h-4" />
+               </button>
+               <div className="absolute top-full left-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[50]">
+                  {[
+                    { label: 'ใหม่ล่าสุด', value: 'newest' },
+                    { label: 'ราคาถูกที่สุด', value: 'price_low' },
+                    { label: 'ราคาสูงที่สุด', value: 'price_high' },
+                    { label: 'คะแนนสูงสุด', value: 'rating' },
+                  ].map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => setSortBy(opt.value)}
+                      className="w-full text-left px-5 py-2.5 text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-indigo-600 transition-colors"
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+               </div>
+            </div>
           </div>
 
           <div className="hidden sm:flex items-center bg-gray-100 p-1 rounded-xl">
