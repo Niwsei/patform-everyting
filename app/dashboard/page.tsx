@@ -24,12 +24,15 @@ import {
   Package,
   LayoutGrid,
   Gift,
-  BrainCircuit
+  BrainCircuit,
+  ArrowRight
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { AnalyticsSkeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
+import { useLanguageStore } from "@/stores/useLanguageStore";
+import { translations } from "@/lib/translations";
 import { PartnerAnalytics } from "@/features/dashboard/components/PartnerAnalytics";
 import { TenantKYC } from "@/components/kyc/TenantKYC";
 import { DigitalLease } from "@/components/kyc/DigitalLease";
@@ -44,22 +47,23 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('bookings');
   const [isLoading, setIsLoading] = useState(false);
   const { formatPrice } = useCurrencyStore();
+  const { language } = useLanguageStore();
+  const t = translations[language];
 
   const handleTabChange = (tab: string) => {
-     if (tab === 'analytics' || tab === 'market_report') {
+     if (tab !== activeTab) {
         setIsLoading(true);
-        setTimeout(() => setIsLoading(false), 1000);
+        setTimeout(() => setIsLoading(false), 800);
+        setActiveTab(tab);
      }
-     setActiveTab(tab);
   }
 
-  // Simulated data
   const myBookings = [
     {
       id: 'bk-001',
       property: mockProperties[0],
       status: 'pending',
-      date: 'Sep 24, 2023',
+      date: 'Dec 20, 2024',
       amount: 3650000,
       host: mockProperties[0].hostName,
       type: 'property'
@@ -67,281 +71,241 @@ export default function DashboardPage() {
     {
       id: 'srv-001',
       property: {
-        title: 'บริการขนย้ายบ้านแบบ Full-Service',
-        location: 'ทั่วเวียงจันทน์',
+        title: 'Premium Moving & Setup',
+        location: 'Vientiane Capital',
         images: ['https://images.unsplash.com/photo-1600518464441-9154a4dea21b?q=80&w=600&auto=format&fit=crop'],
       },
       status: 'confirmed',
-      date: 'Oct 01, 2023',
+      date: 'Dec 22, 2024',
       amount: 450000,
-      host: 'Vientiane Logistics',
+      host: 'Vientiane Nest Logistics',
       type: 'service'
     }
   ];
 
-  return (
-    <div className="min-h-screen bg-slate-50 pt-24 pb-12">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+  const navItems = [
+    { id: 'bookings', label: 'My Bookings', icon: Calendar },
+    { id: 'analytics', label: 'Partner Metrics', icon: BarChart2 },
+    { id: 'manage_bookings', label: 'Booking Requests', icon: Package },
+    { id: 'manage_units', label: 'Estate Inventory', icon: LayoutGrid },
+    { id: 'rewards', label: 'Referral Alpha', icon: Gift },
+    { id: 'market_report', label: 'AI Market Pulse', icon: TrendingUp },
+    { id: 'ai_vision', label: 'Visual Optimizer', icon: BrainCircuit },
+    { id: 'service_calendar', label: 'Service Ops', icon: Calendar },
+  ];
 
-          {/* Sidebar Nav */}
+  return (
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-32 pb-24">
+      <div className="container mx-auto px-6 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+          {/* Sidebar Navigation - Startup Style */}
           <div className="lg:col-span-3 space-y-8">
-            <div className="bg-white rounded-[2rem] p-8 shadow-premium border border-slate-100 space-y-8">
+            <div className="bg-white dark:bg-slate-900 rounded-[3rem] p-8 shadow-premium border border-slate-100 dark:border-slate-800 space-y-10">
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-indigo-600 rounded-3xl flex items-center justify-center text-white text-2xl font-black shadow-lg">
+                <div className="w-16 h-16 bg-primary rounded-[1.5rem] flex items-center justify-center text-white text-xl font-black shadow-glow">
                   AS
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-900 leading-none">คุณอเล็กซ์ สมิธ</h2>
-                  <p className="text-slate-400 font-bold text-xs mt-1 uppercase tracking-widest">สมาชิกพรีเมียม</p>
+                  <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight leading-none">Alex Smith</h2>
+                  <p className="text-primary font-black text-[9px] mt-2 uppercase tracking-[0.2em] px-2 py-0.5 bg-primary/10 rounded-full inline-block">Elite Partner</p>
                 </div>
               </div>
 
-              <nav className="space-y-2">
-                <button
-                  onClick={() => handleTabChange('bookings')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'bookings' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
-                >
-                  <Calendar className="w-5 h-5" />
-                  การจองของฉัน
-                </button>
-                <button
-                  onClick={() => handleTabChange('analytics')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'analytics' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
-                >
-                  <BarChart2 className="w-5 h-5" />
-                  สถิติพาร์ทเนอร์
-                </button>
-                <button
-                  onClick={() => handleTabChange('manage_bookings')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'manage_bookings' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
-                >
-                  <Package className="w-5 h-5" />
-                  จัดการคำขอจอง
-                </button>
-                <button
-                  onClick={() => handleTabChange('manage_units')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'manage_units' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
-                >
-                  <LayoutGrid className="w-5 h-5" />
-                  จัดการยูนิตที่พัก
-                </button>
-                <button
-                  onClick={() => handleTabChange('rewards')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'rewards' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
-                >
-                  <Gift className="w-5 h-5" />
-                  รางวัลและการแนะนำ
-                </button>
-                <button
-                  onClick={() => handleTabChange('market_report')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'market_report' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
-                >
-                  <TrendingUp className="w-5 h-5" />
-                  รายงานตลาด AI
-                </button>
-                <button
-                  onClick={() => handleTabChange('ai_vision')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'ai_vision' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
-                >
-                  <BrainCircuit className="w-5 h-5" />
-                  AI Vision Optimizer
-                </button>
-                <button
-                  onClick={() => handleTabChange('service_calendar')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'service_calendar' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
-                >
-                  <Calendar className="w-5 h-5" />
-                  ตารางงานบริการ
-                </button>
+              <nav className="space-y-1">
+                {navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => handleTabChange(item.id)}
+                    className={cn(
+                      "w-full flex items-center gap-3 px-6 py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-[0.15em] transition-all relative group",
+                      activeTab === item.id
+                        ? "bg-slate-900 dark:bg-primary text-white shadow-premium"
+                        : "text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
+                    )}
+                  >
+                    <item.icon className={cn("w-4 h-4", activeTab === item.id ? "text-white" : "text-slate-400 group-hover:text-primary")} />
+                    {item.label}
+                    {activeTab === item.id && (
+                       <motion.div layoutId="nav-glow" className="absolute inset-0 bg-primary/20 blur-xl -z-10 rounded-2xl" />
+                    )}
+                  </button>
+                ))}
+
+                <div className="h-px bg-slate-100 dark:bg-slate-800 my-4" />
+
                 <Link
                   href="/favorites"
-                  className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-slate-500 hover:bg-slate-50 transition-all"
+                  className="w-full flex items-center gap-3 px-6 py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-[0.15em] text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
                 >
-                  <Heart className="w-5 h-5" />
-                  ที่พักที่บันทึกไว้
+                  <Heart className="w-4 h-4" />
+                  Saved Estates
                 </Link>
-                <button
-                  className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-slate-500 hover:bg-slate-50 transition-all"
-                >
-                  <MessageSquare className="w-5 h-5" />
-                  ข้อความ
-                  <span className="ml-auto w-5 h-5 bg-indigo-600 text-white text-[10px] rounded-full flex items-center justify-center">2</span>
-                </button>
-                <button
-                  className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-slate-500 hover:bg-slate-50 transition-all"
-                >
-                  <Settings className="w-5 h-5" />
-                  ตั้งค่า
+                <button className="w-full flex items-center gap-3 px-6 py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-[0.15em] text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all">
+                  <Settings className="w-4 h-4" />
+                  Settings
                 </button>
               </nav>
             </div>
 
-            <div className="bg-indigo-900 rounded-[2rem] p-8 text-white relative overflow-hidden group">
-               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-700" />
-               <h4 className="font-black text-xl mb-2 relative z-10">แนะนำเพื่อน</h4>
-               <p className="text-sm font-medium opacity-80 mb-6 relative z-10">รับ ₭100,000 สำหรับเพื่อนทุกคนที่จองที่พักครั้งแรก</p>
-               <button className="w-full py-4 bg-white text-indigo-900 rounded-2xl font-black text-sm relative z-10 hover:shadow-xl transition-all">
-                  แชร์รหัสแนะนำ
+            {/* Promo Card */}
+            <div className="bg-primary rounded-[3rem] p-10 text-white relative overflow-hidden group shadow-glow">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
+               <Gift className="w-10 h-10 mb-6 opacity-40" />
+               <h4 className="font-black text-2xl mb-2 tracking-tighter leading-none">Refer & Earn Alpha</h4>
+               <p className="text-sm font-bold text-white/70 mb-8">Earn ₭250k for every verified landlord you refer.</p>
+               <button className="w-full py-4 bg-white text-primary rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest hover:shadow-2xl transition-all">
+                  Generate Link
                </button>
             </div>
 
             <div className="space-y-4">
-               <h3 className="px-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">การดำเนินการที่จำเป็น</h3>
+               <h3 className="px-6 text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Required Protocol</h3>
                <TenantKYC />
-               <DigitalLease
-                  propertyName={mockProperties[0].title}
-                  hostName={mockProperties[0].hostName || 'Host'}
-                  amount={formatPrice(mockProperties[0].pricePerMonth)}
-               />
             </div>
           </div>
 
-          {/* Main Dashboard Content */}
-          <div className="lg:col-span-9 space-y-10">
-            {isLoading ? (
-               <AnalyticsSkeleton />
-            ) : activeTab === 'analytics' ? (
-               <PartnerAnalytics />
-            ) : activeTab === 'manage_bookings' ? (
-               <HostBookingManager />
-            ) : activeTab === 'manage_units' ? (
-               <UnitManagement />
-            ) : activeTab === 'rewards' ? (
-               <ReferralRewards />
-            ) : activeTab === 'market_report' ? (
-               <MarketReport />
-            ) : activeTab === 'ai_vision' ? (
-               <AIVisionOptimizer />
-            ) : activeTab === 'service_calendar' ? (
-               <ServiceJobCalendar />
-            ) : (
-               <>
-            {/* Stats Overview */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-               <div className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-slate-100">
-                  <div className="flex items-center justify-between mb-4">
-                     <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center">
-                        <Wallet className="w-6 h-6" />
-                     </div>
-                     <span className="flex items-center gap-1 text-emerald-500 font-bold text-xs bg-emerald-50 px-2 py-1 rounded-full">
-                        <ArrowUpRight className="w-3 h-3" />
-                        +12%
-                     </span>
-                  </div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ยอดใช้จ่ายสะสม</p>
-                  <p className="text-2xl font-black text-slate-900">{formatPrice(4100000)}</p>
-               </div>
-
-               <div className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-slate-100">
-                  <div className="flex items-center justify-between mb-4">
-                     <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center">
-                        <Package className="w-6 h-6" />
-                     </div>
-                  </div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">การจองที่รอการตรวจสอบ</p>
-                  <p className="text-2xl font-black text-slate-900">01</p>
-               </div>
-
-               <div className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-slate-100">
-                  <div className="flex items-center justify-between mb-4">
-                     <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center">
-                        <BarChart2 className="w-6 h-6" />
-                     </div>
-                  </div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">คะแนนเครดิต Nest</p>
-                  <p className="text-2xl font-black text-slate-900">740</p>
-               </div>
-            </div>
-
-            {/* Header / Section Title */}
-            <div>
-               <h2 className="text-3xl font-black text-slate-900 tracking-tight">จัดการการจอง</h2>
-               <p className="text-slate-500 font-bold mt-2 text-sm">ตรวจสอบสถานะและรายละเอียดการจองของคุณ</p>
-            </div>
-
-            {/* Booking List */}
-            <div className="space-y-6">
-              {myBookings.map((booking) => (
+          {/* Main Content Area */}
+          <div className="lg:col-span-9 space-y-12">
+            <AnimatePresence mode="wait">
+              {isLoading ? (
                 <motion.div
-                  key={booking.id}
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  className="bg-white rounded-[2.5rem] p-8 shadow-premium border border-slate-100 flex flex-col md:flex-row gap-8 relative overflow-hidden group"
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                 >
-                  <div className={cn(
-                    "absolute top-0 right-0 px-6 py-2 rounded-bl-3xl font-black text-[10px] uppercase tracking-widest border-l border-b transition-all",
-                    booking.status === 'pending' ? "bg-amber-50 text-amber-600 border-amber-100/50" : "bg-emerald-50 text-emerald-600 border-emerald-100/50"
-                  )}>
-                    {booking.status === 'pending' ? 'รอการตรวจสอบ' : 'ยืนยันแล้ว'}
-                  </div>
-
-                  <div className="relative w-full md:w-48 h-40 rounded-3xl overflow-hidden shrink-0 shadow-lg border border-slate-100">
-                    <Image src={booking.property.images?.[0] || booking.property.images[0]} alt="Property" fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
-                  </div>
-
-                  <div className="flex-1 space-y-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className={cn(
-                          "px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest",
-                          booking.type === 'property' ? "bg-indigo-50 text-indigo-600" : "bg-emerald-50 text-emerald-600"
-                        )}>
-                          {booking.type === 'property' ? 'อสังหาริมทรัพย์' : 'บริการ'}
-                        </span>
-                      </div>
-                      <h3 className="text-2xl font-black text-slate-900 line-clamp-1 group-hover:text-indigo-600 transition-colors">{booking.property.title}</h3>
-                      <p className="flex items-center gap-1.5 text-slate-400 font-bold text-sm">
-                        <MapPin className="w-4 h-4 text-indigo-500" />
-                        {booking.property.location}
-                      </p>
-                    </div>
-
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-4 border-t border-slate-50">
-                      <div>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{booking.type === 'property' ? 'วันที่เข้าอยู่' : 'วันที่รับบริการ'}</p>
-                        <p className="font-bold text-slate-900">{booking.date}</p>
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{booking.type === 'property' ? 'เจ้าของที่พัก' : 'ผู้ให้บริการ'}</p>
-                        <p className="font-bold text-slate-900">{booking.host}</p>
-                      </div>
-                      <div className="col-span-2 md:col-span-1">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ยอดรวม</p>
-                        <p className="font-bold text-indigo-600">{formatPrice(booking.amount)}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex md:flex-col justify-end gap-3 pt-6 md:pt-0 border-t md:border-t-0 md:border-l border-slate-50 md:pl-8">
-                     <button className="flex-1 md:flex-none px-6 py-4 bg-slate-900 text-white rounded-2xl font-bold text-sm hover:shadow-xl transition-all">
-                        ดูรายละเอียด
-                     </button>
-                     <button className="flex-1 md:flex-none px-6 py-4 bg-white border-2 border-slate-100 text-slate-400 rounded-2xl font-bold text-sm hover:text-slate-600 hover:border-slate-200 transition-all">
-                        ยกเลิก
-                     </button>
-                  </div>
+                  <AnalyticsSkeleton />
                 </motion.div>
-              ))}
-            </div>
+              ) : (
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {activeTab === 'analytics' ? <PartnerAnalytics /> :
+                   activeTab === 'manage_bookings' ? <HostBookingManager /> :
+                   activeTab === 'manage_units' ? <UnitManagement /> :
+                   activeTab === 'rewards' ? <ReferralRewards /> :
+                   activeTab === 'market_report' ? <MarketReport /> :
+                   activeTab === 'ai_vision' ? <AIVisionOptimizer /> :
+                   activeTab === 'service_calendar' ? <ServiceJobCalendar /> :
+                   (
+                    <div className="space-y-12">
+                      {/* Dashboard Stats */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                         {[
+                           { label: 'Total Equity Managed', val: '₭12.4M', icon: Wallet, trend: '+14%', color: 'primary' },
+                           { label: 'Active Reservations', val: '04', icon: Package, trend: 'Stable', color: 'emerald' },
+                           { label: 'Nest Credit Score', val: '785', icon: BrainCircuit, trend: 'Top 5%', color: 'indigo' }
+                         ].map((stat, i) => (
+                           <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] shadow-premium border border-slate-100 dark:border-slate-800 group hover:-translate-y-1 transition-all duration-500">
+                              <div className="flex items-center justify-between mb-6">
+                                 <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg", `bg-${stat.color === 'primary' ? 'primary' : stat.color + '-500'}`)}>
+                                    <stat.icon className="w-7 h-7" />
+                                 </div>
+                                 <span className="text-[10px] font-black text-emerald-500 bg-emerald-500/10 px-3 py-1.5 rounded-full uppercase tracking-widest">{stat.trend}</span>
+                              </div>
+                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{stat.label}</p>
+                              <p className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter">{stat.val}</p>
+                           </div>
+                         ))}
+                      </div>
 
-            {/* Empty State / Recommended */}
-            <div className="bg-slate-200/50 rounded-[2.5rem] p-12 text-center border-2 border-dashed border-slate-200">
-               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-                  <TrendingUp className="w-8 h-8 text-indigo-600" />
-               </div>
-               <h3 className="text-xl font-black text-slate-900">กำลังมองหาที่พักเพิ่มเติม?</h3>
-               <p className="text-slate-500 font-medium mt-2 mb-8 max-w-sm mx-auto">ค้นพบที่พักที่กำลังเป็นที่นิยมในย่านที่คุณสนใจ</p>
-               <Link
-                href="/properties"
-                className="inline-flex items-center gap-2 bg-white text-slate-900 px-8 py-4 rounded-2xl font-black shadow-sm hover:shadow-md transition-all"
-               >
-                 สำรวจที่พัก
-                 <ChevronRight className="w-4 h-4" />
-               </Link>
-            </div>
-               </>
-            )}
+                      {/* Section Title */}
+                      <div className="flex items-center justify-between">
+                         <div>
+                            <h2 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Operations Control</h2>
+                            <p className="text-slate-500 dark:text-slate-400 font-bold mt-3 text-sm">Real-time status of your active property and service bookings.</p>
+                         </div>
+                         <button className="btn-secondary px-8 py-3">Filter Logic</button>
+                      </div>
+
+                      {/* Booking Feed */}
+                      <div className="space-y-6">
+                        {myBookings.map((booking) => (
+                          <div
+                            key={booking.id}
+                            className="bg-white dark:bg-slate-900 rounded-[3rem] p-8 shadow-premium border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row gap-8 relative overflow-hidden group hover:border-primary/50 transition-all duration-500"
+                          >
+                            <div className={cn(
+                              "absolute top-0 right-0 px-8 py-3 rounded-bl-[2rem] font-black text-[9px] uppercase tracking-[0.2em] border-l border-b transition-all",
+                              booking.status === 'pending' ? "bg-amber-500 text-white border-amber-600 shadow-glow" : "bg-emerald-500 text-white border-emerald-600 shadow-glow"
+                            )}>
+                              {booking.status === 'pending' ? 'Verification Pending' : 'Confirmed Active'}
+                            </div>
+
+                            <div className="relative w-full md:w-56 h-48 rounded-[2rem] overflow-hidden shrink-0 shadow-2xl border border-white/10">
+                              <Image src={booking.property.images?.[0] || booking.property.images[0]} alt="Property" fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
+                            </div>
+
+                            <div className="flex-1 flex flex-col justify-center">
+                              <div className="space-y-1 mb-6">
+                                <div className="flex items-center gap-3 mb-2">
+                                  <span className={cn(
+                                    "px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest border",
+                                    booking.type === 'property' ? "bg-primary/10 text-primary border-primary/20" : "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                                  )}>
+                                    {booking.type === 'property' ? 'Real Estate Asset' : 'Managed Service'}
+                                  </span>
+                                </div>
+                                <h3 className="text-3xl font-black text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors tracking-tighter leading-none">{booking.property.title}</h3>
+                                <p className="flex items-center gap-2 text-slate-400 font-bold text-xs uppercase tracking-wider mt-2">
+                                  <MapPin className="w-4 h-4 text-primary" />
+                                  {booking.property.location}
+                                </p>
+                              </div>
+
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-8 pt-6 border-t border-slate-50 dark:border-slate-800">
+                                <div>
+                                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Operation Date</p>
+                                  <p className="font-black text-slate-900 dark:text-white text-sm">{booking.date}</p>
+                                </div>
+                                <div>
+                                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Entity Lead</p>
+                                  <p className="font-black text-slate-900 dark:text-white text-sm">{booking.host}</p>
+                                </div>
+                                <div className="col-span-2 md:col-span-1">
+                                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Contract</p>
+                                  <p className="font-black text-primary text-sm">{formatPrice(booking.amount)}</p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="flex md:flex-col justify-end gap-3 pt-6 md:pt-0 border-t md:border-t-0 md:border-l border-slate-50 dark:border-slate-800 md:pl-10">
+                               <button className="flex-1 md:flex-none px-8 py-4 bg-slate-900 dark:bg-slate-800 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-primary transition-all shadow-premium">
+                                  Audit Details
+                                </button>
+                               <button className="flex-1 md:flex-none px-8 py-4 bg-white dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 text-slate-400 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:text-rose-500 hover:border-rose-500 transition-all">
+                                  Terminate
+                               </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Empty State Upgrade */}
+                      <div className="bg-slate-900 dark:bg-white/5 rounded-[4rem] p-16 text-center border border-white/10 relative overflow-hidden group">
+                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--primary),transparent)] opacity-10 pointer-events-none group-hover:opacity-20 transition-opacity" />
+                         <div className="w-20 h-20 bg-white/10 rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-glow backdrop-blur-xl">
+                            <TrendingUp className="w-10 h-10 text-primary" />
+                         </div>
+                         <h3 className="text-3xl font-black text-white tracking-tighter leading-none">Expand Your Portfolio?</h3>
+                         <p className="text-slate-400 font-bold mt-4 mb-10 max-w-sm mx-auto">Discover high-yield properties in Vientiane's emerging hotzones.</p>
+                         <Link
+                          href="/properties"
+                          className="btn-primary inline-flex items-center gap-4 px-12 py-5 scale-110"
+                         >
+                           Explore New Assets
+                           <ArrowRight className="w-5 h-5" />
+                         </Link>
+                      </div>
+                    </div>
+                   )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
         </div>

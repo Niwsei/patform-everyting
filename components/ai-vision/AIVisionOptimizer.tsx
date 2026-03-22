@@ -1,20 +1,19 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Sparkles,
   Camera,
   CheckCircle2,
-  AlertCircle,
   BrainCircuit,
   Languages,
-  FileText,
-  Image as ImageIcon,
   Zap,
-  Star,
   ChevronRight,
-  Maximize2
+  Maximize2,
+  Globe,
+  Activity,
+  Cpu
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
@@ -39,91 +38,93 @@ export function AIVisionOptimizer() {
     setIsAnalyzing(true)
     setResult(null)
 
-    // Multi-stage AI Simulation
-    await new Promise(resolve => setTimeout(resolve, 1500)) // Feature detection
-    await new Promise(resolve => setTimeout(resolve, 1500)) // Quality audit
-    await new Promise(resolve => setTimeout(resolve, 1500)) // Description generation
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    await new Promise(resolve => setTimeout(resolve, 1500))
 
     setResult({
-      amenities: ['Air Conditioning', 'High-Speed WiFi', 'Work Desk', 'Modern Lighting', 'City View'],
-      qualityScore: 94,
+      amenities: ['Executive HVAC', 'Gigabit Node', 'Ergonomic Hub', 'Lutron Lighting', 'Panoramic Vista'],
+      qualityScore: 98,
       lighting: 'Excellent',
       descriptions: {
-        TH: 'ห้องสตูดิโอสุดหรูพร้อมวิวเมืองเวียงจันทน์ ตกแต่งสไตล์โมเดิร์น พร้อมแอร์และพื้นที่ทำงานที่เงียบสงบ เหมาะสำหรับคนทำงานและชาวต่างชาติ',
-        EN: 'Luxury studio apartment with stunning Vientiane city views. Featuring modern decor, silent AC, and a dedicated workspace perfect for digital nomads.',
-        LO: 'ຫ້ອງສະຕູດີໂອສຸດຫຮູພ້ອມວິວເມືອງວຽງຈັນ, ຕົບແຕ່ງສະໄຕລ໌ໂມເດີນ, ພ້ອມແອ ແລະ ພື້ນທີ່ເຮັດວຽກທີ່ງຽບສະຫງົບ ເຫມາະສຳລັບຄົນເຮັດວຽກ ແລະ ຊາວຕ່າງຊາດ'
+        TH: 'ห้องสตูดิโอระดับพรีเมียมพร้อมเทคโนโลยีสมาร์ทโฮม วิวเมืองแบบพาโนรามา ตกแต่งเพื่อประสิทธิภาพสูงสุดของการใช้ชีวิตสมัยใหม่',
+        EN: 'Elite studio asset with integrated smart-home nodes. Features panoramic district views and ergonomic layouts optimized for executive high-performance living.',
+        LO: 'ຫ້ອງສະຕູດີໂອລະດັບພຣີມຽມພ້ອມເທັກໂນໂລຊີສະມາດໂຮມ, ວິວເມືອງແບບພາໂນຣາມາ, ຕົບແຕ່ງເພື່ອປະສິດທິພາບສູງສຸດຂອງການໃຊ້ຊີວິດສະໄໝໃຫມ່'
       }
     })
     setIsAnalyzing(false)
-
-    if (typeof window !== 'undefined' && (window as any).addToast) {
-       (window as any).addToast('AI วิเคราะห์รูปภาพและเขียนคำบรรยายเสร็จเรียบร้อยแล้วค่ะ!', 'success')
-    }
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-         <div>
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-               Nest AI Vision
-               <span className="text-[10px] font-black bg-indigo-600 text-white px-2 py-0.5 rounded-full uppercase">Optimizer</span>
-            </h2>
-            <p className="text-sm font-bold text-slate-400 mt-1 uppercase tracking-widest">Image Recognition & Multilingual Copywriting</p>
+    <div className="space-y-12">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+         <div className="space-y-3">
+            <div className="inline-flex items-center gap-3 bg-primary/10 text-primary px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.3em] border border-primary/20 shadow-glow">
+               <Cpu className="w-4 h-4" />
+               Vision Analysis Protocol v2.4
+            </div>
+            <h2 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Neural Asset <br/> <span className="text-primary italic">Optimization.</span></h2>
+            <p className="text-slate-500 dark:text-slate-400 font-bold text-sm uppercase tracking-widest">Image Recognition & Neural Multilingual Copywriting</p>
+         </div>
+         <div className="flex items-center gap-3 glass px-5 py-2.5 rounded-2xl border border-white/20 dark:border-white/10 shadow-glow">
+            <Activity className="w-4 h-4 text-primary" />
+            <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Neural Core Online</span>
          </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-         {/* Upload & Preview Side */}
-         <div className="space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+         {/* Ingestion & Feed Side */}
+         <div className="space-y-8">
             <div
                onClick={() => setSelectedImage('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800&auto=format&fit=crop')}
                className={cn(
-                  "relative h-[400px] rounded-[3rem] border-4 border-dashed border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center gap-4 cursor-pointer overflow-hidden transition-all group",
-                  selectedImage ? "border-solid border-indigo-600" : "hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                  "relative h-[450px] rounded-[4rem] border-4 border-dashed flex flex-col items-center justify-center gap-6 cursor-pointer overflow-hidden transition-all duration-700 group",
+                  selectedImage ? "border-primary border-solid shadow-glow" : "border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50"
                )}
             >
                {selectedImage ? (
                   <>
-                     <Image src={selectedImage} alt="Preview" fill className="object-cover" />
-                     <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <p className="text-white font-black text-xs uppercase tracking-widest bg-slate-900/80 px-6 py-3 rounded-2xl backdrop-blur-md border border-white/20">เปลี่ยนรูปภาพ</p>
+                     <Image src={selectedImage} alt="Preview" fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
+                     <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center backdrop-blur-sm">
+                        <p className="text-white font-black text-[10px] uppercase tracking-[0.3em] bg-primary px-8 py-4 rounded-2xl shadow-glow">Re-Ingest Asset</p>
                      </div>
                   </>
                ) : (
                   <>
-                     <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-3xl flex items-center justify-center text-slate-400 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30 group-hover:text-indigo-600 transition-all">
-                        <Camera className="w-10 h-10" />
+                     <div className="w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-[2.5rem] flex items-center justify-center text-slate-400 group-hover:bg-primary/20 group-hover:text-primary transition-all duration-500 shadow-sm group-hover:shadow-glow">
+                        <Camera className="w-12 h-12 stroke-[1.5]" />
                      </div>
-                     <div className="text-center">
-                        <p className="font-black text-slate-900 dark:text-white uppercase text-sm tracking-widest">อัปโหลดรูปภาพห้องพัก</p>
-                        <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest leading-relaxed">AI จะทำการวิเคราะห์สิ่งอำนวยความสะดวก <br/> และคะแนนความน่าสนใจโดยอัตโนมัติ</p>
+                     <div className="text-center space-y-2 px-10">
+                        <p className="font-black text-slate-900 dark:text-white uppercase text-xs tracking-[0.2em]">Ingest Asset Visuals</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">Neural Core will auto-detect amenities, lighting delta, and yield potential.</p>
                      </div>
                   </>
                )}
             </div>
 
-            <button
+            <motion.button
+               whileHover={{ scale: 1.02 }}
+               whileTap={{ scale: 0.98 }}
                onClick={simulateAnalysis}
                disabled={!selectedImage || isAnalyzing}
-               className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-lg shadow-xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-700 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3"
+               className="btn-primary w-full py-6 text-[11px] scale-100 flex items-center justify-center gap-4"
             >
                {isAnalyzing ? (
                   <>
                      <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
-                     กำลังวิเคราะห์ด้วย AI...
+                     Syncing with Neural Core...
                   </>
                ) : (
                   <>
-                     <BrainCircuit className="w-6 h-6" />
-                     วิเคราะห์และสร้างคำบรรยาย
+                     <BrainCircuit className="w-6 h-6 stroke-[2.5]" />
+                     Execute Optimization Protocol
                   </>
                )}
-            </button>
+            </motion.button>
          </div>
 
-         {/* Results Side */}
-         <div className="space-y-6">
+         {/* Meta-Results Terminal */}
+         <div className="space-y-8">
             <AnimatePresence mode="wait">
                {isAnalyzing ? (
                   <motion.div
@@ -131,28 +132,28 @@ export function AIVisionOptimizer() {
                      initial={{ opacity: 0, scale: 0.95 }}
                      animate={{ opacity: 1, scale: 1 }}
                      exit={{ opacity: 0, scale: 1.05 }}
-                     className="h-[500px] bg-white dark:bg-slate-900 rounded-[3rem] border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center p-12 text-center space-y-8"
+                     className="h-[550px] bg-white dark:bg-slate-900 rounded-[4rem] border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center p-14 text-center space-y-10 shadow-premium"
                   >
                      <div className="relative">
                         <motion.div
                            animate={{ rotate: 360 }}
-                           transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
-                           className="w-32 h-32 border-4 border-indigo-50 dark:border-slate-800 border-t-indigo-600 rounded-full"
+                           transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+                           className="w-40 h-40 border-[6px] border-slate-100 dark:border-slate-800 border-t-primary rounded-full shadow-glow"
                         />
-                        <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 text-indigo-600 animate-pulse" />
+                        <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 text-primary animate-pulse" />
                      </div>
-                     <div className="space-y-3">
-                        <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Nest AI is Processing</h3>
-                        <div className="flex flex-col gap-2">
-                           {['ตรวจจับวัตถุในรูปภาพ...', 'ประเมินมุมกล้องและแสง...', 'ประมวลผลคำบรรยาย 3 ภาษา...'].map((task, i) => (
+                     <div className="space-y-4">
+                        <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Neural Ingestion</h3>
+                        <div className="flex flex-col gap-3">
+                           {['Mapping Geometry...', 'Auditing Illumination Delta...', 'Synthesizing Multilingual Copy...'].map((task, i) => (
                               <motion.div
                                  key={i}
                                  initial={{ opacity: 0, x: -10 }}
                                  animate={{ opacity: 1, x: 0 }}
-                                 transition={{ delay: i * 0.8 }}
-                                 className="flex items-center gap-2 text-[10px] font-black uppercase text-slate-400 tracking-widest"
+                                 transition={{ delay: i * 1.2 }}
+                                 className="flex items-center gap-3 text-[10px] font-black uppercase text-slate-500 tracking-[0.2em]"
                               >
-                                 <div className="w-1 h-1 bg-indigo-500 rounded-full shrink-0" />
+                                 <div className="w-1.5 h-1.5 bg-primary rounded-full shrink-0 shadow-glow" />
                                  {task}
                               </motion.div>
                            ))}
@@ -164,73 +165,82 @@ export function AIVisionOptimizer() {
                      key="result"
                      initial={{ opacity: 0, x: 20 }}
                      animate={{ opacity: 1, x: 0 }}
-                     className="space-y-6"
+                     className="space-y-8"
                   >
-                     {/* Score & Specs Card */}
-                     <div className="bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm grid grid-cols-2 gap-8 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50 dark:bg-emerald-900/20 rounded-bl-[3rem] flex items-center justify-center">
-                           <Zap className="w-6 h-6 text-emerald-500" />
+                     {/* Quality & Visibility Protocol */}
+                     <div className="bg-white dark:bg-slate-900 p-10 rounded-[3.5rem] border border-slate-100 dark:border-slate-800 shadow-premium grid grid-cols-2 gap-10 relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-[4rem] flex items-center justify-center group-hover:scale-110 transition-transform">
+                           <Zap className="w-10 h-10 text-primary fill-primary shadow-glow" />
                         </div>
-                        <div className="space-y-2">
-                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Quality Score</p>
-                           <div className="flex items-end gap-1">
-                              <span className="text-4xl font-black text-slate-900 dark:text-white">{result.qualityScore}</span>
-                              <span className="text-sm font-bold text-slate-400 mb-1">/100</span>
+                        <div className="space-y-3">
+                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Asset Quality Index</p>
+                           <div className="flex items-end gap-2">
+                              <span className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter">{result.qualityScore}</span>
+                              <span className="text-xs font-black text-slate-400 mb-2 uppercase tracking-widest">Alpha</span>
                            </div>
                         </div>
-                        <div className="space-y-2">
-                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Lighting</p>
-                           <span className="inline-block px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase rounded-full">
-                              {result.lighting}
+                        <div className="space-y-3">
+                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Visual Logic</p>
+                           <span className="inline-flex px-4 py-2 bg-emerald-500/10 text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl border border-emerald-500/20">
+                              {result.lighting} Spectrum
                            </span>
                         </div>
                      </div>
 
-                     {/* Detected Amenities */}
-                     <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white space-y-4">
-                        <div className="flex items-center gap-3">
-                           <Maximize2 className="w-5 h-5 text-indigo-400" />
-                           <h4 className="font-black text-sm uppercase tracking-widest">Detected Amenities</h4>
+                     {/* Logic: Feature Extraction */}
+                     <div className="bg-slate-900 rounded-[3.5rem] p-10 text-white space-y-6 shadow-glow relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
+                        <div className="flex items-center gap-4 relative z-10">
+                           <Maximize2 className="w-6 h-6 text-primary" />
+                           <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-white/50">Feature Extraction</h4>
                         </div>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-3 relative z-10">
                            {result.amenities.map(a => (
-                              <div key={a} className="flex items-center gap-2 px-3 py-2 bg-white/10 rounded-xl border border-white/5 text-[10px] font-bold">
-                                 <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                              <div key={a} className="flex items-center gap-3 px-5 py-2.5 bg-white/5 rounded-2xl border border-white/10 text-[10px] font-black uppercase tracking-widest group hover:bg-white/10 transition-all">
+                                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                                  {a}
                               </div>
                            ))}
                         </div>
                      </div>
 
-                     {/* Multilingual Descriptions */}
-                     <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
-                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
-                           <Languages className="w-5 h-5 text-indigo-600" />
-                           <h4 className="font-black text-xs uppercase tracking-widest text-slate-900 dark:text-white">AI Multilingual Copy</h4>
+                     {/* Protocol: Multilingual Deployment */}
+                     <div className="bg-white dark:bg-slate-900 rounded-[3.5rem] border border-slate-100 dark:border-slate-800 shadow-premium overflow-hidden">
+                        <div className="p-8 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                           <div className="flex items-center gap-4">
+                              <Languages className="w-6 h-6 text-primary" />
+                              <h4 className="font-black text-[10px] uppercase tracking-[0.3em] text-slate-900 dark:text-white">Neural Multilingual Synthesis</h4>
+                           </div>
+                           <Globe className="w-5 h-5 text-slate-400" />
                         </div>
-                        <div className="p-8 space-y-8">
+                        <div className="p-10 space-y-10">
                            {Object.entries(result.descriptions).map(([lang, desc]) => (
-                              <div key={lang} className="space-y-2">
-                                 <div className="flex items-center gap-2">
-                                    <span className="text-[9px] font-black bg-indigo-600 text-white px-2 py-0.5 rounded-md uppercase">{lang}</span>
-                                    <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800" />
+                              <div key={lang} className="space-y-3 group">
+                                 <div className="flex items-center gap-3">
+                                    <span className="text-[9px] font-black bg-slate-900 dark:bg-primary text-white px-3 py-1 rounded-lg uppercase tracking-widest shadow-glow">{lang} Node</span>
+                                    <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800 group-hover:bg-primary/20 transition-all" />
                                  </div>
-                                 <p className="text-sm font-medium text-slate-600 dark:text-slate-400 leading-relaxed italic">
+                                 <p className="text-sm font-bold text-slate-600 dark:text-slate-400 leading-relaxed italic opacity-80 group-hover:opacity-100 transition-opacity">
                                     "{desc}"
                                  </p>
                               </div>
                            ))}
-                           <button className="w-full py-4 border-2 border-indigo-600 text-indigo-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-50 transition-all flex items-center justify-center gap-2 active:scale-95">
-                              นำไปใช้กับประกาศนี้
-                              <ChevronRight className="w-4 h-4" />
-                           </button>
+                           <motion.button
+                              whileHover={{ scale: 1.02 }}
+                              className="btn-primary w-full py-5 text-[10px] scale-100 flex items-center justify-center gap-4 group"
+                           >
+                              Deploy Copy to Global Registry
+                              <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                           </motion.button>
                         </div>
                      </div>
                   </motion.div>
                ) : (
-                  <div className="h-[500px] border-4 border-dashed border-slate-100 dark:border-slate-800 rounded-[3rem] flex flex-col items-center justify-center p-12 text-center text-slate-300">
-                     <BrainCircuit className="w-16 h-16 mb-4 opacity-50" />
-                     <p className="font-black uppercase text-xs tracking-widest">อัปโหลดรูปเพื่อเริ่มการวิเคราะห์</p>
+                  <div className="h-[550px] border-4 border-dashed border-slate-100 dark:border-slate-800 rounded-[4rem] flex flex-col items-center justify-center p-14 text-center text-slate-300 group hover:border-primary/50 transition-all duration-700">
+                     <div className="w-24 h-24 bg-slate-50 dark:bg-slate-800 rounded-[2.5rem] flex items-center justify-center mb-8 shadow-sm group-hover:shadow-glow transition-all">
+                        <Cpu className="w-12 h-12 opacity-30 group-hover:opacity-100 group-hover:text-primary transition-all duration-700" />
+                     </div>
+                     <p className="font-black uppercase text-xs tracking-[0.4em] opacity-40 group-hover:opacity-100 group-hover:text-primary transition-all duration-700">Awaiting Asset Ingestion</p>
                   </div>
                )}
             </AnimatePresence>

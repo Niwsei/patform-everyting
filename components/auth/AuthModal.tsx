@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Mail, Lock, User, Sparkles, CheckCircle2, ShieldCheck, ArrowRight } from 'lucide-react'
+import { X, Mail, Lock, User, Sparkles, CheckCircle2, ShieldCheck, ArrowRight, Cpu, Zap, Globe } from 'lucide-react'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { cn } from '@/lib/utils'
 
@@ -22,10 +22,7 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-
-    // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1500))
-
     login(email)
     setIsLoading(false)
     onClose()
@@ -34,117 +31,134 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[500] flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-slate-900/80 backdrop-blur-xl"
           />
 
           <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-md bg-white rounded-[2.5rem] overflow-hidden shadow-2xl"
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-[3.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] border border-white/10"
           >
-            {/* Header with gradient branding */}
-            <div className="bg-indigo-600 p-8 text-white relative overflow-hidden">
-               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl" />
-               <div className="relative z-10 flex flex-col items-center text-center space-y-3">
-                  <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md border border-white/20">
-                    <User className="w-7 h-7" />
+            {/* Protocol Header */}
+            <div className="bg-slate-900 p-10 text-white relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-48 h-48 bg-primary/20 rounded-full -mr-16 -mt-16 blur-3xl" />
+               <div className="relative z-10 flex flex-col items-center text-center space-y-4">
+                  <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center backdrop-blur-xl border border-white/10 shadow-glow">
+                    <Cpu className="w-8 h-8 text-primary stroke-[2]" />
                   </div>
-                  <h2 className="text-2xl font-black leading-tight">
-                    {mode === 'login' ? 'ยินดีต้อนรับกลับค่ะ!' : 'เริ่มเดินทางกับเราวันนี้'}
-                  </h2>
-                  <p className="text-indigo-100 text-sm font-medium opacity-80">
-                    {mode === 'login' ? 'เข้าสู่ระบบเพื่อจัดการที่พักของคุณ' : 'สมัครสมาชิกเพื่อหาที่พักที่ใช่ในเวียงจันทน์'}
-                  </p>
+                  <div className="space-y-1">
+                    <h2 className="text-3xl font-black tracking-tighter uppercase">
+                      {mode === 'login' ? 'Auth Protocol' : 'Identity Genesis'}
+                    </h2>
+                    <p className="text-primary font-black text-[9px] uppercase tracking-[0.4em]">
+                      Accessing Vientiane Alpha Registry v4.2
+                    </p>
+                  </div>
                </div>
             </div>
 
-            <div className="p-8">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">ที่อยู่อีเมล</label>
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <div className="p-10">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Neural Identity (Email)</label>
+                  <div className="relative group">
+                    <div className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-hover:text-primary transition-colors">
+                       <Mail className="w-full h-full stroke-[2.5]" />
+                    </div>
                     <input
                       type="email"
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="alex@example.com"
-                      className="w-full p-4 pl-12 bg-slate-50 border border-slate-100 rounded-2xl font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-300"
+                      placeholder="identity@v-nest.ai"
+                      className="w-full p-5 pl-16 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-[1.5rem] font-bold focus:ring-2 focus:ring-primary outline-none transition-all dark:text-white placeholder:text-slate-300"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">รหัสผ่าน</label>
-                  <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Security Key</label>
+                  <div className="relative group">
+                    <div className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-hover:text-primary transition-colors">
+                       <Lock className="w-full h-full stroke-[2.5]" />
+                    </div>
                     <input
                       type="password"
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="••••••••"
-                      className="w-full p-4 pl-12 bg-slate-50 border border-slate-100 rounded-2xl font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-300"
+                      placeholder="••••••••••••"
+                      className="w-full p-5 pl-16 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-[1.5rem] font-bold focus:ring-2 focus:ring-primary outline-none transition-all dark:text-white placeholder:text-slate-300"
                     />
                   </div>
                 </div>
 
                 {mode === 'login' && (
                   <div className="text-right">
-                    <button type="button" className="text-[10px] font-black text-indigo-600 uppercase tracking-widest hover:underline">
-                      ลืมรหัสผ่าน?
+                    <button type="button" className="text-[10px] font-black text-primary uppercase tracking-[0.2em] hover:underline decoration-primary/30 underline-offset-8">
+                      Reset Protocol?
                     </button>
                   </div>
                 )}
 
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-lg hover:bg-black transition-all shadow-xl shadow-slate-200 disabled:opacity-80 active:scale-95 flex items-center justify-center gap-3"
+                  className="btn-primary w-full py-6 text-xs scale-100 flex items-center justify-center gap-4"
                 >
                   {isLoading ? (
-                    <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+                    <>
+                       <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+                       <span className="uppercase tracking-[0.2em]">Syncing Auth...</span>
+                    </>
                   ) : (
-                    <>{mode === 'login' ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก'}</>
+                    <>
+                       <span className="uppercase tracking-[0.2em]">{mode === 'login' ? 'Execute Login' : 'Initiate Registration'}</span>
+                       <ArrowRight className="w-5 h-5 stroke-[3]" />
+                    </>
                   )}
-                </button>
+                </motion.button>
               </form>
 
-              <div className="mt-8 pt-8 border-t border-slate-100 text-center">
-                <p className="text-slate-500 text-xs font-bold">
-                  {mode === 'login' ? 'ยังไม่มีบัญชีผู้ใช้?' : 'มีบัญชีผู้ใช้แล้ว?'}
+              <div className="mt-10 pt-10 border-t border-slate-100 dark:border-slate-800 text-center">
+                <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.1em]">
+                  {mode === 'login' ? 'No registry record?' : 'Identity already indexed?'}
                   <button
                     onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
-                    className="ml-2 text-indigo-600 font-black uppercase tracking-widest hover:underline"
+                    className="ml-3 text-primary hover:underline decoration-primary/30 underline-offset-8"
                   >
-                    {mode === 'login' ? 'สมัครเลย' : 'เข้าสู่ระบบ'}
+                    {mode === 'login' ? 'Create Node' : 'Bypass to Login'}
                   </button>
                 </p>
               </div>
 
-              {/* Social Login simulation */}
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                 <button className="flex items-center justify-center gap-2 p-3 bg-white border border-slate-100 rounded-xl text-xs font-black hover:bg-slate-50 transition-colors">
-                    Google
+              {/* Social Delta */}
+              <div className="mt-8 grid grid-cols-2 gap-4">
+                 <button className="flex items-center justify-center gap-3 py-4 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:border-primary transition-all">
+                    <Globe className="w-4 h-4 text-primary" />
+                    Google Auth
                  </button>
-                 <button className="flex items-center justify-center gap-2 p-3 bg-white border border-slate-100 rounded-xl text-xs font-black hover:bg-slate-50 transition-colors">
-                    Facebook
+                 <button className="flex items-center justify-center gap-3 py-4 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:border-primary transition-all">
+                    <Zap className="w-4 h-4 text-primary" />
+                    Fast Pass
                  </button>
               </div>
             </div>
 
-            <div className="bg-slate-50 p-6 flex items-center gap-3 border-t border-slate-100">
-               <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
-               <p className="text-[10px] font-bold text-slate-500 leading-tight uppercase tracking-widest">
-                  เราให้ความสำคัญกับความเป็นส่วนตัวของคุณ ข้อมูลของคุณจะถูกเข้ารหัสและรักษาความปลอดภัยสูงสุด
+            <div className="bg-slate-900 p-8 flex items-center gap-5 border-t border-white/5 relative overflow-hidden">
+               <div className="absolute inset-0 bg-primary opacity-5 animate-pulse" />
+               <ShieldCheck className="w-8 h-8 text-emerald-500 shrink-0 relative z-10" />
+               <p className="text-[10px] font-black text-slate-400 leading-relaxed uppercase tracking-[0.1em] relative z-10">
+                  Secure Protocol: 256-bit AES identity encryption active. Access to the Vientiane Hub is restricted to verified nodes.
                </p>
             </div>
           </motion.div>

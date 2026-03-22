@@ -1,10 +1,12 @@
 'use client'
 
-import { Search, MapPin  } from "lucide-react"
+import { Search, MapPin, Sparkles, Filter, ChevronDown  } from "lucide-react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useLanguageStore } from "@/stores/useLanguageStore"
 import { translations } from "@/lib/translations"
+import { motion } from "framer-motion"
+import { cn } from "@/lib/utils"
 
 export function HeroSearch() {
     const { language } = useLanguageStore()
@@ -13,6 +15,7 @@ export function HeroSearch() {
     const [location, setLocation] = useState('')
     const [priceRange, setPriceRange] = useState('')
     const [category, setCategory] = useState('')
+    const [isFocused, setIsFocused] = useState<string | null>(null)
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()
@@ -25,106 +28,188 @@ export function HeroSearch() {
     }
 
     return (
-    <div className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-      {/* Background Image - Clean, High Quality, Natural Lighting */}
+    <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      {/* Immersive Background */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2000&auto=format&fit=crop" 
-          alt="Premium Real Estate" 
-          className="w-full h-full object-cover brightness-[0.65]"
-        />
+        <motion.div
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5 }}
+          className="relative w-full h-full"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2000&auto=format&fit=crop"
+            alt="Luxury Vientiane Estate"
+            className="w-full h-full object-cover brightness-[0.4] dark:brightness-[0.3]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-transparent to-slate-900" />
+        </motion.div>
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-8">
-        <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/30 text-white text-sm font-medium mb-8 shadow-sm">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          {language === 'EN' ? 'The best real estate and logistics platform in Vientiane' : language === 'LO' ? 'ແພລດຟອມອະສັງຫາຯ ແລະ ໂລຈິສຕິກທີ່ດີທີ່ສຸດໃນວຽງຈັນ' : 'แพลตฟอร์มอสังหาฯ และโลจิสติกส์ที่ดีที่สุดในเวียงจันทน์'}
-        </div>
-
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 drop-shadow-sm">
-          {t.heroTitle.split(' ใน')[0]} <br />
-          <span className="text-white">
-            {language === 'EN' ? 'in Vientiane' : 'ในเวียงจันทน์'}
-          </span>
-        </h1>
-
-        <p className="text-lg sm:text-xl text-gray-200 mb-12 drop-shadow-sm max-w-2xl mx-auto font-medium">
-          {t.heroSub}
-        </p>
-
-        {/* Search Box - Airbnb Style (Clean, White, Standard Shadows) */}
-        <form 
-          onSubmit={handleSearch}
-          className="bg-white p-2 rounded-3xl sm:rounded-full shadow-lg max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-2 border border-slate-100"
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="inline-flex items-center gap-3 glass px-6 py-3 rounded-2xl text-white text-[10px] font-black uppercase tracking-[0.3em] mb-10 border border-white/20 shadow-glow"
         >
-          {/* Location */}
-          <div className="flex-1 w-full flex items-center px-6 py-3 border-b sm:border-b-0 sm:border-r border-slate-100 transition-colors hover:bg-slate-50 rounded-t-2xl sm:rounded-l-full sm:rounded-tr-none cursor-pointer">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+          </span>
+          Next-Gen Rental Network
+        </motion.div>
+
+        <motion.h1
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="text-6xl sm:text-7xl lg:text-9xl font-black text-white tracking-tighter mb-8 leading-[0.85]"
+        >
+          Find Your <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-400 to-cyan-300">Next Home.</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="text-lg sm:text-xl text-slate-300 mb-16 max-w-2xl mx-auto font-bold tracking-tight opacity-80"
+        >
+          Experience the first AI-integrated property ecosystem in Laos. <br className="hidden sm:block"/>
+          Curated homes, verified landlords, seamless relocation.
+        </motion.p>
+
+        {/* Startup Style Search - Floating Glass Bar */}
+        <motion.form
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
+          onSubmit={handleSearch}
+          className="glass p-3 rounded-[2.5rem] sm:rounded-full max-w-5xl mx-auto flex flex-col sm:flex-row items-center gap-2 border border-white/20 shadow-2xl backdrop-blur-3xl group/form"
+        >
+          {/* Location Segment */}
+          <div
+            className={cn(
+                "flex-1 w-full flex items-center px-8 py-4 transition-all duration-300 rounded-[2rem] sm:rounded-l-full cursor-pointer relative",
+                isFocused === 'location' ? "bg-white/10" : "hover:bg-white/5"
+            )}
+            onClick={() => setIsFocused('location')}
+          >
             <div className="flex flex-col text-left w-full">
-              <label htmlFor="location-select" className="text-xs font-semibold text-slate-800 mb-0.5 cursor-pointer">{t.location}</label>
+              <div className="flex items-center gap-2 mb-1">
+                 <MapPin className="w-3.5 h-3.5 text-primary" />
+                 <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">{t.location}</span>
+              </div>
               <select 
-                id="location-select"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full bg-transparent text-slate-500 outline-none text-sm cursor-pointer appearance-none"
+                onFocus={() => setIsFocused('location')}
+                onBlur={() => setIsFocused(null)}
+                className="w-full bg-transparent text-slate-300 font-bold outline-none text-sm cursor-pointer appearance-none"
               >
-                <option value="">{t.searchPlaceholder}</option>
-                <option value="Chanthabouly">{language === 'EN' ? 'Chanthabouly' : language === 'LO' ? 'ຈັນທະບູລີ' : 'จันทะบูลี'}</option>
-                <option value="Sikhottabong">{language === 'EN' ? 'Sikhottabong' : language === 'LO' ? 'ສີໂຄດຕະບອງ' : 'สีโคดตะบอง'}</option>
-                <option value="Xaysetha">{language === 'EN' ? 'Xaysetha' : language === 'LO' ? 'ໄຊເສດຖາ' : 'ไซเศรษฐา'}</option>
-                <option value="Sisattanak">{language === 'EN' ? 'Sisattanak' : language === 'LO' ? 'ສີສັດຕະນາກ' : 'สีสัตตนาค'}</option>
+                <option value="" className="bg-slate-900">{t.searchPlaceholder}</option>
+                <option value="Chanthabouly" className="bg-slate-900">Chanthabouly</option>
+                <option value="Sikhottabong" className="bg-slate-900">Sikhottabong</option>
+                <option value="Xaysetha" className="bg-slate-900">Xaysetha</option>
+                <option value="Sisattanak" className="bg-slate-900">Sisattanak</option>
               </select>
             </div>
           </div>
 
-          {/* Category */}
-          <div className="flex-1 w-full flex items-center px-6 py-3 border-b sm:border-b-0 sm:border-r border-slate-100 transition-colors hover:bg-slate-50 cursor-pointer">
+          <div className="hidden sm:block w-px h-12 bg-white/10" />
+
+          {/* Type Segment */}
+          <div
+            className={cn(
+                "flex-1 w-full flex items-center px-8 py-4 transition-all duration-300 rounded-[2rem] cursor-pointer",
+                isFocused === 'type' ? "bg-white/10" : "hover:bg-white/5"
+            )}
+            onClick={() => setIsFocused('type')}
+          >
             <div className="flex flex-col text-left w-full">
-              <label htmlFor="category-select" className="text-xs font-semibold text-slate-800 mb-0.5 cursor-pointer">{language === 'EN' ? 'CATEGORY' : language === 'LO' ? 'ປະເພດທີ່ພັກ' : 'ประเภทที่พัก'}</label>
+              <div className="flex items-center gap-2 mb-1">
+                 <Filter className="w-3.5 h-3.5 text-primary" />
+                 <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Asset Class</span>
+              </div>
               <select
-                id="category-select"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-transparent text-slate-500 outline-none text-sm cursor-pointer appearance-none"
+                onFocus={() => setIsFocused('type')}
+                onBlur={() => setIsFocused(null)}
+                className="w-full bg-transparent text-slate-300 font-bold outline-none text-sm cursor-pointer appearance-none"
               >
-                <option value="">{t.allCategories}</option>
-                <option value="hotel">{language === 'EN' ? 'Hotel' : language === 'LO' ? 'ໂຮງແຮມ' : 'โรงแรม'}</option>
-                <option value="guesthouse">{language === 'EN' ? 'Guesthouse' : language === 'LO' ? 'ເກສເຮົ້າສ໌' : 'เกสต์เฮ้าส์'}</option>
-                <option value="vacation_home">{language === 'EN' ? 'Vacation Home' : language === 'LO' ? 'ເຮືອນພັກ' : 'บ้านพักตากอากาศ'}</option>
-                <option value="apartment">{language === 'EN' ? 'Apartment' : language === 'LO' ? 'ອາພາດເມັນ' : 'อพาร์ทเมนท์'}</option>
+                <option value="" className="bg-slate-900">{t.allCategories}</option>
+                <option value="hotel" className="bg-slate-900">Hotels & Suites</option>
+                <option value="guesthouse" className="bg-slate-900">Guesthouses</option>
+                <option value="vacation_home" className="bg-slate-900">Luxury Villas</option>
+                <option value="apartment" className="bg-slate-900">Serviced Apartments</option>
               </select>
             </div>
           </div>
 
-          {/* Price */}
-          <div className="flex-1 w-full flex items-center px-6 py-3 hover:bg-slate-50 transition-colors sm:rounded-r-full cursor-pointer">
+          <div className="hidden sm:block w-px h-12 bg-white/10" />
+
+          {/* Budget Segment */}
+          <div
+            className={cn(
+                "flex-1 w-full flex items-center px-8 py-4 transition-all duration-300 rounded-[2rem] sm:rounded-r-full cursor-pointer",
+                isFocused === 'budget' ? "bg-white/10" : "hover:bg-white/5"
+            )}
+            onClick={() => setIsFocused('budget')}
+          >
             <div className="flex flex-col text-left w-full">
-              <label htmlFor="price-select" className="text-xs font-semibold text-slate-800 mb-0.5 cursor-pointer">{language === 'EN' ? 'BUDGET' : language === 'LO' ? 'ງົບປະມານ' : 'งบประมาณ'}</label>
+              <div className="flex items-center gap-2 mb-1">
+                 <Sparkles className="w-3.5 h-3.5 text-primary" />
+                 <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">{language === 'EN' ? 'BUDGET' : 'งบประมาณ'}</span>
+              </div>
               <select 
-                id="price-select"
                 value={priceRange}
                 onChange={(e) => setPriceRange(e.target.value)}
-                className="w-full bg-transparent text-slate-500 outline-none text-sm cursor-pointer appearance-none"
+                onFocus={() => setIsFocused('budget')}
+                onBlur={() => setIsFocused(null)}
+                className="w-full bg-transparent text-slate-300 font-bold outline-none text-sm cursor-pointer appearance-none"
               >
-                <option value="">{t.unlimitedPrice}</option>
-                <option value="under_2m">{language === 'EN' ? 'Under 2M LAK' : language === 'LO' ? 'ຕ່ຳກວ່າ 2 ລ້ານ ກີບ' : 'ต่ำกว่า 2 ล้าน กีบ'}</option>
-                <option value="2m_to_5m">{language === 'EN' ? '2M - 5M LAK' : language === 'LO' ? '2 - 5 ລ້ານ ກີບ' : '2 - 5 ล้าน กีบ'}</option>
-                <option value="over_5m">{language === 'EN' ? 'Over 5M LAK' : language === 'LO' ? 'ຫຼາຍກວ່າ 5 ລ້ານ ກີບ' : 'มากกว่า 5 ล้าน กีบ'}</option>
+                <option value="" className="bg-slate-900">{t.unlimitedPrice}</option>
+                <option value="under_2m" className="bg-slate-900">Under 2M LAK</option>
+                <option value="2m_to_5m" className="bg-slate-900">2M - 5M LAK</option>
+                <option value="over_5m" className="bg-slate-900">Premium 5M+ LAK</option>
               </select>
             </div>
           </div>
 
-          {/* Search Button */}
-          <button 
+          {/* Action Button */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full sm:w-auto bg-[#ff385c] hover:bg-[#d90b3e] text-white px-8 py-4 rounded-2xl sm:rounded-full flex items-center justify-center gap-2 transition-all font-semibold shadow-md active:scale-95 m-1"
+            className="w-full sm:w-auto bg-primary text-white px-10 py-5 rounded-[1.5rem] sm:rounded-full flex items-center justify-center gap-3 transition-all font-black text-xs uppercase tracking-[0.2em] shadow-glow hover:brightness-110"
           >
-            <Search className="w-5 h-5" />
-            <span className="sm:hidden">{t.searchBtn}</span>
-          </button>
-        </form>
+            <Search className="w-5 h-5 stroke-[3]" />
+            {t.searchBtn}
+          </motion.button>
+        </motion.form>
+
+        {/* Quick Stats - Micro-interactions */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="mt-12 flex flex-wrap justify-center gap-8 text-white/50"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-white font-black">5,000+</span>
+            <span className="text-[10px] font-black uppercase tracking-widest">Listings</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-white font-black">1.2k</span>
+            <span className="text-[10px] font-black uppercase tracking-widest">Verified Hosts</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-white font-black">24/7</span>
+            <span className="text-[10px] font-black uppercase tracking-widest">Concierge</span>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
