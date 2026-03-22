@@ -3,6 +3,7 @@ import { mockProperties } from '@/features/properties/services/mockData';
 import { HeroSearch } from '@/features/search/components/HeroSearch';
 import { NestAIEngine } from '@/features/search/components/NestAIEngine';
 import { PageTransition } from '@/components/PageTransition';
+import { RelocationConcierge } from '@/features/relocation/components/RelocationConcierge';
 import { Truck, Shield, Zap, TrendingUp, Sparkles } from 'lucide-react';
 
 export default function HomePage() {
@@ -75,6 +76,11 @@ export default function HomePage() {
           {mockProperties.map((property) => (
             <PropertyCard key={property.id} property={property} />
           ))}
+        </div>
+
+        {/* Relocation Bundle Section (New!) */}
+        <div className="mt-32">
+           <RelocationConcierge />
         </div>
 
         {/* AI Powered Section */}

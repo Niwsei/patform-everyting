@@ -23,7 +23,8 @@ import {
   BarChart2,
   Package,
   LayoutGrid,
-  Gift
+  Gift,
+  BrainCircuit
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -35,6 +36,8 @@ import { HostBookingManager } from "@/components/booking/HostBookingManager";
 import { UnitManagement } from "@/components/dashboard/UnitManagement";
 import { ReferralRewards } from "@/components/dashboard/ReferralRewards";
 import { MarketReport } from "@/components/dashboard/MarketReport";
+import { AIVisionOptimizer } from "@/components/ai-vision/AIVisionOptimizer";
+import { ServiceJobCalendar } from "@/components/dashboard/ServiceJobCalendar";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('bookings');
@@ -127,6 +130,20 @@ export default function DashboardPage() {
                   <TrendingUp className="w-5 h-5" />
                   รายงานตลาด AI
                 </button>
+                <button
+                  onClick={() => setActiveTab('ai_vision')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'ai_vision' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                >
+                  <BrainCircuit className="w-5 h-5" />
+                  AI Vision Optimizer
+                </button>
+                <button
+                  onClick={() => setActiveTab('service_calendar')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'service_calendar' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                >
+                  <Calendar className="w-5 h-5" />
+                  ตารางงานบริการ
+                </button>
                 <Link
                   href="/favorites"
                   className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-slate-500 hover:bg-slate-50 transition-all"
@@ -182,6 +199,10 @@ export default function DashboardPage() {
                <ReferralRewards />
             ) : activeTab === 'market_report' ? (
                <MarketReport />
+            ) : activeTab === 'ai_vision' ? (
+               <AIVisionOptimizer />
+            ) : activeTab === 'service_calendar' ? (
+               <ServiceJobCalendar />
             ) : (
                <>
             {/* Stats Overview */}

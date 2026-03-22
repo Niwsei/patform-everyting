@@ -106,11 +106,17 @@ export function PropertyCard({ property }: PropertyCardProps) {
         </p>
 
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-[10px] font-semibold uppercase tracking-wider bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md">
-            {property.category === 'hotel' ? 'โรงแรม' :
-             property.category === 'guesthouse' ? 'เกสต์เฮ้าส์' :
-             property.category === 'vacation_home' ? 'บ้านพักตากอากาศ' : 'อพาร์ทเมนท์'}
+          <span className="text-[10px] font-semibold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2.5 py-1 rounded-md">
+            {property.category === 'hotel' ? (language === 'EN' ? 'Hotel' : language === 'LO' ? 'ໂຮງແຮມ' : 'โรงแรม') :
+             property.category === 'guesthouse' ? (language === 'EN' ? 'Guesthouse' : language === 'LO' ? 'ເກສເຮົ້າສ໌' : 'เกสต์เฮ้าส์') :
+             property.category === 'vacation_home' ? (language === 'EN' ? 'Vacation Home' : language === 'LO' ? 'ເຮືອນພັກ' : 'บ้านพักตากอากาศ') :
+             (language === 'EN' ? 'Apartment' : language === 'LO' ? 'ອາພາດເມັນ' : 'อพาร์ทเมนท์')}
           </span>
+          {property.tags?.map(tag => (
+             <span key={tag} className="text-[9px] font-black uppercase tracking-tighter text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-2 py-1 rounded-md">
+                {tag}
+             </span>
+          ))}
         </div>
 
         <div className="flex flex-wrap gap-2 mb-6">

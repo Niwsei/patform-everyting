@@ -20,6 +20,7 @@ export const mockProperties: Property[] = [
     rating: 4.8,
     reviewCount: 24,
     isFeatured: true,
+    tags: ['AI Recommended', 'Top Value'],
     hostName: 'คุณแสงเดือน',
     hostImage: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop',
     units: [
