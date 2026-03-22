@@ -4,136 +4,167 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   TrendingUp,
-  TrendingDown,
-  BarChart2,
-  Map,
   Target,
-  Lightbulb,
   ArrowRight,
-  ShieldCheck,
   Zap,
-  HelpCircle
+  HelpCircle,
+  BrainCircuit,
+  Globe,
+  Activity,
+  ChevronRight
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCurrencyStore } from '@/stores/useCurrencyStore'
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell } from 'recharts'
 
 const marketData = [
-  { name: 'Chanthabouly', current: 4200000, market: 3800000 },
-  { name: 'Sikhottabong', current: 3500000, market: 3400000 },
-  { name: 'Sisattanak', current: 4500000, market: 4800000 },
-  { name: 'Xaysetha', current: 3200000, market: 3100000 },
+  { name: 'Chanthabouly', current: 4200000, market: 3800000, demand: 95 },
+  { name: 'Sikhottabong', current: 3500000, market: 3400000, demand: 72 },
+  { name: 'Sisattanak', current: 4500000, market: 4800000, demand: 88 },
+  { name: 'Xaysetha', current: 3200000, market: 3100000, demand: 65 },
 ]
 
 export function MarketReport() {
   const { formatPrice } = useCurrencyStore()
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-         <div>
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-               AI Market Report
-               <span className="text-[10px] font-black bg-indigo-600 text-white px-2 py-0.5 rounded-full uppercase">Beta</span>
-            </h2>
-            <p className="text-sm font-bold text-slate-400 mt-1 uppercase tracking-widest">Real-time Vientiane Market Analysis</p>
+    <div className="space-y-12">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+         <div className="space-y-3">
+            <div className="inline-flex items-center gap-3 bg-primary/10 text-primary px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.3em] border border-primary/20 shadow-glow">
+               <Activity className="w-4 h-4" />
+               Live Market Protocol v4.0
+            </div>
+            <h2 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Vientiane <br/> <span className="text-primary italic">Market Intelligence.</span></h2>
+            <p className="text-slate-500 dark:text-slate-400 font-bold text-sm uppercase tracking-widest">Real-time Geospatial Pricing & Demand Delta</p>
          </div>
-         <button className="p-3 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl shadow-sm text-slate-400 hover:text-indigo-600 transition-colors">
-            <HelpCircle className="w-5 h-5" />
+         <button className="w-14 h-14 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl shadow-premium text-slate-400 hover:text-primary transition-all flex items-center justify-center">
+            <HelpCircle className="w-6 h-6" />
          </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
          {/* Price Gap Analysis */}
-         <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
-            <div className="flex justify-between items-center mb-8">
-               <h3 className="font-black text-slate-900 dark:text-white">เปรียบเทียบราคาตลาดรายย่าน</h3>
-               <div className="flex gap-4">
-                  <div className="flex items-center gap-1.5">
-                     <div className="w-2.5 h-2.5 bg-indigo-600 rounded-full" />
-                     <span className="text-[10px] font-black text-slate-400 uppercase">ราคาของคุณ</span>
+         <div className="lg:col-span-8 bg-white dark:bg-slate-900 p-12 rounded-[3.5rem] border border-slate-100 dark:border-slate-800 shadow-premium relative overflow-hidden">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+               <div className="space-y-2">
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Geospatial Benchmarking</h3>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Portfolio Rate vs District Baseline</p>
+               </div>
+               <div className="flex gap-6 p-2 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700">
+                  <div className="flex items-center gap-2 px-3 py-1.5">
+                     <div className="w-2.5 h-2.5 bg-primary rounded-full shadow-glow" />
+                     <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Active Rate</span>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                     <div className="w-2.5 h-2.5 bg-slate-200 rounded-full" />
-                     <span className="text-[10px] font-black text-slate-400 uppercase">ราคาตลาด</span>
+                  <div className="flex items-center gap-2 px-3 py-1.5">
+                     <div className="w-2.5 h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full" />
+                     <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Market Alpha</span>
                   </div>
                </div>
             </div>
 
-            <div className="h-72 w-full">
+            <div className="h-80 w-full">
                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={marketData}>
-                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                     <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }} />
+                  <BarChart data={marketData} barGap={12}>
+                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.1)" />
+                     <XAxis
+                        dataKey="name"
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 10, fontWeight: 900, fill: '#94a3b8' }}
+                        dy={15}
+                     />
                      <YAxis hide />
                      <Tooltip
-                        contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '12px', fontWeight: 'bold' }}
+                        contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', backgroundColor: '#0f172a', color: '#fff' }}
+                        itemStyle={{ color: '#fff', fontSize: '10px', fontWeight: '900', textTransform: 'uppercase' }}
+                        cursor={{ fill: 'rgba(79, 70, 229, 0.05)' }}
                         formatter={(value: any) => [formatPrice(Number(value)), '']}
                      />
-                     <Bar dataKey="current" fill="#4f46e5" radius={[6, 6, 0, 0]} barSize={24} />
-                     <Bar dataKey="market" fill="#e2e8f0" radius={[6, 6, 0, 0]} barSize={24} />
+                     <Bar dataKey="current" fill="#4f46e5" radius={[8, 8, 0, 0]} barSize={28} />
+                     <Bar dataKey="market" fill="rgba(148, 163, 184, 0.2)" radius={[8, 8, 0, 0]} barSize={28} />
                   </BarChart>
                </ResponsiveContainer>
             </div>
          </div>
 
-         {/* AI Profit Tips */}
-         <div className="space-y-6">
-            <div className="bg-emerald-50 dark:bg-emerald-900/20 p-8 rounded-[2.5rem] border border-emerald-100 dark:border-emerald-900/50 relative overflow-hidden group">
-               <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform" />
-               <div className="w-10 h-10 bg-emerald-500 text-white rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-emerald-200 dark:shadow-none">
-                  <TrendingUp className="w-5 h-5" />
+         {/* AI Strategy Logic */}
+         <div className="lg:col-span-4 space-y-8">
+            <motion.div
+               whileHover={{ y: -5 }}
+               className="bg-primary p-10 rounded-[3.5rem] text-white relative overflow-hidden group shadow-glow"
+            >
+               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-3xl group-hover:scale-150 transition-transform duration-1000" />
+               <div className="w-16 h-16 bg-white/20 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-8 border border-white/20">
+                  <TrendingUp className="w-8 h-8 stroke-[2.5]" />
                </div>
-               <h4 className="font-black text-slate-900 dark:text-white text-lg mb-2">โอกาสทำกำไร</h4>
-               <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400 leading-relaxed">
-                  ราคาห้องพักในย่าน <span className="font-black">จันทะบูลี</span> มีแนวโน้มเพิ่มขึ้น 8% ในไตรมาสหน้า แนะนำให้ปรับสัญญาเป็นแบบ 6 เดือน
+               <h4 className="text-2xl font-black tracking-tighter leading-none mb-3">Yield Opportunity</h4>
+               <p className="text-sm font-bold text-white/80 leading-relaxed uppercase tracking-tight">
+                  <span className="text-white underline decoration-white/30 underline-offset-4">Chanthabouly</span> is experiencing an 8.4% supply deficit. Adjust long-term contracts by <span className="text-white font-black">+12%</span> immediately.
                </p>
-            </div>
+            </motion.div>
 
-            <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white space-y-6">
-               <div className="flex items-center gap-3">
-                  <Zap className="w-5 h-5 text-amber-400" />
-                  <h4 className="font-black text-sm uppercase tracking-widest">AI Optimization</h4>
+            <div className="bg-slate-900 p-10 rounded-[3.5rem] border border-white/10 text-white space-y-8 relative overflow-hidden group shadow-premium">
+               <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+               <div className="flex items-center gap-3 relative z-10">
+                  <BrainCircuit className="w-6 h-6 text-primary" />
+                  <h4 className="font-black text-[10px] uppercase tracking-[0.3em] text-primary">Neural Optimization</h4>
                </div>
-               <ul className="space-y-4">
+               <ul className="space-y-6 relative z-10">
                   {[
-                     'เพิ่มรูปภาพส่วนห้องครัวเพื่อเพิ่มโอกาสจอง 15%',
-                     'เปิดรับชาวต่างชาติเพิ่มขึ้นโดยใช้ระบบ KYC ของเรา',
-                     'ลดราคา 5% สำหรับสัญญาเช่า 1 ปีขึ้นไป'
+                     'Enhance "Master Suite" imagery to boost engagement by 24%.',
+                     'Deploy Expat-KYC protocol to reduce vacancy delta.',
+                     'Implement 12-month loyalty incentives for 98% retention.'
                   ].map((tip, i) => (
-                     <li key={i} className="flex items-start gap-3">
-                        <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mt-1.5 shrink-0" />
-                        <p className="text-xs font-medium text-slate-300 leading-relaxed">{tip}</p>
+                     <li key={i} className="flex items-start gap-4">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 shrink-0 shadow-glow" />
+                        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">{tip}</p>
                      </li>
                   ))}
                </ul>
-               <button className="w-full py-4 bg-indigo-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center justify-center gap-2">
-                  ดำเนินการตามแนะนำ
+               <button className="w-full py-5 bg-white text-slate-900 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.2em] hover:bg-primary hover:text-white hover:shadow-glow transition-all active:scale-[0.98] flex items-center justify-center gap-3 relative z-10">
+                  Execute Protocol
                   <ArrowRight className="w-4 h-4" />
                </button>
             </div>
          </div>
       </div>
 
-      {/* Demand Map Mock */}
-      <div className="bg-slate-50 dark:bg-slate-800/50 p-10 rounded-[3rem] border border-slate-100 dark:border-slate-800 text-center space-y-6">
-         <div className="w-16 h-16 bg-white dark:bg-slate-900 rounded-[1.5rem] shadow-sm flex items-center justify-center mx-auto">
-            <Target className="w-8 h-8 text-indigo-600" />
-         </div>
-         <div className="space-y-2">
-            <h3 className="text-xl font-black text-slate-900 dark:text-white">พื้นที่ความต้องการสูง (Hotzones)</h3>
-            <p className="text-sm font-bold text-slate-400 max-w-md mx-auto">ขณะนี้ย่าน สีสัตตนาค กำลังมีความต้องการที่พักแบบพรีเมียมสูงที่สุด หากคุณมีห้องในย่านนี้ แนะนำให้ลงประกาศทันที</p>
-         </div>
-         <div className="flex justify-center gap-8">
-            <div className="text-center">
-               <p className="text-2xl font-black text-slate-900 dark:text-white">High</p>
-               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Demand</p>
+      {/* Demand Heatmap Micro-module */}
+      <div className="bg-slate-50 dark:bg-slate-900/50 p-12 rounded-[4rem] border border-slate-100 dark:border-slate-800 relative overflow-hidden group">
+         <div className="absolute top-0 right-0 w-[500px] h-full bg-[radial-gradient(circle_at_center,var(--primary),transparent)] opacity-[0.03] pointer-events-none" />
+         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
+            <div className="flex items-center gap-8">
+               <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-[2rem] shadow-premium flex items-center justify-center shrink-0">
+                  <Target className="w-10 h-10 text-primary" />
+               </div>
+               <div className="space-y-2">
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">High-Yield Hotzones</h3>
+                  <p className="text-sm font-bold text-slate-500 dark:text-slate-400 max-w-lg">Sisattanak demand for "Premium-Serviced" assets has reached a 12-month peak. Deployment in this sector is highly recommended.</p>
+               </div>
             </div>
-            <div className="w-px h-10 bg-slate-200 dark:bg-slate-700" />
-            <div className="text-center">
-               <p className="text-2xl font-black text-emerald-500">Low</p>
-               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Competition</p>
+
+            <div className="flex gap-10 bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] shadow-premium border border-slate-100 dark:border-slate-700 min-w-[320px] justify-center">
+               <div className="text-center">
+                  <p className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter">Peak</p>
+                  <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mt-2">Active Demand</p>
+               </div>
+               <div className="w-px h-12 bg-slate-100 dark:bg-slate-700" />
+               <div className="text-center">
+                  <p className="text-4xl font-black text-emerald-500 tracking-tighter">Low</p>
+                  <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mt-2">Market Volatility</p>
+               </div>
             </div>
+         </div>
+
+         <div className="mt-10 flex items-center justify-between pt-10 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex items-center gap-3">
+               <Globe className="w-5 h-5 text-slate-400" />
+               <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Neural Map Instance #7742</span>
+            </div>
+            <button className="text-[10px] font-black text-primary uppercase tracking-[0.3em] flex items-center gap-2 hover:gap-4 transition-all">
+               View Neural Map <ChevronRight className="w-4 h-4" />
+            </button>
          </div>
       </div>
     </div>

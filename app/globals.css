@@ -12,7 +12,7 @@
   --border: #e2e8f0;
   --input: #e2e8f0;
   --ring: #4f46e5;
-  --radius: 1rem;
+  --radius: 1.25rem;
 }
 
 @theme inline {
@@ -35,11 +35,13 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+  --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.15);
+  --shadow-glow-rose: 0 0 20px rgba(244, 63, 94, 0.3);
 }
 
 .dark {
-  --background: #020617; /* High-end OLED Black base */
+  --background: #020617;
   --foreground: #f8fafc;
   --primary: #6366f1;
   --primary-foreground: #ffffff;
@@ -52,74 +54,93 @@
   --ring: #6366f1;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --background: #020617;
-    --foreground: #f8fafc;
-    --border: #1e293b;
-    --secondary: #1e293b;
-    --secondary-foreground: #f8fafc;
-    --accent: #1e293b;
-    --accent-foreground: #f8fafc;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  overflow-x: hidden;
 }
 
+/* Enhanced Grain Texture */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.03;
+  opacity: 0.04;
   pointer-events: none;
-  z-index: 999;
+  z-index: 9999;
+  filter: contrast(120%) brightness(120%);
 }
 
 .dark body::before {
-  opacity: 0.05;
+  opacity: 0.06;
+  filter: contrast(150%) brightness(80%);
 }
 
-/* Premium Mesh Gradient Utility */
+/* Professional Mesh Gradients */
 .mesh-gradient {
   background-color: var(--background);
   background-image:
-    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 0.1) 0, transparent 50%),
-    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 0.1) 0, transparent 50%);
+    radial-gradient(at 0% 0%, hsla(253, 60%, 50%, 0.05) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(225, 60%, 50%, 0.05) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(339, 60%, 50%, 0.05) 0, transparent 50%);
 }
 
 .dark .mesh-gradient {
     background-image:
-    radial-gradient(at 0% 0%, hsla(263, 60%, 15%, 0.3) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(225, 60%, 15%, 0.2) 0, transparent 50%),
-    radial-gradient(at 100% 0%, hsla(280, 60%, 15%, 0.2) 0, transparent 50%);
+    radial-gradient(at 0% 0%, hsla(263, 60%, 15%, 0.4) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(225, 60%, 15%, 0.3) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(280, 60%, 15%, 0.3) 0, transparent 50%);
 }
 
+/* Glassmorphism V2 */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .dark .glass {
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Button & UI Components */
 .btn-primary {
-  @apply bg-primary text-primary-foreground px-6 py-3 rounded-xl font-bold transition-all hover:opacity-90 active:scale-[0.98] shadow-lg shadow-primary/20;
+  @apply bg-primary text-primary-foreground px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all hover:scale-[1.02] active:scale-[0.98] shadow-premium hover:shadow-glow;
 }
 
 .btn-secondary {
-  @apply bg-secondary text-secondary-foreground px-6 py-3 rounded-xl font-bold transition-all hover:bg-accent active:scale-[0.98] border border-border;
+  @apply bg-secondary text-secondary-foreground px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all hover:bg-accent active:scale-[0.98] border border-border;
+}
+
+.card-startup {
+  @apply bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] shadow-premium transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] hover:-translate-y-2;
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 3s ease-in-out infinite;
 }

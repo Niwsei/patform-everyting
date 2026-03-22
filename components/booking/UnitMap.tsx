@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, Lock, Clock, Info, DoorOpen, LayoutGrid, Zap } from "lucide-react";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
+import { useLanguageStore } from "@/stores/useLanguageStore";
+import { translations } from "@/lib/translations";
 
 interface UnitMapProps {
   units: PropertyUnit[];
@@ -15,6 +17,8 @@ interface UnitMapProps {
 export function UnitMap({ units, basePrice }: UnitMapProps) {
   const [selectedUnit, setSelectedUnit] = useState<PropertyUnit | null>(null);
   const { formatPrice } = useCurrencyStore();
+  const { language } = useLanguageStore();
+  const t = translations[language];
 
   const floors = Array.from(new Set(units.map(u => u.floor))).sort((a, b) => (b || 0) - (a || 0));
 
@@ -26,18 +30,18 @@ export function UnitMap({ units, basePrice }: UnitMapProps) {
                <DoorOpen className="w-5 h-5" />
             </div>
             <div>
-               <h3 className="text-xl font-black text-slate-900 tracking-tight">แผนผังห้องพัก</h3>
+               <h3 className="text-xl font-black text-slate-900 tracking-tight">{language === 'EN' ? 'Unit Layout' : language === 'LO' ? 'ແຜນຜັງຫ້ອງພັກ' : 'แผนผังห้องพัก'}</h3>
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Interactive Unit Selection</p>
             </div>
          </div>
          <div className="flex items-center gap-4 bg-slate-50 p-3 rounded-2xl border border-slate-100">
             <div className="flex items-center gap-2">
                <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full" />
-               <span className="text-[10px] font-black text-slate-500 uppercase">ว่าง</span>
+               <span className="text-[10px] font-black text-slate-500 uppercase">{t.available}</span>
             </div>
             <div className="flex items-center gap-2">
                <div className="w-2.5 h-2.5 bg-slate-200 rounded-full" />
-               <span className="text-[10px] font-black text-slate-500 uppercase">ไม่ว่าง</span>
+               <span className="text-[10px] font-black text-slate-500 uppercase">{t.occupied}</span>
             </div>
          </div>
       </div>
@@ -101,10 +105,10 @@ export function UnitMap({ units, basePrice }: UnitMapProps) {
                <div className="flex flex-col md:flex-row justify-between gap-8 relative z-10">
                   <div className="space-y-4">
                      <div className="flex items-center gap-3">
-                        <span className="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-emerald-100">Now Available</span>
-                        <span className="text-slate-300 font-bold text-sm">Unit {selectedUnit.unitNumber} • Floor {selectedUnit.floor}</span>
+                        <span className="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-emerald-100">{t.available}</span>
+                        <span className="text-slate-300 font-bold text-sm">Unit {selectedUnit.unitNumber} • {t.floor} {selectedUnit.floor}</span>
                      </div>
-                     <h4 className="text-3xl font-black text-slate-900 tracking-tight">พรีเมียม สตูดิโอ ({selectedUnit.sizeSqM} ตร.ม.)</h4>
+                     <h4 className="text-3xl font-black text-slate-900 tracking-tight">{language === 'EN' ? 'Premium Studio' : language === 'LO' ? 'ພຣີມຽມ ສະຕູດິໂອ' : 'พรีเมียม สตูดิโอ'} ({selectedUnit.sizeSqM} {t.sqm})</h4>
                      <div className="flex flex-wrap gap-2">
                         {selectedUnit.features?.map(f => (
                            <div key={f} className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 text-slate-600 rounded-xl text-[10px] font-bold border border-slate-100">
@@ -115,10 +119,10 @@ export function UnitMap({ units, basePrice }: UnitMapProps) {
                      </div>
                   </div>
                   <div className="text-right flex flex-col justify-center items-end shrink-0">
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ราคาสำหรับยูนิตนี้</p>
+                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{language === 'EN' ? 'UNIT PRICE' : language === 'LO' ? 'ລາຄາສຳລັບຢູນິດນີ້' : 'ราคาสำหรับยูนิตนี้'}</p>
                      <p className="text-3xl font-black text-indigo-600">{formatPrice(selectedUnit.priceOverride || basePrice)}</p>
                      <button className="mt-6 px-10 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-indigo-600 transition-all shadow-xl active:scale-95">
-                        จองยูนิต {selectedUnit.unitNumber}
+                        {t.bookNow} {selectedUnit.unitNumber}
                      </button>
                   </div>
                </div>
@@ -126,7 +130,7 @@ export function UnitMap({ units, basePrice }: UnitMapProps) {
          ) : (
             <div className="p-12 text-center bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-200">
                <Info className="w-10 h-10 text-slate-300 mx-auto mb-4" />
-               <p className="text-slate-400 font-bold">เลือกห้องที่ต้องการบนแผนผัง เพื่อดูรายละเอียดราคาและวิวค่ะ</p>
+               <p className="text-slate-400 font-bold">{language === 'EN' ? 'Select a unit on the map to view price and details.' : language === 'LO' ? 'ເລືອກຫ້ອງທີ່ຕ້ອງການເພື່ອເບິ່ງລາຍລະອຽດ' : 'เลือกห้องที่ต้องการบนแผนผัง เพื่อดูรายละเอียดราคาและวิวค่ะ'}</p>
             </div>
          )}
       </AnimatePresence>
