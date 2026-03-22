@@ -48,8 +48,9 @@ export function ChatWidget() {
     setInputValue('')
     setIsTyping(true)
 
-    // Simulate AI/Manager response
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    // Simulate realistic Sarah thinking patterns
+    const thinkingDelays = [1500, 2000, 1000]
+    await new Promise(resolve => setTimeout(resolve, thinkingDelays[Math.floor(Math.random() * thinkingDelays.length)]))
 
     let aiResponse = "";
     const lowerInput = inputValue.toLowerCase();
@@ -201,10 +202,14 @@ export function ChatWidget() {
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        animate={!isOpen ? {
+           y: [0, -10, 0],
+           transition: { repeat: Infinity, duration: 4, ease: "easeInOut" }
+        } : {}}
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           "w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-colors duration-300 relative",
-          isOpen ? "bg-white text-slate-900 border border-slate-200" : "bg-slate-900 text-white"
+          isOpen ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800" : "bg-indigo-600 text-white"
         )}
       >
         {isOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}

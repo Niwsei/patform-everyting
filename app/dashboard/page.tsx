@@ -27,6 +27,7 @@ import {
   BrainCircuit
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { AnalyticsSkeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
 import { PartnerAnalytics } from "@/features/dashboard/components/PartnerAnalytics";
@@ -41,7 +42,16 @@ import { ServiceJobCalendar } from "@/components/dashboard/ServiceJobCalendar";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('bookings');
+  const [isLoading, setIsLoading] = useState(false);
   const { formatPrice } = useCurrencyStore();
+
+  const handleTabChange = (tab: string) => {
+     if (tab === 'analytics' || tab === 'market_report') {
+        setIsLoading(true);
+        setTimeout(() => setIsLoading(false), 1000);
+     }
+     setActiveTab(tab);
+  }
 
   // Simulated data
   const myBookings = [
@@ -89,57 +99,57 @@ export default function DashboardPage() {
 
               <nav className="space-y-2">
                 <button
-                  onClick={() => setActiveTab('bookings')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'bookings' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                  onClick={() => handleTabChange('bookings')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'bookings' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
                 >
                   <Calendar className="w-5 h-5" />
                   การจองของฉัน
                 </button>
                 <button
-                  onClick={() => setActiveTab('analytics')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'analytics' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                  onClick={() => handleTabChange('analytics')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'analytics' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
                 >
                   <BarChart2 className="w-5 h-5" />
                   สถิติพาร์ทเนอร์
                 </button>
                 <button
-                  onClick={() => setActiveTab('manage_bookings')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'manage_bookings' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                  onClick={() => handleTabChange('manage_bookings')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'manage_bookings' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
                 >
                   <Package className="w-5 h-5" />
                   จัดการคำขอจอง
                 </button>
                 <button
-                  onClick={() => setActiveTab('manage_units')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'manage_units' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                  onClick={() => handleTabChange('manage_units')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'manage_units' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
                 >
                   <LayoutGrid className="w-5 h-5" />
                   จัดการยูนิตที่พัก
                 </button>
                 <button
-                  onClick={() => setActiveTab('rewards')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'rewards' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                  onClick={() => handleTabChange('rewards')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'rewards' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
                 >
                   <Gift className="w-5 h-5" />
                   รางวัลและการแนะนำ
                 </button>
                 <button
-                  onClick={() => setActiveTab('market_report')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'market_report' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                  onClick={() => handleTabChange('market_report')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'market_report' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
                 >
                   <TrendingUp className="w-5 h-5" />
                   รายงานตลาด AI
                 </button>
                 <button
-                  onClick={() => setActiveTab('ai_vision')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'ai_vision' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                  onClick={() => handleTabChange('ai_vision')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'ai_vision' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
                 >
                   <BrainCircuit className="w-5 h-5" />
                   AI Vision Optimizer
                 </button>
                 <button
-                  onClick={() => setActiveTab('service_calendar')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'service_calendar' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                  onClick={() => handleTabChange('service_calendar')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'service_calendar' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
                 >
                   <Calendar className="w-5 h-5" />
                   ตารางงานบริการ
@@ -189,7 +199,9 @@ export default function DashboardPage() {
 
           {/* Main Dashboard Content */}
           <div className="lg:col-span-9 space-y-10">
-            {activeTab === 'analytics' ? (
+            {isLoading ? (
+               <AnalyticsSkeleton />
+            ) : activeTab === 'analytics' ? (
                <PartnerAnalytics />
             ) : activeTab === 'manage_bookings' ? (
                <HostBookingManager />

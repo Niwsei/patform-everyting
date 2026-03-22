@@ -1,9 +1,12 @@
+'use client'
+
 import { PropertyCard } from '@/features/properties/components/PropertyCard';
 import { PropertyMap } from '@/features/properties/components/PropertyMap';
 import { mockProperties } from '@/features/properties/services/mockData';
 import { SearchX, SlidersHorizontal, LayoutGrid, Map as MapIcon } from 'lucide-react';
+import { PropertyCardSkeleton } from '@/components/ui/Skeleton';
 import Link from 'next/link';
-import { use } from 'react';
+import { use, useState, useEffect } from 'react';
 
 interface PropertiesPageProps {
   searchParams: Promise<{
@@ -19,6 +22,13 @@ export default function PropertiesPage({ searchParams }: PropertiesPageProps) {
     price: priceFilter = '',
     category: categoryFilter = ''
   } = use(searchParams);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+     const timer = setTimeout(() => setIsLoading(false), 1500);
+     return () => clearTimeout(timer);
+  }, [locationFilter, priceFilter, categoryFilter]);
 
   const filteredProperties = mockProperties.filter((property) => {
     const matchLocation = locationFilter 
@@ -79,7 +89,11 @@ export default function PropertiesPage({ searchParams }: PropertiesPageProps) {
 
         <div className="flex-1 flex overflow-hidden">
           <div className="w-full lg:w-3/5 xl:w-1/2 overflow-y-auto p-6 scrollbar-hide">
-            {filteredProperties.length > 0 ? (
+            {isLoading ? (
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {[1, 2, 3, 4, 5, 6].map(i => <PropertyCardSkeleton key={i} />)}
+               </div>
+            ) : filteredProperties.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {filteredProperties.map((property) => (
                   <PropertyCard key={property.id} property={property} />

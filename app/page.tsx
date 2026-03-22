@@ -1,10 +1,13 @@
+'use client'
+
 import { PropertyCard } from '@/features/properties/components/PropertyCard';
 import { mockProperties } from '@/features/properties/services/mockData';
 import { HeroSearch } from '@/features/search/components/HeroSearch';
 import { NestAIEngine } from '@/features/search/components/NestAIEngine';
 import { PageTransition } from '@/components/PageTransition';
 import { RelocationConcierge } from '@/features/relocation/components/RelocationConcierge';
-import { Truck, Shield, Zap, TrendingUp, Sparkles } from 'lucide-react';
+import { Truck, Shield, Zap, TrendingUp, Sparkles, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function HomePage() {
   return (
@@ -12,46 +15,84 @@ export default function HomePage() {
       {/* 1. Hero Search */}
       <HeroSearch />
       
-      {/* 2. Feature Section for Startups */}
-      <section className="py-20 bg-gray-50">
+      {/* 2. Bento Grid Feature Section */}
+      <section className="py-24 mesh-gradient relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-sm font-bold text-indigo-600 tracking-widest uppercase mb-3">ทำไมต้อง Vientiane Nest?</h2>
-            <p className="text-4xl font-extrabold text-gray-900 sm:text-5xl">
-              ระบบนิเวศเพื่อการอยู่อาศัยที่ทันสมัย
-            </p>
+          <div className="text-center mb-20 space-y-4">
+            <motion.h2
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               className="text-xs font-black text-indigo-600 dark:text-indigo-400 tracking-[0.3em] uppercase"
+            >
+               Why Vientiane Nest?
+            </motion.h2>
+            <motion.p
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               transition={{ delay: 0.1 }}
+               className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tighter"
+            >
+              The New Living <br/> <span className="text-indigo-600">Standard</span> in Laos
+            </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition-shadow">
-              <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6">
-                <Zap className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">ค้นหาที่พักรวดเร็ว</h3>
-              <p className="text-gray-600 leading-relaxed">
-                ค้นหาที่พักหรือบริการที่เหมาะสมที่สุดในเวลาเพียงไม่กี่นาที ด้วยระบบการค้นหาพื้นที่ที่ชาญฉลาด
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-6 grid-rows-2 gap-6 h-auto md:h-[600px]">
+            {/* Main Bento Card */}
+            <motion.div
+               whileHover={{ y: -5 }}
+               className="md:col-span-3 md:row-span-2 bg-white dark:bg-slate-900 p-12 rounded-[3rem] shadow-premium border border-slate-100 dark:border-slate-800 flex flex-col justify-between group overflow-hidden relative"
+            >
+               <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50 dark:bg-indigo-900/20 rounded-bl-[5rem] -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-700" />
+               <div className="space-y-6 relative z-10">
+                  <div className="w-16 h-16 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-100 dark:shadow-none">
+                     <Zap className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-3xl font-black text-slate-900 dark:text-white leading-tight">ค้นหาที่พักรวดเร็ว <br/>ด้วยระบบ AI อัจฉริยะ</h3>
+                  <p className="text-slate-500 dark:text-slate-400 font-bold leading-relaxed max-w-sm">
+                    ไม่ต้องเสียเวลาขับรถวนหา เราจับคู่คุณกับที่พักที่ตรงไลฟ์สไตล์ที่สุดในไม่กี่วินาที
+                  </p>
+               </div>
+               <div className="pt-8 relative z-10">
+                  <button className="flex items-center gap-2 text-indigo-600 font-black uppercase tracking-widest text-xs group-hover:gap-4 transition-all">
+                     Start Searching <ArrowRight className="w-4 h-4" />
+                  </button>
+               </div>
+            </motion.div>
 
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition-shadow">
-              <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
-                <Truck className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">บริการขนย้ายและโลจิสติกส์</h3>
-              <p className="text-gray-600 leading-relaxed">
-                เรามีมากกว่าแค่ห้องพัก เราเชื่อมต่อคุณกับบริการขนย้ายและจัดส่งที่ผ่านการตรวจสอบทั่วเวียงจันทน์
-              </p>
-            </div>
+            {/* Service Bento Card */}
+            <motion.div
+               whileHover={{ y: -5 }}
+               className="md:col-span-3 bg-emerald-600 p-10 rounded-[3rem] text-white flex flex-col justify-between relative overflow-hidden group"
+            >
+               <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.2),transparent)] opacity-50" />
+               <div className="flex justify-between items-start relative z-10">
+                  <div className="space-y-4">
+                     <h3 className="text-2xl font-black leading-tight">บริการขนย้าย <br/> & โลจิสติกส์</h3>
+                     <p className="text-emerald-50 font-bold text-sm max-w-[200px] opacity-80">ย้ายเข้าบ้านใหม่แบบสบายๆ ด้วยทีมงานมืออาชีพ</p>
+                  </div>
+                  <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md">
+                     <Truck className="w-6 h-6" />
+                  </div>
+               </div>
+               <div className="relative z-10">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] bg-white/10 px-3 py-1.5 rounded-full border border-white/20">500+ Verified Partners</span>
+               </div>
+            </motion.div>
 
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition-shadow">
-              <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
-                <Shield className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">รายการที่ผ่านการตรวจสอบ</h3>
-              <p className="text-gray-600 leading-relaxed">
-                ผู้ให้เช่าและผู้ให้บริการทุกรายบนแพลตฟอร์มของเราต้องผ่านกระบวนการตรวจสอบที่เข้มงวด
-              </p>
-            </div>
+            {/* Trust Bento Card */}
+            <motion.div
+               whileHover={{ y: -5 }}
+               className="md:col-span-3 bg-slate-900 dark:bg-white p-10 rounded-[3rem] text-white dark:text-slate-900 flex items-center justify-between group overflow-hidden relative"
+            >
+               <div className="space-y-4 relative z-10">
+                  <h3 className="text-2xl font-black leading-tight">รายการที่ <br/> ผ่านการตรวจสอบ</h3>
+                  <p className="text-slate-400 dark:text-slate-500 font-bold text-sm max-w-[240px]">ปลอดภัย 100% ด้วยระบบ KYC ของพาร์ทเนอร์ทุกคน</p>
+               </div>
+               <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center shrink-0 shadow-2xl relative z-10">
+                  <Shield className="w-10 h-10 text-white" />
+               </div>
+               <div className="absolute bottom-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-tl-full pointer-events-none" />
+            </motion.div>
           </div>
         </div>
       </section>

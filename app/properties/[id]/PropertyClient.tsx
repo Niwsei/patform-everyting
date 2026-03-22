@@ -26,6 +26,8 @@ import { useCurrencyStore } from "@/stores/useCurrencyStore";
 import { ReviewSection } from "@/features/reviews/components/ReviewSection";
 import { UnitMap } from "@/components/booking/UnitMap";
 import { DirectChat } from "@/components/chat/DirectChat";
+import { ImmersivePreview } from "@/components/listing/ImmersivePreview";
+import { ShareCard } from "@/components/listing/ShareCard";
 
 interface PropertyClientProps {
   property: Property;
@@ -48,11 +50,8 @@ export default function PropertyClient({ property }: PropertyClientProps) {
             กลับหน้าแรก
           </Link>
           <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors underline">
-              <Share2 className="w-4 h-4" />
-              แชร์
-            </button>
-            <div className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors underline cursor-pointer">
+            <ShareCard property={property} />
+            <div className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors underline cursor-pointer">
               <FavoriteButton propertyId={property.id} />
               บันทึก
             </div>
@@ -80,11 +79,13 @@ export default function PropertyClient({ property }: PropertyClientProps) {
         </div>
 
         {/* Minimal Gallery Section */}
-        <div className="relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden mb-12 group bg-slate-100">
+        <div className="relative h-[400px] md:h-[600px] w-full rounded-[2.5rem] overflow-hidden mb-12 group bg-slate-100 dark:bg-slate-900 shadow-2xl">
+          <ImmersivePreview image={property.images[0]} title={property.title} />
+
           <AnimatePresence mode="wait">
             <motion.div
               key={activeImage}
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
