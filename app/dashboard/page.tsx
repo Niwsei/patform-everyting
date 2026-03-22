@@ -21,15 +21,37 @@ import {
   Wallet,
   ArrowUpRight,
   BarChart2,
-  Package
+  Package,
+  LayoutGrid,
+  Gift,
+  BrainCircuit
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { AnalyticsSkeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
+import { PartnerAnalytics } from "@/features/dashboard/components/PartnerAnalytics";
+import { TenantKYC } from "@/components/kyc/TenantKYC";
+import { DigitalLease } from "@/components/kyc/DigitalLease";
+import { HostBookingManager } from "@/components/booking/HostBookingManager";
+import { UnitManagement } from "@/components/dashboard/UnitManagement";
+import { ReferralRewards } from "@/components/dashboard/ReferralRewards";
+import { MarketReport } from "@/components/dashboard/MarketReport";
+import { AIVisionOptimizer } from "@/components/ai-vision/AIVisionOptimizer";
+import { ServiceJobCalendar } from "@/components/dashboard/ServiceJobCalendar";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('bookings');
+  const [isLoading, setIsLoading] = useState(false);
   const { formatPrice } = useCurrencyStore();
+
+  const handleTabChange = (tab: string) => {
+     if (tab === 'analytics' || tab === 'market_report') {
+        setIsLoading(true);
+        setTimeout(() => setIsLoading(false), 1000);
+     }
+     setActiveTab(tab);
+  }
 
   // Simulated data
   const myBookings = [
@@ -77,18 +99,60 @@ export default function DashboardPage() {
 
               <nav className="space-y-2">
                 <button
-                  onClick={() => setActiveTab('dashboard')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'dashboard' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
-                >
-                  <LayoutDashboard className="w-5 h-5" />
-                  ภาพรวม
-                </button>
-                <button
-                  onClick={() => setActiveTab('bookings')}
-                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'bookings' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50")}
+                  onClick={() => handleTabChange('bookings')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'bookings' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
                 >
                   <Calendar className="w-5 h-5" />
                   การจองของฉัน
+                </button>
+                <button
+                  onClick={() => handleTabChange('analytics')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'analytics' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
+                >
+                  <BarChart2 className="w-5 h-5" />
+                  สถิติพาร์ทเนอร์
+                </button>
+                <button
+                  onClick={() => handleTabChange('manage_bookings')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'manage_bookings' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
+                >
+                  <Package className="w-5 h-5" />
+                  จัดการคำขอจอง
+                </button>
+                <button
+                  onClick={() => handleTabChange('manage_units')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'manage_units' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
+                >
+                  <LayoutGrid className="w-5 h-5" />
+                  จัดการยูนิตที่พัก
+                </button>
+                <button
+                  onClick={() => handleTabChange('rewards')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'rewards' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
+                >
+                  <Gift className="w-5 h-5" />
+                  รางวัลและการแนะนำ
+                </button>
+                <button
+                  onClick={() => handleTabChange('market_report')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'market_report' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
+                >
+                  <TrendingUp className="w-5 h-5" />
+                  รายงานตลาด AI
+                </button>
+                <button
+                  onClick={() => handleTabChange('ai_vision')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'ai_vision' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
+                >
+                  <BrainCircuit className="w-5 h-5" />
+                  AI Vision Optimizer
+                </button>
+                <button
+                  onClick={() => handleTabChange('service_calendar')}
+                  className={cn("w-full flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all", activeTab === 'service_calendar' ? "bg-slate-900 text-white shadow-xl shadow-slate-200" : "text-slate-500 hover:bg-slate-50 dark:text-slate-400")}
+                >
+                  <Calendar className="w-5 h-5" />
+                  ตารางงานบริการ
                 </button>
                 <Link
                   href="/favorites"
@@ -121,10 +185,38 @@ export default function DashboardPage() {
                   แชร์รหัสแนะนำ
                </button>
             </div>
+
+            <div className="space-y-4">
+               <h3 className="px-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">การดำเนินการที่จำเป็น</h3>
+               <TenantKYC />
+               <DigitalLease
+                  propertyName={mockProperties[0].title}
+                  hostName={mockProperties[0].hostName || 'Host'}
+                  amount={formatPrice(mockProperties[0].pricePerMonth)}
+               />
+            </div>
           </div>
 
           {/* Main Dashboard Content */}
           <div className="lg:col-span-9 space-y-10">
+            {isLoading ? (
+               <AnalyticsSkeleton />
+            ) : activeTab === 'analytics' ? (
+               <PartnerAnalytics />
+            ) : activeTab === 'manage_bookings' ? (
+               <HostBookingManager />
+            ) : activeTab === 'manage_units' ? (
+               <UnitManagement />
+            ) : activeTab === 'rewards' ? (
+               <ReferralRewards />
+            ) : activeTab === 'market_report' ? (
+               <MarketReport />
+            ) : activeTab === 'ai_vision' ? (
+               <AIVisionOptimizer />
+            ) : activeTab === 'service_calendar' ? (
+               <ServiceJobCalendar />
+            ) : (
+               <>
             {/* Stats Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                <div className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-slate-100">
@@ -248,6 +340,8 @@ export default function DashboardPage() {
                  <ChevronRight className="w-4 h-4" />
                </Link>
             </div>
+               </>
+            )}
           </div>
 
         </div>

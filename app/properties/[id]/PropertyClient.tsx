@@ -23,6 +23,11 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useCurrencyStore } from "@/stores/useCurrencyStore";
+import { ReviewSection } from "@/features/reviews/components/ReviewSection";
+import { UnitMap } from "@/components/booking/UnitMap";
+import { DirectChat } from "@/components/chat/DirectChat";
+import { ImmersivePreview } from "@/components/listing/ImmersivePreview";
+import { ShareCard } from "@/components/listing/ShareCard";
 
 interface PropertyClientProps {
   property: Property;
@@ -45,11 +50,8 @@ export default function PropertyClient({ property }: PropertyClientProps) {
             กลับหน้าแรก
           </Link>
           <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors underline">
-              <Share2 className="w-4 h-4" />
-              แชร์
-            </button>
-            <div className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors underline cursor-pointer">
+            <ShareCard property={property} />
+            <div className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors underline cursor-pointer">
               <FavoriteButton propertyId={property.id} />
               บันทึก
             </div>
@@ -77,11 +79,13 @@ export default function PropertyClient({ property }: PropertyClientProps) {
         </div>
 
         {/* Minimal Gallery Section */}
-        <div className="relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden mb-12 group bg-slate-100">
+        <div className="relative h-[400px] md:h-[600px] w-full rounded-[2.5rem] overflow-hidden mb-12 group bg-slate-100 dark:bg-slate-900 shadow-2xl">
+          <ImmersivePreview image={property.images[0]} title={property.title} />
+
           <AnimatePresence mode="wait">
             <motion.div
               key={activeImage}
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
@@ -137,7 +141,7 @@ export default function PropertyClient({ property }: PropertyClientProps) {
             </div>
 
             {/* Feature Highlights */}
-            <div className="grid grid-cols-2 gap-6 pb-8 border-b border-slate-200">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pb-8 border-b border-slate-200">
               <div className="flex items-start gap-4">
                 <Clock className="w-6 h-6 text-slate-700 shrink-0 mt-0.5" />
                 <div>
@@ -169,71 +173,64 @@ export default function PropertyClient({ property }: PropertyClientProps) {
             </div>
 
             {/* Nest AI Insight (Redesigned) */}
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-              <div className="flex items-center gap-2 mb-3">
-                <Award className="w-5 h-5 text-indigo-600" />
-                <h3 className="font-semibold text-slate-900">Nest Insight</h3>
+            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200 relative overflow-hidden group">
+              <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-indigo-100/30 rounded-full group-hover:scale-150 transition-transform duration-700" />
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-indigo-100">
+                   <Sparkles className="w-5 h-5" />
+                </div>
+                <h3 className="font-black text-slate-900 uppercase tracking-tight">Nest AI Analysis</h3>
               </div>
-              <p className="text-slate-600 text-sm leading-relaxed mb-1">
-                ที่พักนี้เหมาะสำหรับคุณ เนื่องจากตรงกับสถิติความนิยมในโซน {property.location.split(',')[0]} ทั้งในด้านราคาและความปลอดภัย
-              </p>
+              <div className="space-y-4 relative z-10">
+                 <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                    ที่พักนี้เหมาะสำหรับคุณ เนื่องจากตรงกับสถิติความนิยมในโซน {property.location.split(',')[0]} ทั้งในด้านราคาและความปลอดภัย
+                 </p>
+                 <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                       <p className="text-[9px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-1">Connectivity</p>
+                       <p className="text-xs font-bold text-slate-700">ใกล้ตลาดเช้า (1.2 กม.)</p>
+                    </div>
+                    <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                       <p className="text-[9px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-1">Lifestyle</p>
+                       <p className="text-xs font-bold text-slate-700">เดินไปริมโขงได้ใน 10 นาที</p>
+                    </div>
+                 </div>
+              </div>
             </div>
+
+            {/* Unit Layout Selection (New!) */}
+            {property.units && property.units.length > 0 && (
+               <div className="pb-12 border-b border-slate-200">
+                  <UnitMap units={property.units} basePrice={property.pricePerMonth} />
+               </div>
+            )}
 
             {/* Description */}
             <div className="pb-8 border-b border-slate-200">
-              <h2 className="text-xl font-semibold text-slate-900 mb-4">เกี่ยวกับที่พักนี้</h2>
-              <p className="text-slate-600 text-base leading-relaxed whitespace-pre-line">
+              <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tight">เกี่ยวกับที่พักนี้</h2>
+              <p className="text-slate-600 text-base leading-relaxed whitespace-pre-line font-medium">
                 {property.description}
               </p>
             </div>
 
             {/* Amenities */}
             <div className="pb-8 border-b border-slate-200">
-              <h2 className="text-xl font-semibold text-slate-900 mb-6">สิ่งอำนวยความสะดวก</h2>
-              <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+              <h2 className="text-2xl font-black text-slate-900 mb-8 tracking-tight">สิ่งอำนวยความสะดวก</h2>
+              <div className="grid grid-cols-2 gap-y-6 gap-x-12">
                 {property.amenities.map((amenity) => (
-                  <div key={amenity} className="flex items-center gap-3 text-slate-700">
-                    <CheckCircle2 className="w-5 h-5 text-slate-400 shrink-0" />
+                  <div key={amenity} className="flex items-center gap-4 text-slate-700 font-bold group">
+                    <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+                       <CheckCircle2 className="w-5 h-5 text-slate-400 group-hover:text-indigo-500 shrink-0" />
+                    </div>
                     <span className="text-base">{amenity}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Reviews Section */}
+            {/* Enhanced Reviews Section */}
             <div className="pb-8">
-              <div className="flex items-center gap-2 mb-8">
-                <Star className="w-5 h-5 fill-slate-900 text-slate-900" />
-                <h2 className="text-xl font-semibold text-slate-900">{property.rating} · {property.reviewCount} รีวิว</h2>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                 {[
-                   { name: 'Somsak', date: 'August 2023', comment: 'ห้องพักสะอาดมาก และอยู่ใกล้แหล่งของกิน พนักงานดูแลดีมากครับ แนะนำเลย' },
-                   { name: 'Keo', date: 'July 2023', comment: 'วิวสวยมากครับ เดินทางสะดวก ใกล้ประตูชัยจริงๆ คุ้มค่าเงินมาก' },
-                   { name: 'Maria', date: 'June 2023', comment: 'Perfect location for digital nomads. The WiFi was super fast and reliable.' },
-                   { name: 'Anoulack', date: 'May 2023', comment: 'เจ้าของที่พักตอบไวมาก ช่วยเหลือทุกอย่าง ประทับใจมากครับ' }
-                 ].map((review, i) => (
-                   <div key={i} className="space-y-3">
-                      <div className="flex items-center gap-3">
-                         <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center font-bold text-slate-400">
-                            {review.name[0]}
-                         </div>
-                         <div>
-                            <h4 className="text-sm font-semibold text-slate-900">{review.name}</h4>
-                            <p className="text-xs text-slate-500">{review.date}</p>
-                         </div>
-                      </div>
-                      <p className="text-slate-600 text-sm leading-relaxed">
-                         {review.comment}
-                      </p>
-                   </div>
-                 ))}
-              </div>
-
-              <button className="mt-8 px-6 py-3 border border-slate-900 rounded-xl font-semibold text-sm hover:bg-slate-50 transition-colors">
-                แสดงรีวิวทั้งหมด
-              </button>
+               <ReviewSection />
             </div>
 
           </div>
@@ -291,10 +288,12 @@ export default function PropertyClient({ property }: PropertyClientProps) {
             </div>
 
             {/* Host Contact Trigger */}
-            <div className="mt-6 text-center">
-              <button className="text-slate-900 font-semibold underline hover:text-slate-600 transition-colors">
-                ส่งข้อความถึงเจ้าของที่พัก
-              </button>
+            <div className="mt-6">
+              <DirectChat
+                hostName={property.hostName || 'Host'}
+                hostAvatar={property.hostImage || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100'}
+                propertyTitle={property.title}
+              />
             </div>
           </div>
 

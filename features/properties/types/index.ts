@@ -1,5 +1,15 @@
 export type PropertyCategory = 'hotel' | 'guesthouse' | 'vacation_home' | 'apartment' | 'office';
 
+export interface PropertyUnit {
+    id: string;
+    unitNumber: string;
+    floor?: number;
+    sizeSqM?: number;
+    status: 'available' | 'occupied' | 'reserved' | 'maintenance';
+    priceOverride?: number;
+    features?: string[];
+}
+
 export interface Property {
     id: string;
     title: string;
@@ -18,4 +28,5 @@ export interface Property {
     hostImage?: string;
     isFeatured?: boolean;
     tags?: string[];
+    units?: PropertyUnit[];
 }

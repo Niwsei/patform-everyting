@@ -1,13 +1,15 @@
 'use client'
 
 import { Property } from '@/features/properties/types'
-import Map, { Marker, Popup, NavigationControl } from 'react-map-gl/mapbox'
+import Map, { Marker, Popup, NavigationControl, MapRef } from 'react-map-gl/mapbox'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Info, MapPin } from 'lucide-react'
+import { Info, MapPin, Sparkles, Building2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { cn } from '@/lib/utils'
+import { useCurrencyStore } from '@/stores/useCurrencyStore'
 
 interface PropertyMapProps {
   properties: Property[]
@@ -17,6 +19,18 @@ const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
 
 export function PropertyMap({ properties }: PropertyMapProps) {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
+  const mapRef = useRef<MapRef>(null)
+  const { formatPrice } = useCurrencyStore()
+
+  const onMarkerClick = useCallback((property: Property) => {
+    setSelectedProperty(property)
+    mapRef.current?.flyTo({
+      center: [property.lng!, property.lat!],
+      zoom: 14,
+      duration: 2000,
+      essential: true
+    })
+  }, [])
 
   const markers = useMemo(() => properties.filter(p => p.lat && p.lng).map(property => (
     <Marker
@@ -26,7 +40,7 @@ export function PropertyMap({ properties }: PropertyMapProps) {
       anchor="bottom"
       onClick={e => {
         e.originalEvent.stopPropagation()
-        setSelectedProperty(property)
+        onMarkerClick(property)
       }}
     >
       <motion.div
@@ -34,24 +48,37 @@ export function PropertyMap({ properties }: PropertyMapProps) {
         whileTap={{ scale: 0.9 }}
         className="group relative cursor-pointer"
       >
-        <div className="bg-white text-slate-900 px-3 py-1.5 rounded-2xl text-xs font-black shadow-premium border-2 border-indigo-600 transition-all group-hover:bg-indigo-600 group-hover:text-white flex items-center gap-1.5 whitespace-nowrap">
-          <span className="text-[10px] opacity-60 font-bold group-hover:text-white/60 text-slate-400 font-sans">₭</span>
-          {(property.pricePerMonth / 1000000).toFixed(1)}M
+        <div className={cn(
+          "bg-white px-3 py-1.5 rounded-2xl text-[11px] font-black shadow-2xl border-2 transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap",
+          selectedProperty?.id === property.id
+            ? "bg-indigo-600 text-white border-white scale-110"
+            : "text-slate-900 border-indigo-600 group-hover:bg-indigo-600 group-hover:text-white"
+        )}>
+          {property.isFeatured && <Sparkles className="w-3 h-3 fill-current" />}
+          {formatPrice(property.pricePerMonth).replace(' LAK', '').replace('₭', '').replace(/,/g, '').length > 7
+            ? `${(property.pricePerMonth / 1000000).toFixed(1)}M`
+            : formatPrice(property.pricePerMonth)}
         </div>
-        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-indigo-600 rotate-45 border-r border-b border-indigo-600" />
+        <div className={cn(
+          "absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rotate-45 border-r border-b transition-colors duration-300",
+          selectedProperty?.id === property.id
+            ? "bg-indigo-600 border-white"
+            : "bg-indigo-600 border-indigo-600 group-hover:bg-indigo-600 group-hover:border-indigo-600"
+        )} />
       </motion.div>
     </Marker>
-  )), [properties])
+  )), [properties, selectedProperty, formatPrice, onMarkerClick])
 
   return (
     <div className="w-full h-full rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-premium bg-slate-100 relative group/map">
       <Map
+        ref={mapRef}
         initialViewState={{
           latitude: 17.9757,
           longitude: 102.6331,
           zoom: 12
         }}
-        mapStyle="mapbox://styles/mapbox/light-v11"
+        mapStyle="mapbox://styles/mapbox/navigation-day-v1"
         mapboxAccessToken={MAPBOX_TOKEN}
         style={{ width: '100%', height: '100%' }}
       >
@@ -95,7 +122,7 @@ export function PropertyMap({ properties }: PropertyMapProps) {
                     href={`/properties/${selectedProperty.id}`}
                     className="block text-center bg-slate-900 text-white text-[10px] font-black py-2.5 rounded-xl hover:bg-indigo-600 transition-all shadow-lg shadow-slate-200"
                   >
-                    Explore Nest
+                    รายละเอียดที่พัก
                   </Link>
                 </div>
               </motion.div>

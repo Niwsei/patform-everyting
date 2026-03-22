@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { serviceProviders, ServiceProvider } from '@/features/services/servicesData';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Star, ShieldCheck, Truck, Sparkles, Wrench, Search, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -84,9 +85,12 @@ export default function ServicesPage() {
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ราคาเริ่มต้น</p>
                     <p className="text-lg font-black text-slate-900">{provider.priceRange.split(' - ')[0]}</p>
                   </div>
-                  <button className="px-6 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-600 transition-all shadow-xl shadow-slate-200">
+                  <Link
+                    href={`/services/book/${provider.id}`}
+                    className="px-6 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-600 transition-all shadow-xl shadow-slate-200"
+                  >
                     จองบริการ
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

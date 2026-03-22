@@ -1,8 +1,8 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, CheckCircle2, QrCode, Smartphone, ShieldCheck, ExternalLink } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { X, CheckCircle2, QrCode, Smartphone, ShieldCheck, ExternalLink, Copy, Clock as ClockIcon } from 'lucide-react'
+import { useState, useEffect, useMemo } from 'react'
 import { cn } from '@/lib/utils'
 
 interface BcelOnePayModalProps {
@@ -14,15 +14,30 @@ interface BcelOnePayModalProps {
 
 export function BcelOnePayModal({ isOpen, onClose, amount, onSuccess }: BcelOnePayModalProps) {
   const [step, setStep] = useState<'qr' | 'verifying' | 'success'>('qr')
-
   const [pollingStatus, setPollingStatus] = useState<'connecting' | 'polling' | 'finalizing'>('connecting')
   const [qrDots, setQrDots] = useState<boolean[]>([])
+  const [timeLeft, setTimeLeft] = useState(300) // 5 minutes
+
+  const refId = useMemo(() => Math.random().toString(36).substring(2, 10).toUpperCase(), [])
 
   useEffect(() => {
     // Generate QR dots only on client to avoid hydration mismatch
     const dots = Array.from({ length: 144 }).map(() => Math.random() > 0.5)
     setQrDots(dots)
   }, [])
+
+  useEffect(() => {
+    if (isOpen && timeLeft > 0 && step === 'qr') {
+      const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000)
+      return () => clearInterval(timer)
+    }
+  }, [isOpen, timeLeft, step])
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs.toString().padStart(2, '0')}`
+  }
 
   useEffect(() => {
     if (step === 'verifying') {
@@ -95,36 +110,55 @@ export function BcelOnePayModal({ isOpen, onClose, amount, onSuccess }: BcelOneP
                     exit={{ opacity: 0, y: -10 }}
                     className="space-y-6 text-center"
                   >
-                    <div className="space-y-1">
-                       <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">ยอดที่ต้องชำระ</p>
-                       <h4 className="text-3xl font-black text-slate-900">{amount}</h4>
+                    <div className="flex justify-between items-end">
+                       <div className="text-left space-y-1">
+                          <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">ยอดที่ต้องชำระ</p>
+                          <h4 className="text-3xl font-black text-slate-900">{amount}</h4>
+                       </div>
+                       <div className="text-right space-y-1">
+                          <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">เวลาที่เหลือ</p>
+                          <div className="flex items-center gap-1.5 text-indigo-600 font-black">
+                             <ClockIcon className="w-3.5 h-3.5" />
+                             {formatTime(timeLeft)}
+                          </div>
+                       </div>
                     </div>
 
-                    <div className="relative group mx-auto w-56 h-56 p-4 bg-white border-4 border-slate-50 rounded-[2rem] shadow-inner transition-transform hover:scale-105 duration-500">
+                    <div className="relative group mx-auto w-64 h-64 p-5 bg-white border-[6px] border-slate-100 rounded-[2.5rem] shadow-2xl transition-transform hover:scale-[1.02] duration-500">
                        <div className="absolute inset-0 flex items-center justify-center">
-                          <QrCode className="w-40 h-40 text-slate-900 opacity-20" />
+                          <QrCode className="w-48 h-48 text-slate-900 opacity-5" />
                        </div>
-                       {/* Simulated QR Code Blocks */}
-                       <div className="relative z-10 w-full h-full bg-slate-900 rounded-2xl flex flex-wrap p-2 gap-1 overflow-hidden">
-                          {qrDots.map((isWhite, i) => (
+                       {/* High Fidelity Dynamic QR Simulation */}
+                       <div className="relative z-10 w-full h-full bg-white flex flex-wrap p-1 gap-[3px] overflow-hidden rounded-xl">
+                          {qrDots.map((isBlack, i) => (
                              <div key={i} className={cn(
-                                "w-2.5 h-2.5 rounded-[1px]",
-                                isWhite ? "bg-white" : "bg-transparent"
+                                "w-3 h-3 rounded-[2px]",
+                                isBlack ? "bg-slate-900" : "bg-transparent"
                              )} />
                           ))}
                           <div className="absolute inset-0 flex items-center justify-center">
-                             <div className="w-12 h-12 bg-white rounded-lg shadow-xl flex items-center justify-center p-1.5">
-                                <div className="w-full h-full bg-[#e31837] rounded flex items-center justify-center text-[8px] font-black text-white">ONE</div>
+                             <div className="w-14 h-14 bg-white rounded-2xl shadow-2xl flex items-center justify-center p-2 border-2 border-slate-50">
+                                <div className="w-full h-full bg-[#e31837] rounded-xl flex items-center justify-center text-[10px] font-black text-white shadow-inner">ONE</div>
                              </div>
                           </div>
                        </div>
                     </div>
 
                     <div className="space-y-4">
+                       <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                          <div className="text-left">
+                             <p className="text-[9px] font-black text-slate-400 uppercase">Reference ID</p>
+                             <p className="text-xs font-black text-slate-900 tracking-wider">{refId}</p>
+                          </div>
+                          <button className="p-2 hover:bg-white rounded-lg transition-colors text-slate-400 hover:text-indigo-600">
+                             <Copy className="w-4 h-4" />
+                          </button>
+                       </div>
+
                        <div className="flex items-center gap-3 p-4 bg-indigo-50 rounded-2xl border border-indigo-100/50 text-left">
                           <Smartphone className="w-5 h-5 text-indigo-600 shrink-0" />
-                          <p className="text-xs font-bold text-indigo-900 leading-relaxed">
-                             เปิดแอป <span className="font-black">BCEL One</span> สแกน QR Code นี้เพื่อชำระเงิน
+                          <p className="text-[11px] font-bold text-indigo-900 leading-relaxed">
+                             เปิดแอป <span className="font-black">BCEL One</span> เลือกเมนู <span className="font-black text-[#e31837]">OnePay</span> และสแกน QR นี้เพื่อชำระเงิน
                           </p>
                        </div>
 

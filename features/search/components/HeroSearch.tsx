@@ -3,8 +3,12 @@
 import { Search, MapPin  } from "lucide-react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useLanguageStore } from "@/stores/useLanguageStore"
+import { translations } from "@/lib/translations"
 
 export function HeroSearch() {
+    const { language } = useLanguageStore()
+    const t = translations[language]
     const router = useRouter()
     const [location, setLocation] = useState('')
     const [priceRange, setPriceRange] = useState('')
@@ -41,14 +45,14 @@ export function HeroSearch() {
         </div>
 
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 drop-shadow-sm">
-          ค้นพบทื่พักที่ใช่ <br />
+          {t.heroTitle.split(' ใน')[0]} <br />
           <span className="text-white">
-            ในเวียงจันทน์
+            {language === 'EN' ? 'in Vientiane' : 'ในเวียงจันทน์'}
           </span>
         </h1>
 
         <p className="text-lg sm:text-xl text-gray-200 mb-12 drop-shadow-sm max-w-2xl mx-auto font-medium">
-          ไม่ว่าจะเป็นบ้าน คอนโด หรือบริการขนย้าย — เราพร้อมดูแลคุณทุกขั้นตอน
+          {t.heroSub}
         </p>
 
         {/* Search Box - Airbnb Style (Clean, White, Standard Shadows) */}
@@ -118,7 +122,7 @@ export function HeroSearch() {
             className="w-full sm:w-auto bg-[#ff385c] hover:bg-[#d90b3e] text-white px-8 py-4 rounded-2xl sm:rounded-full flex items-center justify-center gap-2 transition-all font-semibold shadow-md active:scale-95 m-1"
           >
             <Search className="w-5 h-5" />
-            <span className="sm:hidden">ค้นหาเลย</span>
+            <span className="sm:hidden">{t.searchBtn}</span>
           </button>
         </form>
       </div>

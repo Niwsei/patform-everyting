@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Map, { Marker, NavigationControl } from 'react-map-gl/mapbox'
 import { MapPin, Crosshair, Search } from 'lucide-react'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -30,11 +30,17 @@ export function LocationPicker({ onLocationSelect, initialLat = 17.9757, initial
     onLocationSelect(lat, lng, `พิกัด: ${lat.toFixed(4)}, ${lng.toFixed(4)}`)
   }
 
+  const mapRef = useRef<any>(null)
+
   const handleUseCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords
-        setViewState(prev => ({ ...prev, latitude, longitude, zoom: 16 }))
+        mapRef.current?.flyTo({
+          center: [longitude, latitude],
+          zoom: 16,
+          duration: 2000
+        })
         setMarker({ latitude, longitude })
         onLocationSelect(latitude, longitude, `ตำแหน่งปัจจุบันของคุณ`)
       })
@@ -70,10 +76,11 @@ export function LocationPicker({ onLocationSelect, initialLat = 17.9757, initial
            </div>
         ) : (
           <Map
+            ref={mapRef}
             {...viewState}
             onMove={evt => setViewState(evt.viewState)}
             onClick={handleMapClick}
-            mapStyle="mapbox://styles/mapbox/streets-v12"
+            mapStyle="mapbox://styles/mapbox/navigation-day-v1"
             mapboxAccessToken={MAPBOX_TOKEN}
           >
             <Marker latitude={marker.latitude} longitude={marker.longitude} anchor="bottom">
